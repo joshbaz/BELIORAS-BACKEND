@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Realm {
+  customer
+  staff
+}
+
+enum AuditAction {
+  REGISTER
+  LOGIN
+  REFRESH
+  LOGOUT
+  LOGOUT_ALL
+  PREFERENCES_UPDATE
+}
+
+model User {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  realm        Realm
+  email        String
+  passwordHash String
+  name         String?
+  preferences  Json?
+  tokenVersion Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  sessions     Session[]
+  auditLogs    AuditLog[]
+
+  @@unique([realm, email])
+  @@map("users")
+}
+
+/// One row per active device / browser. A login creates a row; logout/logout-all
+/// deletes the matching rows. The refreshHash is the SHA-256 of the refresh token
+/// so the raw token is never stored.
+model Session {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  realm         Realm
+  refreshHash   String    @unique
+  refreshExpiry DateTime
+  userAgent     String?
+  ip            String?
+  createdAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+/// Append-only record of every auth event for compliance and security UX.
+model AuditLog {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String      @db.ObjectId
+  realm     Realm
+  action    AuditAction
+  ip        String?
+  userAgent String?
+  meta      Json?
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
