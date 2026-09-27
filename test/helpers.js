@@ -8,6 +8,14 @@ import "dotenv/config";
 // limiter with `enabled: true`.
 process.env.RATE_LIMIT_ENABLED = "false";
 
+// Integration tests must never touch development data. Point Prisma and Redis
+// at dedicated test instances before anything imports them. The bootstrap test
+// (first-staff registration) depends on the staff table starting empty, which
+// is only true against a fresh test database.
+process.env.DATABASE_URL = process.env.TEST_DATABASE_URL ?? "mongodb://localhost:27017/belioras_test";
+process.env.REDIS_URL = process.env.TEST_REDIS_URL ?? "redis://localhost:6379/1";
+process.env.SESSION_CACHE_TTL = process.env.SESSION_CACHE_TTL ?? "60s";
+
 import request from "supertest";
 
 let appPromise;

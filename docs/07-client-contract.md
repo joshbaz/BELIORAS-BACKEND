@@ -36,27 +36,39 @@ The client's `ApiError` mirrors the server's exact shape:
 
 The client keeps **two separate sessions** in one browser (`customer`,
 `staff`), each with its own token slot and refresh cookie
-(`client/src/api/tokens.js`).
+(`client/src/api/tokens.js`). The wire reflects that: **the realm lives in the
+path.**
 
-- The Bearer access token carries the realm; the server's `authenticate`
-  refuses a realm mismatch.
-- Refresh reads the realm from the **`X-Auth-Realm` header**, not the token, so
-  `belioras_refresh_staff` can never mint a customer session
-  (`client/src/api/refresh.js` sends this header on every refresh).
+- The client maps realm → namespace in `src/api/routes.js`
+  (`BOUNDARY = { customer: "storefront", staff: "admin" }`) and resolves any
+  auth route with `authPath(routes.auth.login, realm)` →
+  `storefront/auth/login` or `admin/auth/login`.
+- The Bearer access token carries the realm, and the server's boundary guard
+  (`requireBoundary`) compares it to the path's namespace — a staff token on a
+  storefront route is `403 FORBIDDEN`.
+- The refresh cookie is realm-scoped by **name**
+  (`belioras_refresh_customer` / `belioras_refresh_staff`) and sent because the
+  path is under `Path=/api/v1`. No header is involved — the `X-Auth-Realm`
+  header and the body `realm` field no longer exist.
 - Wrong-realm and wrong-password logins answer a uniform 401
   (`client/src/services/auth/authSession.js` documents the same rule client-side).
 
 ## Auth endpoints (`client/src/api/routes.js`)
 
-| Client route constant | Path | Server note |
+Resolve each path for a realm with `authPath(name, realm)`; `sfx`/`adm`
+below shows the resolved form. Sign-in and register currently run on mocks —
+these are the wire contract they will switch to.
+
+| Client route constant | Resolved (`authPath`) | Server note |
 | --- | --- | --- |
-| `routes.health` | `GET /api/v1/health` | Returns `{ data: { status, db, uptime, timestamp } }` |
-| `routes.auth.register` | `POST /auth/register` | 201; conflict → 409 |
-| `routes.auth.login` | `POST /auth/login` | 200; invalid → uniform 401 |
-| `routes.auth.refresh` | `POST /auth/refresh` | needs cookie + `X-Auth-Realm`; rotation + reuse detection |
-| `routes.auth.logoutAll` | `POST /auth/logout-all` | clears realm cookie; `tokenVersion++`; 204 |
-| `routes.auth.me` | `GET /auth/me` | Bearer-guarded |
-| `routes.auth.preferences` | `PATCH /auth/me/preferences` | Bearer-guarded; returns updated user |
+| `routes.health` | `GET /api/v1/health` | `{ data: { status, db, redis, ... } }` |
+| `routes.auth.register` | sfx `storefront/auth/register` · adm `admin/auth/register` | customer: open; admin: **one-time bootstrap** → `409` once a staff user exists |
+| `routes.auth.login` | `storefront/auth/login` · `admin/auth/login` | 201/200; invalid → uniform 401 |
+| `routes.auth.refresh` | `storefront/auth/refresh` · `admin/auth/refresh` | realm cookie only (no header); rotation + reuse detection |
+| `routes.auth.logoutAll` | `storefront/auth/logout-all` · `admin/auth/logout-all` | clears the realm cookie; `tokenVersion++`; 204 |
+| `routes.auth.me` | `storefront/auth/me` · `admin/auth/me` | Bearer-guarded + boundary-enforced (403 on cross) |
+| `routes.auth.preferences` | `storefront/auth/me/preferences` · `admin/auth/me/preferences` | Bearer-guarded; returns updated user |
+| — | `GET/DELETE /…/auth/sessions` · `/sessions/:id` | list the user's devices; revoke one (add these leaves when the client mounts them) |
 
 ## Remaining namespaces
 
@@ -64,8 +76,10 @@ The client keeps **two separate sessions** in one browser (`customer`,
 `pricing`, `cart`, `checkout`, `orders`, `payments`, `customers`, `behavior`,
 `reviews`, `media`, `notifications`, `search`, `analytics` — as `v1`
 namespaces this server still has to mount, one module at a time, in the same
-`versions/v1` pattern as `auth`. Until a route mounts, the client keeps its
-mock (`VITE_API_MOCKS=true`, and services opt in one at a time).
+`versions/v1` boundary pattern as auth. Each is expected to land under a
+boundary too (`/storefront/...`, `/admin/...`). Until a route mounts, the
+client keeps its mock (`VITE_API_MOCKS=true`, and services opt in one at a
+time).
 
 ## Flows the client cares about (from `client/docs/12-backend-integration.md`)
 

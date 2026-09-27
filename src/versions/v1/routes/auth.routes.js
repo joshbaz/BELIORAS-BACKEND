@@ -13,6 +13,7 @@ import {
   updatePreferences,
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
+import { requireBoundary } from "../middlewares/boundary.js";
 import { createAuthLimiter, createRefreshLimiter } from "../../../middlewares/rateLimit.js";
 import { validate } from "../../../middlewares/validate.js";
 import { loginSchema, preferencesSchema, registerSchema } from "../schemas/auth.schema.js";
@@ -30,11 +31,11 @@ router.post("/logout", logout);
 router.post("/logout-all", logoutAll);
 
 // Authenticated
-router.get("/me", authenticate, getMe);
-router.patch("/me/preferences", authenticate, validate(preferencesSchema), updatePreferences);
+router.get("/me", authenticate, requireBoundary, getMe);
+router.patch("/me/preferences", authenticate, requireBoundary, validate(preferencesSchema), updatePreferences);
 
 // Session management (per-device)
-router.get("/sessions", authenticate, getSessions);
-router.delete("/sessions/:sessionId", authenticate, revokeSession);
+router.get("/sessions", authenticate, requireBoundary, getSessions);
+router.delete("/sessions/:sessionId", authenticate, requireBoundary, revokeSession);
 
 export default router;

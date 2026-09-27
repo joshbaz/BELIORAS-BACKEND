@@ -5,6 +5,7 @@ import ms from "ms";
 import { env } from "../../config/env.js";
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
+import { logger } from "../../core/logger.js";
 import { hashToken, signAccessToken, signRefreshToken, verifyRefreshToken } from "./tokens.js";
 import { publicUser } from "./guards.js";
 import * as sessionCache from "./sessionCache.js";
@@ -30,7 +31,7 @@ async function audit(userId, realm, action, meta = {}) {
   try {
     await prisma.auditLog.create({ data: { userId, realm, action, ...meta } });
   } catch (err) {
-    console.error("[audit] failed to write log:", err.message);
+    logger.error({ err }, "audit log write failed");
   }
 }
 
@@ -74,6 +75,13 @@ async function revokeAllFor(user) {
 // ---------------------------------------------------------------------------
 
 export async function register({ realm, name, email, password }, meta = {}) {
+  if (realm === "staff") {
+    const staffCount = await prisma.user.count({ where: { realm: "staff" } });
+    if (staffCount > 0) {
+      throw new ApiError("A staff account already exists.", 409);
+    }
+  }
+
   const existing = await prisma.user.findUnique({ where: { realm_email: { realm, email } } });
   if (existing) throw new ApiError("An account with this email already exists.", 409);
 

@@ -5,45 +5,50 @@ server/
 ├── package.json            # yarn scripts: dev, start, db:push, db:generate, db:studio, test, lint
 ├── .env.example            # Copy to .env; never commit .env
 ├── .gitignore
-├── docker-compose.yml      # Local MongoDB as a single-node replica set
+├── docker-compose.yml      # Local MongoDB (replica set) + Redis
 ├── eslint.config.js
 ├── prisma/
-│   └── schema.prisma       # Realm enum + User model
+│   └── schema.prisma       # Realm enum + User, Session, AuditLog
 ├── docs/                   # This documentation series
-├── test/                   # node:test suites (auth, health, rateLimit)
+├── test/                   # node:test suites (auth, health, rateLimit) against belioras_test
 └── src/
-    ├── index.js            # Entry: connects DB, builds app, attaches sockets, listens
-    ├── app.js              # Express assembly: helmet/cors/json/cookies/requestId/limiters/morgan, mounts /api/v1
+    ├── index.js            # Entry: connects DB + Redis, builds app, attaches sockets, listens
+    ├── app.js              # Express assembly: helmet/cors/json/cookies/requestId/httpLogger/limiters, mounts /api/v1
     ├── config/
     │   ├── env.js          # Zod-validated environment, fails fast on missing values
-    │   └── index.js        # config object (http host, api path, cookie names)
+    │   └── index.js        # config object (http host, api path, cookie names/path)
     ├── core/
-    │   └── ApiError.js     # Domain error + code map (moved from utils/)
+    │   ├── ApiError.js     # Domain error + code map
+    │   └── logger.js       # pino instance shared by every module (no console.*)
     ├── db/
-    │   └── prisma.js       # PrismaClient singleton
+    │   ├── prisma.js       # PrismaClient singleton
+    │   └── redis.js        # ioredis singleton (lazyConnect; errors degrade to DB reads)
     ├── features/
     │   └── auth/           # Version-independent domain: the answer to v2 layering
-    │       ├── auth.service.js  # register/login/refresh/logout/logoutAll/preferences
-    │       ├── guards.js        # checkSession(token): verify + cache + tokenVersion re-check
-    │       ├── sessionCache.js  # 60s in-memory session cache, invalidated on revoke
+    │       ├── auth.service.js  # register (staff bootstrap gate)/login/refresh/logout/logoutAll/preferences/listSessions/revokeSession + audit
+    │       ├── guards.js        # checkSession(token): verify + cache + tokenVersion re-check; publicUser
+    │       ├── sessionCache.js  # Redis-backed cache (SESSION_CACHE_TTL), invalidated on every mutation
     │       ├── tokens.js        # JWT sign/verify/hash + refresh-cookie helpers
     │       └── index.js         # barrel for the feature's public surface
     ├── middlewares/        # Cross-cutting, app-level
     │   ├── requestId.js    # x-request-id per request (echoed in errors)
-    │   ├── rateLimit.js    # createGlobalLimiter / createAuthLimiter / createRefreshLimiter -> 429 envelope
+    │   ├── rateLimit.js    # createGlobalLimiter (skips /health) / createAuthLimiter / createRefreshLimiter -> 429 envelope
     │   ├── notFound.js     # 404 → ApiError
     │   ├── errorHandler.js # Every thrown value → { error } envelope
-    │   └── validate.js     # Generic zod request-slice validator (hoisted from v1)
+    │   └── validate.js     # Generic zod request-slice validator
     ├── versions/
     │   └── v1/             # Transport only: routes, controllers, HTTP schemas
-    │       ├── index.js    # Aggregates v1 routers
-    │       ├── routes/     # health.routes.js, auth.routes.js (with limiters)
+    │       ├── index.js    # Mounts /api/v1 → health + storefront + admin boundaries
+    │       ├── routes/     # health.routes.js, auth.routes.js (shared session router with limiters)
     │       ├── controllers/ # Thin: parse → call feature service → respond
-    │       ├── middlewares/ # authenticate.js (thin adapter over features/auth/guards)
-    │       └── schemas/    # auth.schema.js (zod request shapes)
+    │       ├── middlewares/ # authenticate.js (over features/auth/guards), boundary.js (setBoundary/requireBoundary)
+    │       ├── schemas/    # auth.schema.js (zod request shapes)
+    │       ├── storefront/ # boundary router: /storefront/auth (+ customer register)
+    │       └── admin/      # boundary router: /admin/auth (no public register — staff are one-time bootstrap)
     └── sockets/
         ├── index.js        # initSocket(server): Socket.IO + optional auth via features/auth/guards
-        └── handlers/       # connection.js (rooms), ping.js (sample event)
+        ├── rooms.js        # room naming per realm and entity (staff/public/order/realm)
+        └── handlers/       # connection.js (realm rooms), ping.js (sample event)
 ```
 
 ## Rules

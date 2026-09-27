@@ -16,11 +16,23 @@ function authenticateAs(res) {
   return `Bearer ${accessToken}`;
 }
 
+/** Seeds a staff user directly (bypassing the one-time register gate). */
+async function seedStaff(email, password = PASSWORD) {
+  track(email);
+  const { prisma } = await import("../src/db/prisma.js");
+  const bcrypt = (await import("bcryptjs")).default;
+  await prisma.user.create({
+    data: { realm: "staff", name: "Staff User", email, passwordHash: bcrypt.hashSync(password, 10) },
+  });
+  return email;
+}
+
 async function register(realm = "customer", overrides = {}) {
   const email = overrides.email ?? uniqueEmail();
   track(email);
+  const boundary = realm === "staff" ? "admin" : "storefront";
   return api().then((request) =>
-    request.post("/api/v1/auth/register").send({ realm, email, name: "Test User", password: PASSWORD, ...overrides }),
+    request.post(`/api/v1/${boundary}/auth/register`).send({ email, name: "Test User", password: PASSWORD, ...overrides }),
   );
 }
 
@@ -47,6 +59,9 @@ describe("register", () => {
     assert.equal(res.body.data.user.email.includes("@example.com"), true);
     assert.ok(res.body.data.accessToken);
     assert.ok(refreshCookie(res));
+    // Browsers only send the cookie to routes covered by its Path — both
+    // boundary auth namespaces live under /api/v1.
+    assert.match(refreshCookie(res), /Path=\/api\/v1/i);
   });
 
   it("rejects a duplicate email in the same realm with 409", async () => {
@@ -66,7 +81,7 @@ describe("login", () => {
     await register("customer", { email });
 
     const res = await api().then((request) =>
-      request.post("/api/v1/auth/login").send({ realm: "customer", email, password: PASSWORD }),
+      request.post("/api/v1/storefront/auth/login").send({ email, password: PASSWORD }),
     );
     assert.equal(res.status, 200);
     assert.ok(res.body.data.accessToken);
@@ -78,7 +93,7 @@ describe("login", () => {
     await register("customer", { email });
 
     const res = await api().then((request) =>
-      request.post("/api/v1/auth/login").send({ realm: "customer", email, password: "WrongPass1" }),
+      request.post("/api/v1/storefront/auth/login").send({ email, password: "WrongPass1" }),
     );
     assert.equal(res.status, 401);
     assert.equal(res.body.error.code, "UNAUTHORIZED");
@@ -86,10 +101,11 @@ describe("login", () => {
 
   it("keeps realms separate: a staff email cannot log in as customer", async () => {
     const email = uniqueEmail();
-    await register("staff", { email });
+    // Seed directly — the public staff register is gated to one-time bootstrap.
+    await seedStaff(email);
 
     const res = await api().then((request) =>
-      request.post("/api/v1/auth/login").send({ realm: "customer", email, password: PASSWORD }),
+      request.post("/api/v1/storefront/auth/login").send({ email, password: PASSWORD }),
     );
     assert.equal(res.status, 401);
     assert.equal(res.body.error.code, "UNAUTHORIZED");
@@ -101,7 +117,7 @@ describe("authenticated endpoints", () => {
     const res = await register();
     const bearer = authenticateAs(res);
 
-    const me = await api().then((request) => request.get("/api/v1/auth/me").set("Authorization", bearer));
+    const me = await api().then((request) => request.get("/api/v1/storefront/auth/me").set("Authorization", bearer));
     assert.equal(me.status, 200);
     assert.ok(me.body.data.email);
     assert.equal(me.body.data.passwordHash, undefined);
@@ -109,7 +125,7 @@ describe("authenticated endpoints", () => {
   });
 
   it("GET /auth/me without a token is a 401", async () => {
-    const me = await api().then((request) => request.get("/api/v1/auth/me"));
+    const me = await api().then((request) => request.get("/api/v1/storefront/auth/me"));
     assert.equal(me.status, 401);
     assert.equal(me.body.error.code, "UNAUTHORIZED");
   });
@@ -122,9 +138,8 @@ describe("refresh rotation", () => {
 
     const rotated = await api().then((request) =>
       request
-        .post("/api/v1/auth/refresh")
+        .post("/api/v1/storefront/auth/refresh")
         .set("Cookie", oldCookie)
-        .set("X-Auth-Realm", "customer"),
     );
     assert.equal(rotated.status, 200);
     const newAccessToken = rotated.body.data.accessToken;
@@ -135,21 +150,20 @@ describe("refresh rotation", () => {
     // Presenting the spent token must fail AND revoke the whole session.
     const reuse = await api().then((request) =>
       request
-        .post("/api/v1/auth/refresh")
+        .post("/api/v1/storefront/auth/refresh")
         .set("Cookie", oldCookie)
-        .set("X-Auth-Realm", "customer"),
     );
     assert.equal(reuse.status, 401);
 
-    const me = await api().then((request) => request.get("/api/v1/auth/me").set("Authorization", `Bearer ${newAccessToken}`));
+    const me = await api().then((request) => request.get("/api/v1/storefront/auth/me").set("Authorization", `Bearer ${newAccessToken}`));
     assert.equal(me.status, 401);
   });
 
-  it("rejects a refresh without a realm header", async () => {
-    const res = await register();
-    const cookie = cookieDirective(refreshCookie(res));
+  it("rejects a refresh without a realm cookie", async () => {
+    await register();
+    // Intentionally omit the cookie
 
-    const refresh = await api().then((request) => request.post("/api/v1/auth/refresh").set("Cookie", cookie));
+    const refresh = await api().then((request) => request.post("/api/v1/storefront/auth/refresh"));
     assert.equal(refresh.status, 401);
   });
 });
@@ -160,15 +174,15 @@ describe("logout-all", () => {
     const bearer = authenticateAs(res);
     const cookie = cookieDirective(refreshCookie(res));
 
-    const me = await api().then((request) => request.get("/api/v1/auth/me").set("Authorization", bearer));
+    const me = await api().then((request) => request.get("/api/v1/storefront/auth/me").set("Authorization", bearer));
     assert.equal(me.status, 200);
 
     const logoutAll = await api().then((request) =>
-      request.post("/api/v1/auth/logout-all").set("Cookie", cookie).set("X-Auth-Realm", "customer"),
+      request.post("/api/v1/storefront/auth/logout-all").set("Cookie", cookie)
     );
     assert.equal(logoutAll.status, 204);
 
-    const after = await api().then((request) => request.get("/api/v1/auth/me").set("Authorization", bearer));
+    const after = await api().then((request) => request.get("/api/v1/storefront/auth/me").set("Authorization", bearer));
     assert.equal(after.status, 401);
     assert.equal(after.body.error.code, "UNAUTHORIZED");
   });
@@ -181,15 +195,71 @@ describe("preferences", () => {
 
     const upgrade = await api().then((request) =>
       request
-        .patch("/api/v1/auth/me/preferences")
+        .patch("/api/v1/storefront/auth/me/preferences")
         .set("Authorization", bearer)
         .send({ preferences: { theme: "dark", locale: "en" } }),
     );
     assert.equal(upgrade.status, 200);
     assert.equal(upgrade.body.data.preferences.theme, "dark");
 
-    const me = await api().then((request) => request.get("/api/v1/auth/me").set("Authorization", bearer));
+    const me = await api().then((request) => request.get("/api/v1/storefront/auth/me").set("Authorization", bearer));
     assert.equal(me.status, 200);
     assert.equal(me.body.data.preferences.locale, "en");
+  });
+});
+
+describe("staff bootstrap registration", () => {
+  it("allows the very first staff registration", async () => {
+    const { prisma } = await import("../src/db/prisma.js");
+    // Dedicated test database: start the staff table empty to disprove the gate.
+    const staff = await prisma.user.findMany({ where: { realm: "staff" }, select: { id: true } });
+    const staffIds = staff.map((u) => u.id);
+    await prisma.session.deleteMany({ where: { userId: { in: staffIds } } });
+    await prisma.auditLog.deleteMany({ where: { userId: { in: staffIds } } });
+    await prisma.user.deleteMany({ where: { id: { in: staffIds } } });
+
+    const res = await register("staff");
+    assert.equal(res.status, 201);
+    assert.ok(res.body.data.accessToken);
+  });
+
+  it("rejects any further staff registration", async () => {
+    // A staff account now exists from the test above.
+    const res = await register("staff");
+    assert.equal(res.status, 409);
+    assert.equal(res.body.error.code, "CONFLICT");
+  });
+});
+
+describe("boundary enforcement", () => {
+  it("forbids a staff token on the storefront and a customer token in admin", async () => {
+    const staffEmail = uniqueEmail();
+    await seedStaff(staffEmail);
+
+    const staffLogin = await api().then((request) =>
+      request.post("/api/v1/admin/auth/login").send({ email: staffEmail, password: PASSWORD }),
+    );
+    assert.equal(staffLogin.status, 200);
+    const staffBearer = `Bearer ${staffLogin.body.data.accessToken}`;
+
+    const customer = await register();
+    const customerBearer = authenticateAs(customer);
+
+    const staffOnStorefront = await api().then((request) =>
+      request.get("/api/v1/storefront/auth/me").set("Authorization", staffBearer),
+    );
+    assert.equal(staffOnStorefront.status, 403);
+    assert.equal(staffOnStorefront.body.error.code, "FORBIDDEN");
+
+    const customerOnAdmin = await api().then((request) =>
+      request.get("/api/v1/admin/auth/me").set("Authorization", customerBearer),
+    );
+    assert.equal(customerOnAdmin.status, 403);
+    assert.equal(customerOnAdmin.body.error.code, "FORBIDDEN");
+
+    const staffOnAdmin = await api().then((request) =>
+      request.get("/api/v1/admin/auth/me").set("Authorization", staffBearer),
+    );
+    assert.equal(staffOnAdmin.status, 200);
   });
 });

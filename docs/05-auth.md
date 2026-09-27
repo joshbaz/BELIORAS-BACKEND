@@ -1,16 +1,32 @@
 # 05 — Auth
 
-## Realms
+## Realms and boundaries
 
 Two independent identity spaces, matching the client's `customer` / `staff`
 realms (`client/src/api/tokens.js`). The `User` model carries
 `realm` (`Realm` enum) per `@@unique([realm, email])` — a staff and a customer
 account may share one address, and may be signed in simultaneously.
 
+- Each realm owns a wire namespace: `/api/v1/storefront/auth/*` (customer) and
+  `/api/v1/admin/auth/*` (staff). The realm is derived from the **path** via
+  `setBoundary`, and guarded routes enforce it with `requireBoundary` — a staff
+  token on a storefront route returns `403 FORBIDDEN`. No body field and no
+  header carries the realm; clients pick the namespace they are addressing.
 - A login never crosses realms: the query is scoped by realm, so a staff
   address at the customer door and a wrong password produce the **same 401**
   (`Invalid email or password.`) — no door oracle.
-- Every token (access and refresh) carries the realm in its claims.
+- Every token (access and refresh) carries the realm in its claims, and the
+  boundary guard re-checks it.
+
+## Staff registration is one-time bootstrap
+
+`POST /admin/auth/register` exists only to create the **first** staff account.
+The service counts staff users and refuses (`409 CONFLICT`) once one exists, so
+a deployed server can never be used to mint extra staff — further staff are
+provisioned by the invite/seed flow (matching the client's `addTeamMember` /
+`acceptInvite`). On a fresh deployment, either register the first admin at
+setup or seed it, after which the endpoint is inert.
+`/storefront/auth/register` stays open for customers.
 
 ## Tokens
 
@@ -26,15 +42,24 @@ Lifetimes are jsonwebtoken strings (`15m`, `30d`).
 
 - Name is realm-scoped: `belioras_refresh_customer` / `belioras_refresh_staff`,
   so one browser holds two sessions without collision.
-- Attributes: `HttpOnly`, `SameSite=Lax`, `Path=/api/v1/auth` (sent only to
-  auth routes), `Secure` in production, `Max-Age` from `REFRESH_TOKEN_TTL`.
-- The cookie is **never readable by the client**; the client addresses its
-  realm session with the `X-Auth-Realm` header it already sends
-  (`client/src/api/refresh.js`).
+- Attributes: `HttpOnly`, `SameSite=Lax`, **`Path=/api/v1`** (covers both
+  boundary namespaces — a browser only sends cookies to paths at or under their
+  `Path`, so this is load-bearing for refresh), `Secure` in production,
+  `Max-Age` from `REFRESH_TOKEN_TTL`.
+- The cookie is **never readable by the client**. The realm is disambiguated by
+  the path being hit and the cookie's own name; no `X-Auth-Realm` header exists
+  anymore (`client/src/api/refresh.js`).
+
+## Sessions
+
+Each login/refresh stores a per-device `Session` (a rotated refresh token's
+hash, plus the client's `requestMeta`). `GET /auth/sessions` lists the user's
+devices; `DELETE /auth/sessions/:id` revokes one. `logout-all` clears them all
+via `tokenVersion++`.
 
 ## Rotation + reuse detection
 
-`POST /auth/refresh` does two things on every call:
+`POST /auth/refresh` does two things on every call (`/storefront` or `/admin`):
 
 1. **Rotates**: if the presented refresh token matches the user's stored
    `refreshHash`, it issues a new token, stores its hash, and replaces the
@@ -68,20 +93,26 @@ time, so a normal page load never trips the detector.
 - `authenticate` (`versions/v1/middlewares/authenticate.js`) is a thin HTTP
   adapter: it extracts the `Bearer` token and delegates to `checkSession`,
   setting `req.user` for controllers.
-- **Session cache**: `sessionCache` holds the checked session in memory for
+- `requireBoundary` (`versions/v1/middlewares/boundary.js`) runs after
+  `authenticate` and compares `req.user.realm` to the boundary's injected
+  `req.realm`, throwing `403 FORBIDDEN` on mismatch — the staff/customer wall.
+- **Session cache**: `sessionCache` holds the checked session in **Redis** for
   `SESSION_CACHE_TTL` (default `60s`), so most requests need no database read.
-  Every session mutation (login, refresh, logout, logout-all, preferences)
-  deletes the entry, so **revocation still applies immediately** — the TTL only
-  delays seeing mutations that don't bump `tokenVersion`.
-- The refresh endpoints re-derive the realm from `X-Auth-Realm`, never from
-  the token itself, so a staff cookie can't mint a customer session
-  ([07](07-client-contract.md)).
+  If Redis is down the cache degrades to database reads (a warning is logged,
+  nothing crashes). Every session mutation (login, refresh, logout, logout-all,
+  preferences) deletes the entry, so **revocation still applies immediately** —
+  the TTL only delays seeing mutations that don't bump `tokenVersion`.
+- Audit: sign-ins and other notable auth events write to `AuditLog`
+  (`AuditAction`), tagged with `requestMeta` (IP + user-agent) so the client's
+  activity dashboard has something real to read.
 
 ## Future reserved
 
-- `FORBIDDEN` and role/capability guards — the client's dashboard role model
+- Role/capability guards beyond realm — the client's dashboard role model
   (`utils/roles.js`) is the documented intent; enforce the same capabilities
-  per staff endpoint when the roles exist server-side.
+  per staff endpoint when roles exist server-side.
 - Password reset, team invitations, and an invited-user status map to the
   client's `welcome`/`password-reset`/`team-invitation` email flows
-  (`client/docs/12-backend-integration.md`).
+  (`client/docs/12-backend-integration.md`). Staff provisioning lands here too:
+  an invite creates the staff `User`, replacing the one-time `register`
+  bootstrap once a seed/invite flow exists.

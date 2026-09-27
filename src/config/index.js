@@ -15,7 +15,7 @@ export const config = {
   cookie: {
     refresh: {
       name: (realm) => `belioras_refresh_${realm}`,
-      path: "/api/v1/auth",
+      path: "/api/v1",
       httpOnly: true,
       sameSite: "lax",
       secure: env.isProduction,

@@ -25,7 +25,8 @@ export function createApp() {
   app.use(requestId);
   app.use(httpLogger());
 
-  app.use(createGlobalLimiter());
+  // Health probes stay outside the global cap so monitoring can poll freely.
+  app.use(createGlobalLimiter({ skip: (req) => req.method === "GET" && req.path === "/api/v1/health" }));
 
   app.get("/", (req, res) => {
     res.json({ data: { name: "Belioras API", version: "v1" } });

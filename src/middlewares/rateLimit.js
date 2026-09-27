@@ -25,11 +25,13 @@ export function createGlobalLimiter({
   enabled = env.RATE_LIMIT_ENABLED,
   limit = 300,
   windowMs = 15 * 60 * 1000,
+  skip,
 } = {}) {
   if (!enabled) return noop;
   const limiter = rateLimit({
     windowMs,
     limit,
+    ...(skip ? { skip } : {}),
     standardHeaders: true,
     legacyHeaders: false,
     handler: envelopeHandler(),

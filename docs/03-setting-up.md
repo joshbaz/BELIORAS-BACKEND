@@ -7,8 +7,11 @@ environment on a new machine.
 
 - Node ≥ 22 (used for `node --watch`).
 - Yarn classic (this repo is lockfile-compatible with yarn 1.x).
-- Docker (for the local MongoDB), or a MongoDB instance reachable at
-  `DATABASE_URL`.
+- Docker (for local MongoDB and Redis), or instances reachable at
+  `DATABASE_URL` / `REDIS_URL`.
+
+> Redis is **optional at runtime**: the session cache degrades to database
+> reads and logs a warning when it is down. MongoDB is required.
 
 ## 1. Install dependencies
 
@@ -39,7 +42,7 @@ transactions even for a plain `create`, and the driver refuses non-replica
 MongoDB.
 
 ```sh
-docker compose up -d mongodb
+docker compose up -d mongodb redis
 ```
 
 First boot also needs one topology command (the data volume persists the
@@ -58,6 +61,9 @@ Verify: `docker exec belioras-mongodb mongosh --eval "rs.status().members[0].sta
 
 > If the container is ever recreated with this keep-alive volume, the set is
 > still `rs0` with `localhost:27017` — no need to re-initiate.
+>
+> Redis needs no setup — `docker compose up -d redis` is all (port 6379,
+> reachable via the `REDIS_URL` default).
 
 ## 4. Schema
 
@@ -76,6 +82,7 @@ Healthy output:
 
 ```
 MongoDB connected via mongodb://localhost:27017/belioras
+Redis connected (session cache)
 Belioras API on http://0.0.0.0:5002/api/v1
 Socket.IO attached
 ```
@@ -84,7 +91,7 @@ Smoke test:
 
 ```sh
 curl http://localhost:5002/api/v1/health
-# {"data":{"status":"ok","db":"connected",...}}
+# {"data":{"status":"ok","db":"connected","redis":"connected",...}}
 ```
 
 Open `yarn db:studio` to inspect collections.
@@ -97,10 +104,12 @@ yarn lint
 
 ## 7. Test
 
-Requires the MongoDB from step 3 (tests write to the database named in
-`DATABASE_URL`, using unique emails per run; they clean up after themselves).
-The suite builds its app with rate limiting off so it can hammer the auth
-endpoints, then exercises one limiter in isolation.
+Requires the MongoDB from step 3. Tests run against a **dedicated test
+database** (`mongodb://localhost:27017/belioras_test`, overridable with
+`TEST_DATABASE_URL`) and its own Redis database (`…/1`, overridable with
+`TEST_REDIS_URL`) so suites never touch development data. They build the app
+with rate limiting off so they can hammer the auth endpoints, then exercise one
+limiter in isolation.
 
 ```sh
 yarn test

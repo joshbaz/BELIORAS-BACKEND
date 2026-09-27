@@ -33,16 +33,32 @@ Every failure arrives as one shape from the error handler:
 | Code | HTTP | Source |
 | --- | --- | --- |
 | `BAD_REQUEST` | 400 | zod validation |
-| `UNAUTHORIZED` | 401 | missing/expired/invalid token, wrong credentials |
-| `FORBIDDEN` | 403 | reserved — role/capability guards (see [05](05-auth.md)) |
+| `UNAUTHORIZED` | 401 | missing/expired/invalid token, wrong credentials, spent refresh token |
+| `FORBIDDEN` | 403 | boundary violation — staff token on a storefront or customer route (see [05](05-auth.md)) |
 | `NOT_FOUND` | 404 | no route, missing resource (unified message, no path leakage) |
-| `CONFLICT` | 409 | unique constraint (duplicate email) |
+| `CONFLICT` | 409 | unique constraint (duplicate email) or staff already provisioned |
 | `UNPROCESSABLE` | 422 | reserved — semantic validation (e.g. an invalid order state move) |
 | `RATE_LIMITED` | 429 | exceeded a rate limit (see below) |
 | `INTERNAL_ERROR` | 500 | everything else; the real error is logged, never shown |
 
 This table intentionally matches the client's `src/api/error.js` `CODES` map
 and its `UNPROCESSABLE`/`FORBIDDEN` semantics so `code` stays branchable.
+
+## Boundaries
+
+The API is split into two namespaces per realm — the **storefront** (customers)
+and the **admin** (staff). Each is a router that injects its realm via
+`setBoundary`; guarded routes then enforce it with `requireBoundary`
+(`src/versions/v1/middlewares/boundary.js`). A staff token on a
+`/storefront/*` route (or vice versa) is a `403 FORBIDDEN`.
+
+```
+/api/v1/storefront/auth/*   → customer realm
+/api/v1/admin/auth/*        → staff realm
+```
+
+The realm is derived from the **path**, never from the body or a header — the
+client-facing `realm` field and the `X-Auth-Realm` header are gone.
 
 ## Rate limiting
 
@@ -51,9 +67,9 @@ already-set `trust proxy`. Disabled with `RATE_LIMIT_ENABLED=false`.
 
 | Limiter | Scope | Limit |
 | --- | --- | --- |
-| `createGlobalLimiter` | every request (`app.js`) | 300 / 15 min / IP |
-| `createAuthLimiter` | `POST /auth/register`, `/auth/login` | 10 / 15 min / IP |
-| `createRefreshLimiter` | `POST /auth/refresh` | 20 / 15 min / IP |
+| `createGlobalLimiter` | every request (`app.js`); **exempts `GET /api/v1/health`** so monitoring can poll freely | 300 / 15 min / IP |
+| `createAuthLimiter` | `POST /auth/register`, `/auth/login` (both boundaries) | 10 / 15 min / IP |
+| `createRefreshLimiter` | `POST /auth/refresh` (both boundaries) | 20 / 15 min / IP |
 
 A 429 returns the same envelope as everything else:
 `{ "error": { "code": "RATE_LIMITED", "message": "...", "requestId": "…" } }`.
@@ -71,14 +87,17 @@ limiters off and exercises one limiter in isolation.
 
 | Method | Path | Auth | Body/Notes |
 | --- | --- | --- | --- |
-| `GET` | `/health` | — | Liveness + DB ping |
-| `POST` | `/auth/register` | — | `{ realm, name?, email, password }` |
-| `POST` | `/auth/login` | — | `{ realm, email, password }` |
-| `POST` | `/auth/refresh` | cookie | `X-Auth-Realm` header; rotates the refresh cookie |
-| `POST` | `/auth/logout` | cookie | clears this session's refresh token |
-| `POST` | `/auth/logout-all` | cookie | revokes every session (`tokenVersion++`) |
-| `GET` | `/auth/me` | Bearer | current user |
-| `PATCH` | `/auth/me/preferences` | Bearer | `{ preferences: { … } }` |
+| `GET` | `/health` | — | Liveness + DB + Redis ping (exempt from the global limiter) |
+| `POST` | `/storefront/auth/register` | — | `{ name?, email, password }` — open to customers |
+| `POST` | `/admin/auth/register` | — | one-time staff bootstrap: succeeds **only until the first staff user exists**, then `409` (staff are provisioned by invite/seed) |
+| `POST` | `/storefront/auth/login` · `/admin/auth/login` | — | `{ email, password }` — uniform `401` for wrong password, wrong realm, or unknown address |
+| `POST` | `/storefront/auth/refresh` · `/admin/auth/refresh` | cookie | rotates that realm's refresh cookie; reintroduced token → `401` + full revoke |
+| `POST` | `/storefront/auth/logout` · `/admin/auth/logout` | cookie | clears this session's refresh token |
+| `POST` | `/storefront/auth/logout-all` · `/admin/auth/logout-all` | cookie | revokes every session (`tokenVersion++`) → `204` |
+| `GET` | `/storefront/auth/me` · `/admin/auth/me` | Bearer | current user (boundary-enforced: staff/customer tokens never cross) |
+| `PATCH` | `/storefront/auth/me/preferences` · `/admin/auth/me/preferences` | Bearer | `{ preferences: { … } }` |
+| `GET` | `/storefront/auth/sessions` · `/admin/auth/sessions` | Bearer | this user's device sessions (used for "manage devices") |
+| `DELETE` | `/storefront/auth/sessions/:id` · `/admin/auth/sessions/:id` | Bearer | revoke one session |
 
 Anything else → 404. Every rule a browser could bypass is enforced here again
 ([07](07-client-contract.md) notes which client-side docs say so).
