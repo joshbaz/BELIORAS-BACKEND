@@ -69,3 +69,58 @@ export async function revokeSession(req, res) {
   await auth.revokeSession(req.user.id, req.params.sessionId);
   res.status(204).end();
 }
+
+// ---------------------------------------------------------------------------
+// Staff management
+// ---------------------------------------------------------------------------
+
+/** GET /auth/staff — the Team roster. */
+export async function listStaff(req, res) {
+  res.json({ data: await auth.listStaff() });
+}
+
+/**
+ * POST /auth/staff — create an account with a temporary password.
+ *
+ * The temporary password comes back in the response because the admin has to
+ * pass it on and there is nowhere else to get it. That is a deliberate,
+ * one-time disclosure to someone who is already a super-admin and is about to
+ * hand it over; it is not a read-back capability, and the account cannot be
+ * used until its owner rotates it.
+ */
+export async function createStaff(req, res) {
+  res.status(201).json({ data: await auth.createStaff(req.body, auth.requestMeta(req)) });
+}
+
+/**
+ * PATCH /auth/staff/:id/role — change someone's role.
+ *
+ * The caller is passed through to the service rather than assumed: the rules
+ * about whose role may change, and whose may not, depend on who is asking, and
+ * only the service knows them. A controller that read `req.user.id` and dropped
+ * it would be a place where that decision quietly became a constant.
+ */
+export async function updateStaffRole(req, res) {
+  const user = await auth.updateStaffRole(req.params.id, req.body.role, req.user, auth.requestMeta(req));
+  res.json({ data: user });
+}
+
+/**
+ * PATCH /auth/staff/:id/status — suspend or restore an account.
+ *
+ * "Remove access" in the roster. The response is the updated account so the
+ * caller can settle its cache from the server's own answer rather than from the
+ * state it hoped for.
+ */
+export async function setStaffStatus(req, res) {
+  const user = await auth.setStaffStatus(req.params.id, req.body.status, req.user, auth.requestMeta(req));
+  res.json({ data: user });
+}
+
+/** POST /auth/change-password — replace the caller's own password. */
+export async function changePassword(req, res) {
+  const realm = req.user.realm;
+  const refreshToken = req.cookies[config.cookie.refresh.name(realm)];
+  const user = await auth.changePassword(req.user.id, req.body, refreshToken);
+  res.json({ data: user });
+}

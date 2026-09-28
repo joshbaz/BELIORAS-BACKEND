@@ -7,6 +7,7 @@ import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { logger } from "../../core/logger.js";
 import { hashToken, signAccessToken, signRefreshToken, verifyRefreshToken } from "./tokens.js";
+import { ROLES, defaultRoleFor, assertAssignableRole } from "./roles.js";
 import { publicUser } from "./guards.js";
 import * as sessionCache from "./sessionCache.js";
 
@@ -74,6 +75,14 @@ async function revokeAllFor(user) {
 // Public service functions
 // ---------------------------------------------------------------------------
 
+/**
+ * Create an account and sign it straight in.
+ *
+ * On the staff boundary this is the one-time bootstrap: it counts staff users
+ * and refuses once one exists, so the single account it mints is the shop's
+ * first Administrator (`super-admin`) — which is what makes the gate safe, and
+ * why a seed script exists for repeatable environments.
+ */
 export async function register({ realm, name, email, password }, meta = {}) {
   if (realm === "staff") {
     const staffCount = await prisma.user.count({ where: { realm: "staff" } });
@@ -86,7 +95,7 @@ export async function register({ realm, name, email, password }, meta = {}) {
   if (existing) throw new ApiError("An account with this email already exists.", 409);
 
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-  const user = await prisma.user.create({ data: { realm, name, email, passwordHash } });
+  const user = await prisma.user.create({ data: { realm, name, email, passwordHash, role: defaultRoleFor(realm) } });
 
   const session = await issueSession(user, meta);
   await audit(user.id, realm, "REGISTER", meta);
@@ -99,6 +108,15 @@ export async function login({ realm, email, password }, meta = {}) {
 
   const match = await bcrypt.compare(password, user.passwordHash);
   if (!match) throw new ApiError("Invalid email or password.", 401);
+
+  // Checked after the password so a suspended account cannot be used to probe
+  // whether an address exists, and said plainly rather than as the uniform
+  // sign-in failure: a colleague who has just been removed needs to know it was
+  // deliberate, and there is nothing to brute-force here — they already know
+  // their own password.
+  if (user.status === "suspended") {
+    throw new ApiError("This account has been suspended.", 403);
+  }
 
   const session = await issueSession(user, meta);
   await audit(user.id, realm, "LOGIN", meta);
@@ -116,6 +134,15 @@ export async function refresh({ realm, refreshToken }, meta = {}) {
 
   const user = await prisma.user.findUnique({ where: { id: payload.sub } });
   if (!user || user.realm !== realm) throw new ApiError("Please sign in to continue.", 401);
+
+  // Suspension deletes every session row, so this is normally unreachable — but
+  // it is the difference between "access ends because a row was deleted" and
+  // "a suspended account cannot hold a session", and only one of those stays
+  // true if the deletion is ever reordered or made best-effort.
+  if (user.status === "suspended") {
+    await revokeAllFor(user);
+    throw new ApiError("This account has been suspended.", 403);
+  }
 
   const presented = hashToken(refreshToken);
   const existingSession = await prisma.session.findUnique({ where: { refreshHash: presented } });
@@ -173,8 +200,222 @@ export async function logoutAll({ realm, refreshToken }, meta = {}) {
   await audit(user.id, realm, "LOGOUT_ALL", meta);
 }
 
-export async function updatePreferences(userId, preferences) {
-  const user = await prisma.user.update({ where: { id: userId }, data: { preferences } });
+// ---------------------------------------------------------------------------
+// Staff management
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a staff account on someone else's behalf, with a temporary password.
+ *
+ * Deliberately does NOT call `issueSession`. The caller is an admin, not this
+ * new person, and minting a session here would put a usable refresh cookie in
+ * the admin's browser for an account they have never signed in as. The
+ * temporary password is flagged instead, so the account is only usable after its
+ * owner rotates it.
+ *
+ * The caller is expected to have been through `requireRole(SUPER_ADMIN)`; the
+ * role argument is validated here rather than trusted, because `super-admin` is
+ * the role that grants roles.
+ */
+export async function createStaff({ name, email, role, password }, meta = {}) {
+  const roleId = assertAssignableRole(role);
+
+  const existing = await prisma.user.findUnique({ where: { realm_email: { realm: "staff", email } } });
+  if (existing) throw new ApiError("A staff account with this email already exists.", 409);
+
+  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+  const user = await prisma.user.create({
+    data: { realm: "staff", name, email, passwordHash, role: roleId, mustChangePassword: true },
+  });
+
+  // The account hash is never returned — but the admin does need to hand over
+  // the temporary password, and it exists nowhere else, so say so explicitly
+  // rather than leaving them to guess whether it was kept.
+  await audit(user.id, "staff", "STAFF_CREATE", { ...meta, meta: { role: roleId } });
+  return { user: publicUser(user), temporaryPassword: password };
+}
+
+/** Every staff account, newest first, for the Team roster. */
+export async function listStaff() {
+  const users = await prisma.user.findMany({
+    where: { realm: "staff" },
+    orderBy: { createdAt: "desc" },
+  });
+  return users.map(publicUser);
+}
+
+/**
+ * Change a staff member's role.
+ *
+ * Two targets are refused, and each is a way the team could end up with nobody
+ * able to administer it:
+ *
+ *  - your own account, because demoting the person holding the button removes
+ *    the only route to undo it;
+ *  - any `super-admin` row, in either direction. `super-admin` is the role that
+ *    grants roles and `assertAssignableRole` already refuses to hand it out, so
+ *    there is never a second one to promote first; letting the roster demote one
+ *    would be the only way to reach an empty admin set. It is checked in both
+ *    directions because a row that is already `super-admin` must not be
+ *    "changed" to a role it cannot hold.
+ *
+ * A suspended account is refused too, because changing the role of someone who
+ * cannot sign in is a way to lose track of what they will come back to.
+ *
+ * `tokenVersion` is deliberately NOT bumped. The role is not in the access
+ * token — only `sub`, `realm` and `tv` are — so the session stays valid and the
+ * person is not signed out of a job they still have. The session cache is
+ * dropped because it holds a copy of the user row, role included, and would
+ * otherwise go on answering with the old one.
+ */
+export async function updateStaffRole(targetId, role, actor, meta = {}) {
+  const roleId = assertAssignableRole(role);
+  const target = await requireStaffTarget(targetId, actor);
+
+  if (target.role === ROLES.SUPER_ADMIN) {
+    throw new ApiError("The Administrator role cannot be granted or removed.", 403);
+  }
+  if (target.role === roleId) return publicUser(target);
+
+  if (target.status === "suspended") {
+    throw new ApiError("Restore this account before changing its role.", 409);
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: target.id },
+    data: { role: roleId },
+  });
+
+  await sessionCache.del(target.id);
+  await audit(target.id, "staff", "STAFF_ROLE_CHANGE", {
+    ...meta,
+    meta: { from: target.role, to: roleId, by: actor.id },
+  });
+  return publicUser(updated);
+}
+
+/**
+ * Suspend or restore a staff account — "remove access" in the roster.
+ *
+ * Suspension is not a demotion. It ends access now, by three things at once: the
+ * sign-in refuses a suspended account, every existing access token dies because
+ * `tokenVersion` moves, and every stored session row is deleted so no refresh
+ * token can mint a replacement. Demoting alone would leave the person able to
+ * sign straight back in, which is the opposite of what the button says.
+ *
+ * The last active super-admin is refused, and so is your own account, for the
+ * same reason `updateStaffRole` refuses both: the team must never be one click
+ * away from having no administrator. `requireStaffTarget` is what turns "aimed
+ * at yourself" into an error; the `super-admin` check is here because this is
+ * the one call that would end an administrator's access.
+ */
+export async function setStaffStatus(targetId, status, actor, meta = {}) {
+  if (status !== "suspended" && status !== "active") {
+    throw new ApiError("That is not a status an account can be put into.", 400);
+  }
+
+  const target = await requireStaffTarget(targetId, actor);
+  if (target.role === ROLES.SUPER_ADMIN && status === "suspended") {
+    throw new ApiError("The Administrator role cannot be suspended here.", 403);
+  }
+  if (target.status === status) return publicUser(target);
+
+  const updated = await prisma.user.update({
+    where: { id: target.id },
+    data: { status, suspendedAt: status === "suspended" ? new Date() : null },
+  });
+
+  // Only a suspension revokes. Restoring someone should not sign them out of
+  // the device they are sitting at — they were not there while they were away.
+  if (status === "suspended") await revokeAllFor(target);
+
+  await audit(target.id, "staff", "STAFF_STATUS_CHANGE", {
+    ...meta,
+    meta: { status, by: actor.id },
+  });
+  return publicUser(updated);
+}
+
+/**
+ * Resolve the row a staff-management call is aimed at, and refuse the two
+ * mistakes that are easy to make from a table: aiming at yourself, and aiming
+ * at a row that is not a staff account at all (a customer id would otherwise
+ * sail through every role check below and come back as a Prisma error).
+ *
+ * The id is shape-checked before it is used. `id` is an ObjectId, and handing
+ * the driver something that is not one is a BSON parse failure — which arrives
+ * as a 500 from a URL a person typed or a client built, on a route that has
+ * nothing wrong with it. A malformed id is a missing row as far as this service
+ * is concerned, and saying so is both true and cheap.
+ */
+async function requireStaffTarget(targetId, actor) {
+  if (targetId === actor.id) {
+    throw new ApiError("You cannot change your own account here.", 403);
+  }
+  if (typeof targetId !== "string" || !/^[0-9a-f]{24}$/i.test(targetId)) {
+    throw new ApiError("That staff account no longer exists.", 404);
+  }
+  const target = await prisma.user.findUnique({ where: { id: targetId } });
+  if (!target || target.realm !== "staff") {
+    throw new ApiError("That staff account no longer exists.", 404);
+  }
+  return target;
+}
+
+/**
+ * Replace the caller's own password, clearing the temporary-password flag.
+ *
+ * The session in use is kept and every other session for the account is
+ * dropped, because a temporary password has by definition been shared with
+ * whoever set it. `tokenVersion` is deliberately NOT bumped: that is the
+ * blunt instrument that kills the caller's own access token too, and the whole
+ * point here is to leave them signed in. The stale session cache entry is
+ * dropped so the next request re-reads the new flag from the database.
+ */
+export async function changePassword(userId, { currentPassword, newPassword }, currentRefreshToken) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new ApiError("Please sign in to continue.", 401);
+
+  // Both failures are attributable to one box on the form, so they say which.
+  // A message with nowhere to go is a message the person reads at the bottom of
+  // a form and has to work out for themselves — and "your current password is
+  // incorrect" is exactly the kind of answer that should never have to be
+  // inferred. The sign-in form deliberately withholds this; here there is no
+  // equivalent ambiguity, because the caller has already proven who they are.
+  if (!(await bcrypt.compare(currentPassword, user.passwordHash))) {
+    throw new ApiError("Your current password is incorrect.", 401, {
+      details: { fieldErrors: { currentPassword: "Your current password is incorrect." } },
+    });
+  }
+  if (await bcrypt.compare(newPassword, user.passwordHash)) {
+    throw new ApiError("Choose a password you haven't used here before.", 400, {
+      details: { fieldErrors: { newPassword: "Choose a password you haven't used here before." } },
+    });
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+  // Keep the caller's own device, drop the rest.
+  const presented = currentRefreshToken ? hashToken(currentRefreshToken) : null;
+  const found = presented ? await prisma.session.findUnique({ where: { refreshHash: presented } }) : null;
+  const keep = found && found.userId === userId ? found : null;
+
+  const updated = await prisma.$transaction(async (tx) => {
+    if (keep) {
+      await tx.session.deleteMany({ where: { userId, id: { not: keep.id } } });
+    }
+    return tx.user.update({
+      where: { id: userId },
+      data: { passwordHash, mustChangePassword: false },
+    });
+  });
+
+  await sessionCache.del(userId);
+  await audit(userId, user.realm, "PASSWORD_CHANGE");
+  return publicUser(updated);
+}
+
+export async function updatePreferences(userId, preferences) {  const user = await prisma.user.update({ where: { id: userId }, data: { preferences } });
   await sessionCache.del(userId);
   await audit(userId, user.realm, "PREFERENCES_UPDATE");
   return publicUser(user);

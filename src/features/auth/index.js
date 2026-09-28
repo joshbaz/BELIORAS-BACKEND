@@ -3,6 +3,7 @@
 export * as auth from "./auth.service.js";
 export { requestMeta } from "./auth.service.js";
 export { checkSession, publicUser } from "./guards.js";
+export { ROLES, assertAssignableRole, isSuperAdmin } from "./roles.js";
 export {
   clearRefreshCookie,
   setRefreshCookie,

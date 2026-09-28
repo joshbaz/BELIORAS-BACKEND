@@ -19,22 +19,62 @@ enum AuditAction {
   LOGOUT
   LOGOUT_ALL
   PREFERENCES_UPDATE
+  STAFF_CREATE
+  STAFF_ROLE_CHANGE
+  STAFF_STATUS_CHANGE
+  PASSWORD_CHANGE
 }
 
+enum AccountStatus {
+  active
+  suspended
+}
+
+/// `role` is a dashboard role *id* as a string, not a Prisma enum: the client
+/// owns the role catalogue and can add or edit roles (Team → Roles) without a
+/// server deploy, and `rolesSeed.js` is the list of ids in play today —
+/// "super-admin", "staff", "finance", "support", "content", "developer".
+/// `customers` hold the literal "customer".
+///
+/// The role is stored and returned so the dashboard knows who it is talking to.
+/// It is NOT a full capability system: the per-section none/view/edit matrix
+/// still lives in the client (`client/src/utils/permissions.js`), and the server
+/// enforces exactly one thing — the staff-management routes require
+/// "super-admin" (`requireRole`). Treat the browser's other capability checks as
+/// an affordance, not a control.
+///
+/// `status` is the server's own "this account cannot sign in" switch, and it is
+/// not the role: a role change is a promotion or a demotion, whereas suspension
+/// ends access now. A suspended account is refused at sign-in and refused on
+/// every existing token, and all of its sessions are deleted, because a role
+/// change alone leaves the person able to sign straight back in.
 model User {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   realm        Realm
   email        String
   passwordHash String
   name         String?
+  role         String     @default("staff")
   preferences  Json?
   tokenVersion Int        @default(0)
+  /// Set when an account was created by another admin with a temporary
+  /// password. Such an account may sign in and change its password, but the
+  /// dashboard gate keeps it out of the app until the flag clears, so a
+  /// password that was read aloud in a meeting cannot stay valid for good.
+  mustChangePassword Boolean @default(false)
+  /// Sign-in is refused while this is "suspended". Kept as a column rather than
+  /// inferred from a missing role so an account can be switched back on without
+  /// anyone having to remember what it used to be.
+  status     AccountStatus @default(active)
+  /// When it was suspended, for the roster and the audit trail. Null while active.
+  suspendedAt DateTime?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   sessions     Session[]
   auditLogs    AuditLog[]
 
   @@unique([realm, email])
+  @@index([realm, role])
   @@map("users")
 }
 
