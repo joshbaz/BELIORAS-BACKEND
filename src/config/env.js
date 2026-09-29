@@ -32,8 +32,27 @@ if (!parsed.success) {
 
 const isProduction = parsed.data.NODE_ENV === "production";
 
+/**
+ * Whether the rate limiters actually count.
+ *
+ * Production only, and `RATE_LIMIT_ENABLED` still gets the final say — so it can
+ * be turned off in production deliberately, or left on there when asked.
+ *
+ * Everywhere else the limiters are off by default because in development every
+ * request arrives from `127.0.0.1`, which collapses the whole team onto one
+ * bucket. A reload loop, a second laptop on the same checkout, or a script
+ * hammering login then locks out *everyone* — including legitimate sign-in, with
+ * no way for the person affected to tell that from an attack. The lockout is a
+ * worse failure than the one the limiters prevent, and it is self-inflicted.
+ *
+ * Tests pass `enabled: true` per limiter instead of relying on this, so the
+ * limiters are still exercised in CI where there is no shared IP to protect.
+ */
+const rateLimiting = parsed.data.RATE_LIMIT_ENABLED && isProduction;
+
 export const env = {
   ...parsed.data,
   isProduction,
   isDevelopment: parsed.data.NODE_ENV === "development",
+  rateLimiting,
 };
