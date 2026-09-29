@@ -5,7 +5,7 @@ import ms from "ms";
 import { env } from "../../config/env.js";
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
-import { logger } from "../../core/logger.js";
+import { audit, requestMeta } from "../audit/audit.js";
 import { hashToken, signAccessToken, signRefreshToken, verifyRefreshToken } from "./tokens.js";
 import { ROLES, defaultRoleFor, assertAssignableRole } from "./roles.js";
 import { publicUser } from "./guards.js";
@@ -17,24 +17,8 @@ const SALT_ROUNDS = 10;
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/** Extract the caller's IP and User-Agent from a request for audit/session storage. */
-export function requestMeta(req) {
-  const ip =
-    (req.headers["x-forwarded-for"]?.split(",")[0]?.trim()) ??
-    req.socket?.remoteAddress ??
-    null;
-  const userAgent = req.headers["user-agent"] ?? null;
-  return { ip, userAgent };
-}
-
-/** Append an entry to the audit log — fire-and-forget, never throws. */
-async function audit(userId, realm, action, meta = {}) {
-  try {
-    await prisma.auditLog.create({ data: { userId, realm, action, ...meta } });
-  } catch (err) {
-    logger.error({ err }, "audit log write failed");
-  }
-}
+// Re-exported so `auth.requestMeta(req)` keeps working at the controller.
+export { requestMeta };
 
 /**
  * Issue a new access + refresh token pair for the user.
