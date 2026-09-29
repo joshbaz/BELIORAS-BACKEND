@@ -23,10 +23,40 @@ account may share one address, and may be signed in simultaneously.
 `POST /admin/auth/register` exists only to create the **first** staff account.
 The service counts staff users and refuses (`409 CONFLICT`) once one exists, so
 a deployed server can never be used to mint extra staff — further staff are
-provisioned by the invite/seed flow (matching the client's `addTeamMember` /
-`acceptInvite`). On a fresh deployment, either register the first admin at
-setup or seed it, after which the endpoint is inert.
+provisioned through the dashboard.
 `/storefront/auth/register` stays open for customers.
+
+The account it mints is the shop's first **Administrator**
+(`role: "super-admin"`), which is what makes the gate safe: there is exactly one
+account this endpoint can ever create, and it is the one that must exist. In a
+repeatable environment, `yarn seed:admin` (`scripts/seed-admin.js`) does the same
+thing idempotently, so there is a way back in to a locked-out admin — and it
+refuses outright if staff accounts exist that are not the one it was pointed at,
+because that environment should be managed through the dashboard.
+
+> **Not yet: creating further staff.** `POST /admin/auth/staff` (an authenticated,
+> `super-admin`-gated create), the staff list and the role-change endpoint are
+> still to come. Until they exist, a deployed server can hold exactly one staff
+> account, seeded or bootstrapped.
+
+## Roles
+
+`User.role` is a dashboard role **id as a string** (`super-admin`, `staff`,
+`finance`, `support`, `content`, `developer`, `customer`), mirroring the client's
+catalogue `client/src/data/rolesSeed.js`. A string rather than a Prisma enum
+because the client owns the catalogue and can add or edit roles without a server
+deploy. `features/auth/roles.js` holds the two ids that mean something here.
+
+**This is identity, not authority.** The role is stored, returned by
+`publicUser`, and read by the dashboard to decide what to offer. The per-section
+none/view/edit capability matrix is still client-side, so the browser's
+`can`/`canEdit` checks remain an affordance rather than a control, exactly as
+[07](07-client-contract.md) says. **No role rule is enforced yet** — the
+staff-management endpoints that will gate on `super-admin` do not exist. When
+the capability guards land, they read this same column, and a role change must
+also `sessionCache.del` the affected user or the Redis-cached session keeps
+serving the old role for `SESSION_CACHE_TTL`.
+
 
 ## Tokens
 
@@ -108,11 +138,14 @@ time, so a normal page load never trips the detector.
 
 ## Future reserved
 
-- Role/capability guards beyond realm — the client's dashboard role model
-  (`utils/roles.js`) is the documented intent; enforce the same capabilities
-  per staff endpoint when roles exist server-side.
-- Password reset, team invitations, and an invited-user status map to the
-  client's `welcome`/`password-reset`/`team-invitation` email flows
-  (`client/docs/12-backend-integration.md`). Staff provisioning lands here too:
-  an invite creates the staff `User`, replacing the one-time `register`
-  bootstrap once a seed/invite flow exists.
+- **Staff management** — `POST /admin/auth/staff` (create, `super-admin`-gated),
+  `GET /admin/auth/staff` (list) and `PATCH /admin/auth/staff/:id` (role
+  change), replacing the client Team page's mock calls. The admin sets the
+  password directly for now; the invite flow (single-use token, the invited
+  person chooses their own password, reusing the client's `/atelier/invite`
+  page) is the intended replacement and reuses these same shapes.
+- Capability guards per staff endpoint, reading `User.role` — see **Roles**
+  above for the cache trap.
+- Password reset, and an invited-user status map to the client's
+  `welcome`/`password-reset`/`team-invitation` email flows
+  (`client/docs/12-backend-integration.md`).

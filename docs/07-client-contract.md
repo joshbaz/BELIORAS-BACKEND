@@ -62,13 +62,38 @@ these are the wire contract they will switch to.
 | Client route constant | Resolved (`authPath`) | Server note |
 | --- | --- | --- |
 | `routes.health` | `GET /api/v1/health` | `{ data: { status, db, redis, ... } }` |
-| `routes.auth.register` | sfx `storefront/auth/register` · adm `admin/auth/register` | customer: open; admin: **one-time bootstrap** → `409` once a staff user exists |
+| `routes.auth.register` | sfx `storefront/auth/register` · adm `admin/auth/register` | customer: open, mints `role: "customer"`; admin: **one-time bootstrap** → `super-admin`, `409` once a staff user exists |
 | `routes.auth.login` | `storefront/auth/login` · `admin/auth/login` | 201/200; invalid → uniform 401 |
 | `routes.auth.refresh` | `storefront/auth/refresh` · `admin/auth/refresh` | realm cookie only (no header); rotation + reuse detection |
+| `routes.auth.logout` | `storefront/auth/logout` · `admin/auth/logout` | clears this device's session + cookie; 204 |
 | `routes.auth.logoutAll` | `storefront/auth/logout-all` · `admin/auth/logout-all` | clears the realm cookie; `tokenVersion++`; 204 |
 | `routes.auth.me` | `storefront/auth/me` · `admin/auth/me` | Bearer-guarded + boundary-enforced (403 on cross) |
 | `routes.auth.preferences` | `storefront/auth/me/preferences` · `admin/auth/me/preferences` | Bearer-guarded; returns updated user |
-| — | `GET/DELETE /…/auth/sessions` · `/sessions/:id` | list the user's devices; revoke one (add these leaves when the client mounts them) |
+| `routes.auth.sessions` | `storefront/auth/sessions` · `admin/auth/sessions` | list the user's devices; `DELETE …/:id` revokes one |
+
+## Where the client's auth stands
+
+- **The staff door is live.** `client/src/services/auth/authStaffApi.js` and
+  `client/src/context/auth/useStaffSession.js` run the real transport: login,
+  logout, logout-all and me against `/admin/auth/*`, the access token in memory
+  (`api/tokens.js`), the session rebuilt from the refresh cookie on every cold
+  start. `atelier.jsx` and `RequireAuth` are wired to it.
+- **The shopper's door is still mock-backed**, in `authSession.js` behind
+  `useAuthSession` + localStorage. The two are separate session hooks on
+  purpose — a shared hook with a `transport` option would let a provider pick
+  its own door, which is the failure the realm split exists to prevent.
+- **`role` now arrives from the server** on the user, which is what lets
+  `isAdminRole()` (client) pass a real login. The capability matrix behind it is
+  still client-side: see **Roles** in [05](05-auth.md).
+- **The dashboard's other services are still mocks**, so the `401 → refresh →
+  retry` path in `api/client.js` has no live caller yet. It is exercised
+  indirectly by a page reload (which restores through `POST /auth/refresh`).
+- **Not implemented server-side:** creating staff, listing staff, changing a
+  role, the Team page's Roles tab, and the invite flow. The Team page therefore
+  still reads `users`/`roles` from the local content store, and a role edited
+  there does **not** change what the server would enforce — there is nothing
+  yet for it to enforce beyond the `super-admin` gate.
+
 
 ## Remaining namespaces
 
@@ -93,4 +118,19 @@ time).
   must be re-enforced in the API. The `authenticate` guard and the 401/403
   semantics here are the start; the dashboard capability model
   (`utils/roles.js`) maps onto the reserved `FORBIDDEN`/roles work in
-  [05](05-auth.md).
+  [05](05-auth.md). No role rule is enforced server-side yet — realm is the only
+  wall.
+
+## Two things the first integration changed
+
+- **The access token cannot be persisted.** It is held in memory
+  (`api/tokens.js`) with the refresh token in an httpOnly cookie, so a page load
+  arrives with no user and rebuilds the session from the cookie. Any guard
+  reading "am I signed in?" therefore has to distinguish *signed out* from *not
+  yet asked* — the client exposes that as `booting` and `RequireAuth` waits on
+  it. A guard that treats the first render as signed out bounces a signed-in
+  admin to the sign-in page on every refresh.
+- **The realm-specific path is not optional.** `authPath(name, realm)` must be
+  used for every auth call, including refresh: the cookie name
+  (`belioras_refresh_staff`) and the path (`/admin/auth/refresh`) are what pick
+  the session, and there is no header to disambiguate.
