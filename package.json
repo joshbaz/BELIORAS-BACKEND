@@ -9,7 +9,9 @@
     "start": "node src/index.js",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:studio": "prisma studio",
+    "db:studio": "prisma db studio",
+    "seed:admin": "node scripts/seed-admin.js",
+    "seed:size-guides": "node scripts/seed-size-guides.js",
     "test": "node --test --test-concurrency=1 test/*.test.js",
     "lint": "eslint ."
   },
