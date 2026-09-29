@@ -231,6 +231,56 @@ describe("staff bootstrap registration", () => {
   });
 });
 
+describe("role assignment", () => {
+  it("mints the one-time staff bootstrap as super-admin", async () => {
+    const { prisma } = await import("../src/db/prisma.js");
+    const staff = await prisma.user.findMany({ where: { realm: "staff" }, select: { id: true } });
+    const staffIds = staff.map((u) => u.id);
+    await prisma.session.deleteMany({ where: { userId: { in: staffIds } } });
+    await prisma.auditLog.deleteMany({ where: { userId: { in: staffIds } } });
+    await prisma.user.deleteMany({ where: { id: { in: staffIds } } });
+
+    const res = await register("staff", { name: "First Admin" });
+    assert.equal(res.status, 201);
+    assert.equal(res.body.data.user.role, "super-admin");
+
+    // And it survives the read paths the dashboard actually uses.
+    const me = await api().then((request) =>
+      request.get("/api/v1/admin/auth/me").set("Authorization", authenticateAs(res)),
+    );
+    assert.equal(me.status, 200);
+    assert.equal(me.body.data.role, "super-admin");
+  });
+
+  it("mints a storefront account as customer", async () => {
+    const res = await register("customer");
+    assert.equal(res.status, 201);
+    assert.equal(res.body.data.user.role, "customer");
+  });
+
+  it("keeps the revocation counter out of the public user", async () => {
+    const res = await register();
+    assert.equal(res.body.data.user.tokenVersion, undefined);
+
+    const me = await api().then((request) =>
+      request.get("/api/v1/storefront/auth/me").set("Authorization", authenticateAs(res)),
+    );
+    assert.equal(me.body.data.tokenVersion, undefined);
+  });
+
+  it("returns the stored role on login, not just at register", async () => {
+    const email = await seedStaff(uniqueEmail());
+    const { prisma } = await import("../src/db/prisma.js");
+    await prisma.user.updateMany({ where: { email }, data: { role: "finance" } });
+
+    const res = await api().then((request) =>
+      request.post("/api/v1/admin/auth/login").send({ email, password: PASSWORD }),
+    );
+    assert.equal(res.status, 200);
+    assert.equal(res.body.data.user.role, "finance");
+  });
+});
+
 describe("boundary enforcement", () => {
   it("forbids a staff token on the storefront and a customer token in admin", async () => {
     const staffEmail = uniqueEmail();
