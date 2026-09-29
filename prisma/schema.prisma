@@ -23,6 +23,8 @@ enum AuditAction {
   STAFF_ROLE_CHANGE
   STAFF_STATUS_CHANGE
   PASSWORD_CHANGE
+  SIZE_GUIDE_UPDATE
+  SIZE_GUIDE_RESET
 }
 
 enum AccountStatus {
@@ -111,4 +113,31 @@ model AuditLog {
   @@index([userId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+/// One size guide — "garment", "footwear" or "hair" — exactly as the dashboard
+/// edits it and the storefront reads it.
+///
+/// One document per guide rather than one blob for all three, because each guide
+/// is saved as a unit: a single `PUT` replaces a whole guide, so a rejected row
+/// leaves the previous guide intact instead of half-applied. It also stops two
+/// people editing different guides from overwriting each other, which is what
+/// happened when all three shared one `howToMeasure` key.
+///
+/// `type` is a plain String, not an enum: Prisma does not enforce enums on the
+/// MongoDB provider, so the real guarantee is the zod schema on the way in
+/// (GUIDE_TYPES), the same way `User.role` is checked by the caller.
+model SizeGuide {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  /// "garment" | "footwear" | "hair" — decides which table shapes `data` holds.
+  type      String
+  /// The whole guide, shaped by `type`. Held as one document rather than
+  /// normalised into rows, because a guide is read and written as a single unit
+  /// and its three shapes are unrelated to each other.
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([type])
+  @@map("size_guides")
 }
