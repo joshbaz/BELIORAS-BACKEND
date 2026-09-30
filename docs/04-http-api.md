@@ -123,10 +123,50 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `GET` | `/admin/size-guides` · `/admin/size-guides/:type` | Bearer | same documents to staff; `:type` unknown → `404` |
 | `PUT` | `/admin/size-guides/:type` | Bearer + role | replaces one guide **whole**. Body is that guide alone, validated against the schema for `:type` — a body shaped like a different guide is a `400`. All-or-nothing: a rejected save leaves the stored guide untouched |
 | `POST` | `/admin/size-guides/reset` | Bearer + role | all three guides back to the shipped versions |
+| `GET` | `/storefront/taxonomy/sizes` | — | the size list, in display order. Public for the same reason the guides are: a shopper filtering a category page has no account, and the list is what `?size=eu38,m` resolves against |
+| `GET` | `/admin/taxonomy/sizes` · `/admin/taxonomy/sizes/:id` | Bearer | same list to staff; `:id` unknown → `404` |
+| `POST` | `/admin/taxonomy/sizes` | Bearer + role | `{ name, id? }`. `201`. `id` optional and, when given, must be free — a taken or spent one is a `409`, not a silently different id. Without one, a slug of the name is derived and suffixed if needed |
+| `PATCH` | `/admin/taxonomy/sizes/:id` | Bearer + role | `{ name }` **only**. The body is `strict()`: an `id` or a `position` in it is a `400` rather than a `200` that quietly changed just the name |
+| `DELETE` | `/admin/taxonomy/sizes/:id` | Bearer + role | removes one and **spends its id** — see below |
+| `POST` | `/admin/taxonomy/sizes/reset` | Bearer + role | back to the shipped twelve; every id added since is spent |
 
-The two staff write routes take `content`, `staff` or `super-admin` — the roles
-the dashboard grants "edit" on Sizes & Guides. This is a list at the call site,
-not a copy of the client's capability matrix; see [07](07-client-contract.md).
+### Why the size list is shaped this way
+
+The list and the guides are separate resources, and they are allowed to
+disagree. A guide is the measurement table that explains what a size means; this
+is the list of sizes that exist. Merging them would mean saving a size's name
+rewrote a guide. They currently *do* disagree — the garment guide has an `XXL`
+row with no size in the list, and the list has EU sizes and One Size the garment
+guide has no row for. That is a content question, not a modelling one, and
+nothing in either resource tries to paper over it.
+
+**The id is permanent.** It is a key in a product's `colorways[].stock`, a
+segment of a bookmarked `?size=eu38,m`, and the thing `sizeChartKind.js`
+pattern-matches to decide which guide a product opens. So a rename is a `PATCH`
+by id and the body cannot carry an id — re-pointing one would re-point every
+stock row and every saved URL holding it, which is not something a rename
+should be able to do by accident.
+
+**A deleted id is never reissued** (`FreedId`). Deleting a size does not
+un-reference it: whatever carried it still does, in the browser's catalogue. A
+deleted id handed to the next size would silently re-point all of it at a
+different size, with stock counts to match, and nothing in the write path would
+know. The unique index on `(kind, ref)` is what makes that safe under
+concurrency.
+
+**Deletion is only half-guarded, and the gap is real.** The dashboard refuses to
+delete a size that a category offers or a product carries — but that check is
+client-side, because this server has no `Category` and no `Product` model at
+all; the catalogue lives in one browser's localStorage. The `DELETE` here is
+unguarded, so another browser, or a direct call, can remove a size that is in
+use. What the server does guarantee is the spent id, which bounds the damage to
+a size that no longer resolves rather than one that came to mean something else.
+The guard moves server-side when products and categories do.
+
+The two staff write route groups take `content`, `staff` or `super-admin` — the
+roles the dashboard grants "edit" on Sizes & Guides. This is a list at the call
+site, not a copy of the client's capability matrix; see
+[07](07-client-contract.md).
 
 Anything else → 404. Every rule a browser could bypass is enforced here again
 ([07](07-client-contract.md) notes which client-side docs say so).

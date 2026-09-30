@@ -25,6 +25,10 @@ enum AuditAction {
   PASSWORD_CHANGE
   SIZE_GUIDE_UPDATE
   SIZE_GUIDE_RESET
+  SIZE_CREATE
+  SIZE_RENAME
+  SIZE_DELETE
+  SIZE_RESET
 }
 
 enum AccountStatus {
@@ -140,4 +144,69 @@ model SizeGuide {
 
   @@unique([type])
   @@map("size_guides")
+}
+
+/// One entry in the size list — "M", "EU 38 · UK 3 · US 5", "One Size" — that a
+/// category offers from and a product picks within.
+///
+/// Separate from `SizeGuide` on purpose. A guide is the measurement table that
+/// explains what a size means; this is the list of sizes that exist. They are
+/// not a hierarchy, and they are not guaranteed to agree: a guide may carry a
+/// row the list has no entry for, and a size in the list may have no
+/// measurements. Forcing them into one document would mean editing a size name
+/// rewrites a guide, and the two would lose the ability to drift apart — which
+/// is the normal state while the catalogue is still being built out.
+///
+/// `id` is permanent and is NOT derived from `name`. It is a public contract in
+/// three places that no migration may break: it is a key in a product's
+/// `colorways[].stock` object, it is a segment of a bookmarked `?size=eu38,m`
+/// storefront URL, and `sizeChartKind.js` decides which guide a product needs
+/// by pattern-matching the id. A rename therefore only ever changes `name`; the
+/// service refuses to reuse or reassign an id, and the PATCH route rejects an
+/// `id` in the body rather than letting a client re-point all three at once.
+///
+/// `position` is load-bearing, not decoration. The order sizes appear in is the
+/// order a shopper reads them in the facet, and `CategoryDialog` re-sorts a
+/// category's ticked sizes into it, so it has to be stored rather than left to
+/// insertion order.
+model Size {
+  id        String   @id @map("_id")
+  name      String
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+  @@map("sizes")
+}
+
+/// An id that has been spent and must never be issued again.
+///
+/// A size id outlives its row. Deleting a size does not un-reference it — the
+/// products that carried it still do, in the browser's catalogue, and their
+/// `colorways[].stock` is an object *keyed by that id*. If the id were handed to
+/// the next size created, every one of those products would silently re-point at
+/// a different size, with stock counts to match, and nothing in the write path
+/// would have any idea it happened.
+///
+/// So a delete writes the id here as well, and `createSize` treats this
+/// collection as taken along with the live one. The unique index on
+/// (kind, ref) is what makes that safe under concurrency: two requests racing to
+/// claim the same freed id cannot both succeed.
+///
+/// Rows here are intentionally never cleaned up. An id being permanently
+/// unavailable is the desired state, and a retention policy would eventually
+/// re-open the hole this exists to close.
+model FreedId {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  /// Which resource spent it. "size" today; the discriminator is here so a
+  /// second resource can keep its own namespace without colliding on a string.
+  kind      String
+  /// The spent id itself.
+  ref       String
+  createdAt DateTime @default(now())
+
+  @@unique([kind, ref])
+  @@index([kind])
+  @@map("freed_ids")
 }
