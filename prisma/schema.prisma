@@ -29,6 +29,11 @@ enum AuditAction {
   SIZE_RENAME
   SIZE_DELETE
   SIZE_RESET
+  CATEGORY_CREATE
+  CATEGORY_UPDATE
+  CATEGORY_DELETE
+  CATEGORY_REORDER
+  CATEGORY_RESET
 }
 
 enum AccountStatus {
@@ -180,6 +185,37 @@ model Size {
   @@map("sizes")
 }
 
+/// A category: what a piece is — Dresses, Hair, Accessories — with the sizes it
+/// offers, its own product-taggable types, and its "Shop by …" subcategories.
+///
+/// `id` is permanent and is NOT derived from `name` after creation. It is every
+/// product's `collectionId`, a storefront URL segment (`/dresses`) and a filter
+/// token, so a rename only ever changes `name`; a delete spends the id in
+/// `FreedId` under kind "category" so it is never handed out again.
+///
+/// `types` and `subcategories` are embedded (`[{id,name}]` and
+/// `[{id,name,types:[{id,name}]}]`) rather than collections of their own: they
+/// only mean anything inside their category, and are always read and written
+/// with it. Their ids are stable across renames the same way — a type id is a
+/// product's `type`, a subcategory type is a `subcat:<sub>:<type>` tag — and
+/// their array order is the order a shopper reads them in.
+///
+/// `position` is the category's own display order, set by the dashboard's
+/// drag-to-reorder.
+model Category {
+  id            String   @id @map("_id")
+  name          String
+  position      Int
+  sizes         String[]
+  types         Json
+  subcategories Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([position])
+  @@map("categories")
+}
+
 /// An id that has been spent and must never be issued again.
 ///
 /// A size id outlives its row. Deleting a size does not un-reference it — the
@@ -199,7 +235,7 @@ model Size {
 /// re-open the hole this exists to close.
 model FreedId {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  /// Which resource spent it. "size" today; the discriminator is here so a
+  /// Which resource spent it: "size" or "category"; the discriminator is here so a
   /// second resource can keep its own namespace without colliding on a string.
   kind      String
   /// The spent id itself.

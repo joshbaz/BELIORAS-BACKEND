@@ -5,6 +5,7 @@ import { setBoundary } from "../middlewares/boundary.js";
 import authRoutes from "../routes/auth.routes.js";
 import sizeGuideRoutes from "../routes/sizeGuidesPublic.routes.js";
 import sizeRoutes from "../routes/sizesPublic.routes.js";
+import categoryRoutes from "../routes/categoriesPublic.routes.js";
 
 const router = Router();
 
@@ -25,6 +26,9 @@ router.use("/size-guides", sizeGuideRoutes);
 // against, so a filter URL a shopper followed from a search result has to work
 // without them being signed in.
 router.use("/taxonomy/sizes", sizeRoutes);
+
+// Categories: the shop filters, menu and breadcrumbs, read without an account.
+router.use("/taxonomy/categories", categoryRoutes);
 
 // TODO: Mount products, orders, profile routes here
 

@@ -5,6 +5,7 @@ import { setBoundary } from "../middlewares/boundary.js";
 import authRoutes from "../routes/auth.routes.js";
 import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
+import categoryRoutes from "../routes/categories.routes.js";
 
 const router = Router();
 
@@ -25,6 +26,9 @@ router.use("/size-guides", sizeGuideRoutes);
 // that explains it to the guide, and splitting those across two permissions
 // would only produce the half-finished state the Sizes page is trying to avoid.
 router.use("/taxonomy/sizes", sizeRoutes);
+
+// Categories, same reasoning and the same section gate.
+router.use("/taxonomy/categories", categoryRoutes);
 
 // TODO: Mount inventory, global orders, sales report routes here
 
