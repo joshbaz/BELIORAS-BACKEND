@@ -9,20 +9,6 @@
       "l",
       "xl"
     ],
-    "types": [
-      {
-        "id": "jumpsuits",
-        "name": "Jumpsuits"
-      },
-      {
-        "id": "two-piece-sets",
-        "name": "Two-Piece Sets"
-      },
-      {
-        "id": "coats-jackets",
-        "name": "Coats & Jackets"
-      }
-    ],
     "subcategories": [
       {
         "id": "shop-by-category",
@@ -220,12 +206,6 @@
     "id": "hair",
     "name": "Hair",
     "sizes": [],
-    "types": [
-      {
-        "id": "wigs",
-        "name": "Wigs"
-      }
-    ],
     "subcategories": [
       {
         "id": "wigs",
@@ -282,52 +262,6 @@
       "eu40",
       "eu41",
       "one-size"
-    ],
-    "types": [
-      {
-        "id": "heels",
-        "name": "Heels"
-      },
-      {
-        "id": "handbags",
-        "name": "Handbags"
-      },
-      {
-        "id": "clutch",
-        "name": "Clutch Bags"
-      },
-      {
-        "id": "shoulder",
-        "name": "Shoulder Bags"
-      },
-      {
-        "id": "mini",
-        "name": "Mini Bags"
-      },
-      {
-        "id": "earrings",
-        "name": "Earrings"
-      },
-      {
-        "id": "necklaces",
-        "name": "Necklaces"
-      },
-      {
-        "id": "bracelets",
-        "name": "Bracelets & Bangles"
-      },
-      {
-        "id": "rings",
-        "name": "Rings"
-      },
-      {
-        "id": "scarves",
-        "name": "Scarves"
-      },
-      {
-        "id": "belts",
-        "name": "Belts"
-      }
     ],
     "subcategories": [
       {

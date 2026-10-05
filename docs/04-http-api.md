@@ -129,6 +129,19 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `PATCH` | `/admin/taxonomy/sizes/:id` | Bearer + role | `{ name }` **only**. The body is `strict()`: an `id` or a `position` in it is a `400` rather than a `200` that quietly changed just the name |
 | `DELETE` | `/admin/taxonomy/sizes/:id` | Bearer + role | removes one and **spends its id** — see below |
 | `POST` | `/admin/taxonomy/sizes/reset` | Bearer + role | back to the shipped twelve; every id added since is spent |
+| `GET` | `/storefront/taxonomy/categories` | — | every category with its `sizes` and `subcategories` (each with its `types`), in display order. Public: the shop filters, menu and breadcrumbs read it without an account |
+| `GET` | `/admin/taxonomy/categories` · `/admin/taxonomy/categories/:id` | Bearer | same list to staff; `:id` unknown → `404` |
+| `POST` | `/admin/taxonomy/categories` | Bearer + role | `{ name, sizes[], subcategories[{id?,name,types[{id?,name}]}] }` — types live only inside subcategories; a top-level `types` is a `400`. `201`. The category id is derived from the name and suffixed past live **and spent** ids; it cannot be supplied. Duplicate name → `409` |
+| `PATCH` | `/admin/taxonomy/categories/:id` | Bearer + role | same body, `strict()` — an `id` or `position` is a `400`. Subcategories and their types keep their id when the body echoes a known one; anything else gets a fresh id from its name. Array order is stored as given |
+| `PUT` | `/admin/taxonomy/categories/order` | Bearer + role | `{ ids }` — every category id in the new order. Anything but exactly the current set → `409` |
+| `DELETE` | `/admin/taxonomy/categories/:id` | Bearer + role | removes one and spends its id (`FreedId` kind `category`) |
+| `POST` | `/admin/taxonomy/categories/reset` | Bearer + role | back to the shipped three; every id added since is spent |
+| `GET` | `/storefront/taxonomy/colors` | — | every colour (`id`, `name`, `hex`, `family`), A–Z. Public: every product's swatches and the colour filter resolve through it |
+| `GET` | `/admin/taxonomy/colors` · `/admin/taxonomy/colors/:id` | Bearer | same list to staff; `:id` unknown → `404` |
+| `POST` | `/admin/taxonomy/colors` | Bearer + role | `{ name, hex, family }`, `strict()`. `201`. Id derived from the name past live and spent ids; duplicate name → `409` |
+| `PATCH` | `/admin/taxonomy/colors/:id` | Bearer + role | same body, `strict()` — an `id` is a `400` |
+| `DELETE` | `/admin/taxonomy/colors/:id` | Bearer + role | removes one and spends its id (`FreedId` kind `color`) |
+| `POST` | `/admin/taxonomy/colors/reset` | Bearer + role | back to the shipped list; every id added since is spent |
 
 ### Why the size list is shaped this way
 
@@ -156,14 +169,22 @@ concurrency.
 
 **Deletion is only half-guarded, and the gap is real.** The dashboard refuses to
 delete a size that a category offers or a product carries — but that check is
-client-side, because this server has no `Category` and no `Product` model at
-all; the catalogue lives in one browser's localStorage. The `DELETE` here is
+client-side, because this server has no `Product` model and its categories
+only mirror into the browser; the catalogue lives in one browser's localStorage. The `DELETE` here is
 unguarded, so another browser, or a direct call, can remove a size that is in
 use. What the server does guarantee is the spent id, which bounds the damage to
 a size that no longer resolves rather than one that came to mean something else.
-The guard moves server-side when products and categories do.
+The guard moves server-side when products do.
 
-The two staff write route groups take `content`, `staff` or `super-admin` — the
+**Categories and colours follow the same rules.** A colour id is what a
+product's `colorways[].colorId` stores, so it is just as permanent. A category id is every product's
+`collectionId`, the `/dresses` URL and a filter token; a subcategory type is a
+product's `subcat:<sub>:<type>` tag (there are no flat category types). So ids never change,
+deleted category ids are spent, and the in-use guards (products in a category, a
+subcategory type still tagged, a Mega Menu link) stay client-side until
+products move here.
+
+The staff write route groups take `content`, `staff` or `super-admin` — the
 roles the dashboard grants "edit" on Sizes & Guides. This is a list at the call
 site, not a copy of the client's capability matrix; see
 [07](07-client-contract.md).

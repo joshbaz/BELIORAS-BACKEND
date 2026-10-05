@@ -34,6 +34,10 @@ enum AuditAction {
   CATEGORY_DELETE
   CATEGORY_REORDER
   CATEGORY_RESET
+  COLOR_CREATE
+  COLOR_UPDATE
+  COLOR_DELETE
+  COLOR_RESET
 }
 
 enum AccountStatus {
@@ -186,18 +190,19 @@ model Size {
 }
 
 /// A category: what a piece is — Dresses, Hair, Accessories — with the sizes it
-/// offers, its own product-taggable types, and its "Shop by …" subcategories.
+/// offers and its "Shop by …" subcategories, which hold the product-taggable
+/// types. A category has no flat type list of its own.
 ///
 /// `id` is permanent and is NOT derived from `name` after creation. It is every
 /// product's `collectionId`, a storefront URL segment (`/dresses`) and a filter
 /// token, so a rename only ever changes `name`; a delete spends the id in
 /// `FreedId` under kind "category" so it is never handed out again.
 ///
-/// `types` and `subcategories` are embedded (`[{id,name}]` and
-/// `[{id,name,types:[{id,name}]}]`) rather than collections of their own: they
+/// `subcategories` are embedded (`[{id,name,types:[{id,name}]}]`) rather than a
+/// collection of their own: they
 /// only mean anything inside their category, and are always read and written
-/// with it. Their ids are stable across renames the same way — a type id is a
-/// product's `type`, a subcategory type is a `subcat:<sub>:<type>` tag — and
+/// with it. Their ids are stable across renames the same way — a subcategory
+/// type is a product's `subcat:<sub>:<type>` tag — and
 /// their array order is the order a shopper reads them in.
 ///
 /// `position` is the category's own display order, set by the dashboard's
@@ -207,13 +212,33 @@ model Category {
   name          String
   position      Int
   sizes         String[]
-  types         Json
   subcategories Json
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@index([position])
   @@map("categories")
+}
+
+/// A boutique colour — Ebony, Champagne — with its swatch and the shop filter
+/// family it is found under (Ebony → black).
+///
+/// `id` is permanent and is NOT derived from `name` after creation: products
+/// store their colourways by colour id (`colorways[].colorId`), and a mega-menu
+/// or facet resolves through it, so a rename reaches every product rather than
+/// orphaning them. A delete spends the id in `FreedId` (kind "color").
+///
+/// `family` is a taxonomy colour id (black, brown, red…). That list is still
+/// client-side, so the server checks only the id's shape.
+model Color {
+  id        String   @id @map("_id")
+  name      String
+  hex       String
+  family    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("colors")
 }
 
 /// An id that has been spent and must never be issued again.
@@ -235,7 +260,7 @@ model Category {
 /// re-open the hole this exists to close.
 model FreedId {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  /// Which resource spent it: "size" or "category"; the discriminator is here so a
+  /// Which resource spent it: "size", "category" or "color"; the discriminator is here so a
   /// second resource can keep its own namespace without colliding on a string.
   kind      String
   /// The spent id itself.

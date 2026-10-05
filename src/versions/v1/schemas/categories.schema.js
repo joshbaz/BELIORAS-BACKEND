@@ -4,8 +4,10 @@ import { z } from "zod";
 import { sizeIdSchema } from "./sizes.schema.js";
 
 /**
- * A category as the dashboard writes it: a name, the sizes it offers, its own
- * types and its "Shop by …" subcategories.
+ * A category as the dashboard writes it: a name, the sizes it offers, and its
+ * "Shop by …" subcategories with the types under each. Types live only inside
+ * subcategories; a category has no flat type list of its own (a body carrying
+ * `types` is a 400, since the schema is strict).
  *
  * Shape only. The rules that matter — ids never change, a spent id is never
  * reissued, a name is unique — need to see the store, so they live in the
@@ -31,7 +33,6 @@ const subcategorySchema = z.object({
 const fields = {
   name: name("category"),
   sizes: z.array(sizeIdSchema).max(100).default([]),
-  types: z.array(typeSchema).max(100).default([]),
   subcategories: z.array(subcategorySchema).max(30).default([]),
 };
 

@@ -7,16 +7,16 @@ import { slugify } from "../sizes/slug.js";
 import { SEED_CATEGORIES } from "./seed.js";
 
 /**
- * Categories: what a piece is, the sizes it offers, its own types and its
- * "Shop by …" subcategories.
+ * Categories: what a piece is, the sizes it offers, and its "Shop by …"
+ * subcategories, each holding the types products are tagged with.
  *
  * The same three rules as the size list, for the same reasons.
  *
  * ## Ids are permanent
  *
  * A category id is every product's `collectionId`, the `/dresses` URL and a
- * filter token; a type id is a product's `type`; a subcategory type is a
- * `subcat:<sub>:<type>` tag. So an update matches each type and subcategory by
+ * filter token; a subcategory type is a product's `subcat:<sub>:<type>` tag.
+ * So an update matches each subcategory and type by
  * the id the client echoes back and keeps it, and only a genuinely new entry
  * gets an id derived from its name. There is no code path that changes the
  * category's own id.
@@ -29,8 +29,8 @@ import { SEED_CATEGORIES } from "./seed.js";
  *
  * ## Deletion and removal cannot be fully guarded
  *
- * "A category that still holds products cannot be deleted" and "a type still on
- * a product cannot be removed" are real rules, and the dashboard enforces them —
+ * "A category that still holds products cannot be deleted" and "a type still
+ * tagged on a product cannot be removed" are real rules, and the dashboard enforces them —
  * but products and the Mega Menu still live in the browser, so this server
  * cannot see them. The guards are the client's; what the server guarantees is
  * that an unguarded removal leaves a dangling id rather than a re-pointed one.
@@ -45,7 +45,6 @@ function present(record) {
     name: record.name,
     position: record.position,
     sizes: record.sizes ?? [],
-    types: record.types ?? [],
     subcategories: record.subcategories ?? [],
     updatedAt: record.updatedAt,
   };
@@ -58,8 +57,8 @@ function presentMany(records) {
 const lower = (s) => s.trim().toLowerCase();
 
 /**
- * A flat named list — a category's own types, or one subcategory's types, or
- * the subcategories themselves. An entry whose id was in the previous list
+ * A flat named list — the subcategories themselves, or one subcategory's
+ * types. An entry whose id was in the previous list
  * keeps it across a rename; a new entry gets a slug of its name, suffixed past
  * anything already in either list. A name repeated within the list is a 409.
  */
@@ -98,7 +97,6 @@ function clean(body, existing = null) {
   return {
     name: body.name.trim(),
     sizes: [...new Set(body.sizes ?? [])],
-    types: cleanNamedList(body.types ?? [], existing?.types ?? [], "type"),
     subcategories: cleanSubcategories(body.subcategories ?? [], existing?.subcategories ?? []),
   };
 }

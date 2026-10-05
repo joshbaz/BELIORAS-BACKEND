@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 
 /**
  * The three categories the shop shipped with — Dresses, Hair, Accessories —
- * with their types and subcategories, in display order.
+ * with their subcategories and the types under each, in display order.
  *
  * `seed.json` is a copy of the client's `src/data/categories.json`, which is the
  * floor the storefront falls back to when it can reach neither this server nor
@@ -20,7 +20,6 @@ export const SEED_CATEGORIES = raw.map((c, position) => ({
   name: c.name,
   position,
   sizes: c.sizes ?? [],
-  types: (c.types ?? []).map(({ id, name }) => ({ id, name })),
   subcategories: (c.subcategories ?? []).map((s) => ({
     id: s.id,
     name: s.name,

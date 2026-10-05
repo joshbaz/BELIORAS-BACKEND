@@ -5,6 +5,7 @@ import { setBoundary } from "../middlewares/boundary.js";
 import authRoutes from "../routes/auth.routes.js";
 import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
+import colorRoutes from "../routes/colors.routes.js";
 import categoryRoutes from "../routes/categories.routes.js";
 
 const router = Router();
@@ -29,6 +30,9 @@ router.use("/taxonomy/sizes", sizeRoutes);
 
 // Categories, same reasoning and the same section gate.
 router.use("/taxonomy/categories", categoryRoutes);
+
+// Colours, same section gate as categories (both are Categories & Colours).
+router.use("/taxonomy/colors", colorRoutes);
 
 // TODO: Mount inventory, global orders, sales report routes here
 

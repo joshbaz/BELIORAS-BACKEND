@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ebony",
+    "name": "Ebony",
+    "hex": "#120700",
+    "family": "black"
+  },
+  {
+    "id": "jet-black",
+    "name": "Jet Black",
+    "hex": "#1C1A19",
+    "family": "black"
+  },
+  {
+    "id": "natural-black",
+    "name": "Natural Black",
+    "hex": "#1C1917",
+    "family": "black"
+  },
+  {
+    "id": "dark-brown",
+    "name": "Dark Brown",
+    "hex": "#3F290E",
+    "family": "brown"
+  },
+  {
+    "id": "chestnut",
+    "name": "Chestnut",
+    "hex": "#734B1A",
+    "family": "brown"
+  },
+  {
+    "id": "caramel",
+    "name": "Caramel",
+    "hex": "#9A7E48",
+    "family": "brown"
+  },
+  {
+    "id": "rosewood",
+    "name": "Rosewood",
+    "hex": "#A0706E",
+    "family": "brown"
+  },
+  {
+    "id": "honey-blonde",
+    "name": "Honey Blonde",
+    "hex": "#D9B166",
+    "family": "metallic"
+  },
+  {
+    "id": "platinum",
+    "name": "Platinum",
+    "hex": "#E5E4E2",
+    "family": "metallic"
+  },
+  {
+    "id": "champagne",
+    "name": "Champagne",
+    "hex": "#E8D3B0",
+    "family": "metallic"
+  },
+  {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#C9A84C",
+    "family": "metallic"
+  },
+  {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#C0C0C0",
+    "family": "metallic"
+  },
+  {
+    "id": "sand",
+    "name": "Sand",
+    "hex": "#E6CB98",
+    "family": "white"
+  },
+  {
+    "id": "ivory",
+    "name": "Ivory",
+    "hex": "#FBF7F0",
+    "family": "white"
+  },
+  {
+    "id": "white",
+    "name": "White",
+    "hex": "#FFFFFF",
+    "family": "white"
+  },
+  {
+    "id": "blush",
+    "name": "Blush",
+    "hex": "#F3D7CF",
+    "family": "pink"
+  },
+  {
+    "id": "burgundy",
+    "name": "Burgundy",
+    "hex": "#6D1F2C",
+    "family": "burgundy"
+  },
+  {
+    "id": "forest",
+    "name": "Forest",
+    "hex": "#166534",
+    "family": "green"
+  },
+  {
+    "id": "slate",
+    "name": "Slate",
+    "hex": "#5B6472",
+    "family": "blue"
+  },
+  {
+    "id": "scarlet",
+    "name": "Scarlet",
+    "hex": "#A4162C",
+    "family": "red"
+  }
+]
