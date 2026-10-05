@@ -38,6 +38,8 @@ enum AuditAction {
   COLOR_UPDATE
   COLOR_DELETE
   COLOR_RESET
+  NAVIGATION_UPDATE
+  NAVIGATION_RESET
 }
 
 enum AccountStatus {
@@ -239,6 +241,26 @@ model Color {
   updatedAt DateTime @updatedAt
 
   @@map("colors")
+}
+
+/// The storefront's mega menu: top-level items, their columns of links, and
+/// feature tiles — one ordered tree, stored as one document (`id` "main").
+///
+/// One document rather than rows, because the menu is edited and saved as a
+/// whole: a reorder touches every sibling, and a half-applied save would leave
+/// links pointing at columns that moved. Every node's `url` is generated once
+/// and stored, so renaming a link never breaks a shared address.
+///
+/// `version` goes up on every save. A save names the version it was edited
+/// from, and a stale one is refused (409), so two people editing the menu at
+/// once cannot silently overwrite each other's work.
+model Navigation {
+  id        String   @id @map("_id")
+  items     Json
+  version   Int      @default(1)
+  updatedAt DateTime @updatedAt
+
+  @@map("navigation")
 }
 
 /// An id that has been spent and must never be issued again.

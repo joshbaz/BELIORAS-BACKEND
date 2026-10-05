@@ -6,6 +6,7 @@ import authRoutes from "../routes/auth.routes.js";
 import sizeGuideRoutes from "../routes/sizeGuidesPublic.routes.js";
 import sizeRoutes from "../routes/sizesPublic.routes.js";
 import colorRoutes from "../routes/colorsPublic.routes.js";
+import navigationRoutes from "../routes/navigationPublic.routes.js";
 import categoryRoutes from "../routes/categoriesPublic.routes.js";
 
 const router = Router();
@@ -33,6 +34,9 @@ router.use("/taxonomy/categories", categoryRoutes);
 
 // Colours: every product's swatches and the colour filter, read without an account.
 router.use("/taxonomy/colors", colorRoutes);
+
+// The mega menu: every page's header and footer, read without an account.
+router.use("/navigation", navigationRoutes);
 
 // TODO: Mount products, orders, profile routes here
 

@@ -6,6 +6,7 @@ import authRoutes from "../routes/auth.routes.js";
 import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
 import colorRoutes from "../routes/colors.routes.js";
+import navigationRoutes from "../routes/navigation.routes.js";
 import categoryRoutes from "../routes/categories.routes.js";
 
 const router = Router();
@@ -33,6 +34,9 @@ router.use("/taxonomy/categories", categoryRoutes);
 
 // Colours, same section gate as categories (both are Categories & Colours).
 router.use("/taxonomy/colors", colorRoutes);
+
+// The mega menu, same section gate as the rest of the catalogue content.
+router.use("/navigation", navigationRoutes);
 
 // TODO: Mount inventory, global orders, sales report routes here
 

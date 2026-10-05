@@ -1,0 +1,1583 @@
+[
+  {
+    "id": "new-arrivals",
+    "label": "NEW ARRIVALS",
+    "slug": "new-arrivals",
+    "url": "/new-arrivals",
+    "tiles": [
+      {
+        "id": "na-tile-1",
+        "title": "New In Dresses",
+        "url": "/dresses/shop-by-category/mini-dresses",
+        "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:shop-by-category",
+          "values": [
+            "mini-dresses"
+          ],
+          "category": "dresses"
+        }
+      },
+      {
+        "id": "na-tile-2",
+        "title": "New In Accessories",
+        "url": "/accessories/bags/handbags",
+        "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:bags",
+          "values": [
+            "handbags"
+          ],
+          "category": "accessories"
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "new-arrivals-latest",
+        "title": "Latest Arrivals",
+        "items": [
+          {
+            "id": "na-all",
+            "label": "All New Arrivals",
+            "slug": "new-arrivals/latest-arrivals/all-new-arrivals",
+            "url": "/new-arrivals/latest-arrivals/all-new-arrivals",
+            "target": {
+              "kind": "label",
+              "id": "new"
+            },
+            "aliases": [
+              "new-arrivals/just-in/new-arrivals-catalog",
+              "new-arrivals/catalog"
+            ]
+          },
+          {
+            "id": "na-featured",
+            "label": "Featured",
+            "slug": "new-arrivals/latest-arrivals/featured",
+            "url": "/new-arrivals/latest-arrivals/featured",
+            "target": {
+              "kind": "label",
+              "id": "featured"
+            },
+            "aliases": [
+              "new-arrivals/just-in/featured-collections",
+              "new-arrivals/collections"
+            ]
+          },
+          {
+            "id": "na-best-sellers",
+            "label": "Best Sellers",
+            "slug": "new-arrivals/latest-arrivals/best-sellers",
+            "url": "/new-arrivals/latest-arrivals/best-sellers",
+            "target": {
+              "kind": "label",
+              "id": "bestseller"
+            }
+          },
+          {
+            "id": "na-limited",
+            "label": "Limited Releases",
+            "slug": "new-arrivals/latest-arrivals/limited-releases",
+            "url": "/new-arrivals/latest-arrivals/limited-releases",
+            "target": {
+              "kind": "label",
+              "id": "limited"
+            }
+          }
+        ]
+      },
+      {
+        "id": "new-arrivals-hair",
+        "title": "Hair",
+        "items": [
+          {
+            "id": "na-hair-all",
+            "label": "Full Collection",
+            "slug": "new-arrivals/hair/full-collection",
+            "url": "/new-arrivals/hair/full-collection",
+            "target": {
+              "kind": "category",
+              "id": "hair"
+            }
+          },
+          {
+            "id": "na-hair-straight",
+            "label": "Signature Straight",
+            "slug": "new-arrivals/hair/signature-straight",
+            "url": "/new-arrivals/hair/signature-straight",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "straight-wigs"
+              ],
+              "category": "hair"
+            }
+          },
+          {
+            "id": "na-hair-curly",
+            "label": "Signature Curly",
+            "slug": "new-arrivals/hair/signature-curly",
+            "url": "/new-arrivals/hair/signature-curly",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "curly-wigs"
+              ],
+              "category": "hair"
+            }
+          },
+          {
+            "id": "na-hair-braided",
+            "label": "Signature Braided",
+            "slug": "new-arrivals/hair/signature-braided",
+            "url": "/new-arrivals/hair/signature-braided",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "braided-wigs"
+              ],
+              "category": "hair"
+            }
+          }
+        ]
+      }
+    ],
+    "target": {
+      "kind": "label",
+      "id": "new"
+    },
+    "i18nKey": "nav.newArrivals"
+  },
+  {
+    "id": "shop",
+    "label": "SHOP",
+    "slug": "shop",
+    "url": "/shop",
+    "tiles": [
+      {
+        "id": "shop-tile-1",
+        "title": "Prom & Gala",
+        "url": "/dresses/shop-by-occasion/prom-and-gala-dresses",
+        "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:shop-by-occasion",
+          "values": [
+            "prom-dresses",
+            "gala-dresses"
+          ],
+          "category": "dresses"
+        }
+      },
+      {
+        "id": "shop-tile-2",
+        "title": "Shop by Colour",
+        "url": "/dresses/shop-by-colour/black-dresses",
+        "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "color",
+          "values": [
+            "black"
+          ],
+          "category": "dresses"
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "shop-shop-all",
+        "items": [
+          {
+            "id": "shop-all-products",
+            "label": "All Products",
+            "slug": "shop/shop-all/all-products",
+            "url": "/shop/shop-all/all-products",
+            "target": {
+              "kind": "all"
+            },
+            "aliases": [
+              "shop/all-products"
+            ]
+          },
+          {
+            "id": "shop-new-this-week",
+            "label": "New This Week",
+            "slug": "shop/shop-all/new-this-week",
+            "url": "/shop/shop-all/new-this-week",
+            "target": {
+              "kind": "label",
+              "id": "new"
+            },
+            "aliases": [
+              "shop/new-this-week"
+            ]
+          },
+          {
+            "id": "shop-sale-offers",
+            "label": "Sale & Offers",
+            "slug": "shop/shop-all/sale-and-offers",
+            "url": "/shop/shop-all/sale-and-offers",
+            "target": {
+              "kind": "label",
+              "id": "sale"
+            },
+            "aliases": [
+              "shop/sale-offers"
+            ]
+          }
+        ],
+        "title": "Shop All"
+      },
+      {
+        "id": "shop-clothing",
+        "items": [
+          {
+            "id": "shop-all-clothing",
+            "label": "All Clothing",
+            "slug": "shop/clothing/all-clothing",
+            "url": "/shop/clothing/all-clothing",
+            "target": {
+              "kind": "category",
+              "id": "dresses"
+            },
+            "aliases": [
+              "shop/all-clothing"
+            ]
+          },
+          {
+            "id": "shop-dresses",
+            "label": "Dresses",
+            "slug": "shop/clothing/dresses",
+            "url": "/shop/clothing/dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "mini-dresses",
+                "midi-dresses",
+                "maxi-dresses"
+              ],
+              "category": "dresses"
+            }
+          },
+          {
+            "id": "shop-jumpsuits",
+            "label": "Jumpsuits",
+            "slug": "shop/clothing/jumpsuits",
+            "url": "/shop/clothing/jumpsuits",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "jumpsuits"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "shop/jumpsuits"
+            ]
+          },
+          {
+            "id": "shop-two-piece-sets",
+            "label": "Two Piece Sets",
+            "slug": "shop/clothing/two-piece-sets",
+            "url": "/shop/clothing/two-piece-sets",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "two-piece-sets"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "shop/two-piece-sets"
+            ]
+          },
+          {
+            "id": "shop-coats-jackets",
+            "label": "Coats & Jackets",
+            "slug": "shop/clothing/coats-and-jackets",
+            "url": "/shop/clothing/coats-and-jackets",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "coats-jackets"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "shop/coats-jackets"
+            ]
+          }
+        ],
+        "title": "Clothing"
+      },
+      {
+        "id": "shop-hair",
+        "items": [
+          {
+            "id": "shop-all-hair",
+            "label": "All Hair",
+            "slug": "shop/hair/all-hair",
+            "url": "/shop/hair/all-hair",
+            "target": {
+              "kind": "category",
+              "id": "hair"
+            },
+            "aliases": [
+              "shop/all-hair"
+            ]
+          }
+        ],
+        "title": "Hair"
+      },
+      {
+        "id": "shop-accessories",
+        "items": [
+          {
+            "id": "shop-jewellery",
+            "label": "Jewellery",
+            "slug": "shop/accessories/jewellery",
+            "url": "/shop/accessories/jewellery",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:jewellery",
+              "values": [
+                "earrings",
+                "necklaces",
+                "bracelets-bangles",
+                "rings"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "shop/accessories/all-accessories-and-jewellery",
+              "shop/all-accessories-jewellery"
+            ]
+          },
+          {
+            "id": "shop-bags",
+            "label": "Bags",
+            "slug": "shop/accessories/bags",
+            "url": "/shop/accessories/bags",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:bags",
+              "values": [
+                "handbags",
+                "clutch-bags",
+                "shoulder-bags",
+                "mini-bags"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "shop/bags"
+            ]
+          },
+          {
+            "id": "shop-heels",
+            "label": "Heels",
+            "slug": "shop/accessories/heels",
+            "url": "/shop/accessories/heels",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shoes",
+              "values": [
+                "heels"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "shop/heels"
+            ]
+          }
+        ],
+        "title": "Accessories"
+      }
+    ],
+    "target": {
+      "kind": "all"
+    },
+    "i18nKey": "nav.shop"
+  },
+  {
+    "id": "dresses",
+    "label": "DRESSES",
+    "slug": "dresses",
+    "url": "/dresses",
+    "tiles": [
+      {
+        "id": "dress-tile-1",
+        "title": "Mini Dresses",
+        "url": "/dresses/shop-by-category/mini-dresses",
+        "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:shop-by-category",
+          "values": [
+            "mini-dresses"
+          ],
+          "category": "dresses"
+        }
+      },
+      {
+        "id": "dress-tile-2",
+        "title": "Prom & Gala",
+        "url": "/dresses/shop-by-occasion/prom-and-gala-dresses",
+        "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:shop-by-occasion",
+          "values": [
+            "prom-dresses",
+            "gala-dresses"
+          ],
+          "category": "dresses"
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "dresses-shop-by-category",
+        "items": [
+          {
+            "id": "dresses-mini-dresses",
+            "label": "Mini Dresses",
+            "slug": "dresses/shop-by-category/mini-dresses",
+            "url": "/dresses/shop-by-category/mini-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "mini-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/mini-dresses"
+            ]
+          },
+          {
+            "id": "dresses-midi-dresses",
+            "label": "Midi Dresses",
+            "slug": "dresses/shop-by-category/midi-dresses",
+            "url": "/dresses/shop-by-category/midi-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "midi-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/midi-dresses"
+            ]
+          },
+          {
+            "id": "dresses-maxi-dresses",
+            "label": "Maxi Dresses",
+            "slug": "dresses/shop-by-category/maxi-dresses",
+            "url": "/dresses/shop-by-category/maxi-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "maxi-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/maxi-dresses"
+            ]
+          },
+          {
+            "id": "dresses-jumpsuits",
+            "label": "Jumpsuits",
+            "slug": "dresses/shop-by-category/jumpsuits",
+            "url": "/dresses/shop-by-category/jumpsuits",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "jumpsuits"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/jumpsuits"
+            ]
+          },
+          {
+            "id": "dresses-two-piece-sets",
+            "label": "Two-Piece Sets",
+            "slug": "dresses/shop-by-category/two-piece-sets",
+            "url": "/dresses/shop-by-category/two-piece-sets",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "two-piece-sets"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/two-piece-sets"
+            ]
+          },
+          {
+            "id": "dresses-formal-wear",
+            "label": "Formal Wear",
+            "slug": "dresses/shop-by-category/formal-wear",
+            "url": "/dresses/shop-by-category/formal-wear",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "formal-wear"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/formal-wear"
+            ]
+          },
+          {
+            "id": "dresses-coats-jackets",
+            "label": "Coats & Jackets",
+            "slug": "dresses/shop-by-category/coats-and-jackets",
+            "url": "/dresses/shop-by-category/coats-and-jackets",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-category",
+              "values": [
+                "coats-jackets"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/coats-jackets"
+            ]
+          }
+        ],
+        "title": "Shop by Category"
+      },
+      {
+        "id": "dresses-shop-by-occasion",
+        "items": [
+          {
+            "id": "dresses-birthday-dresses",
+            "label": "Birthday Dresses",
+            "slug": "dresses/shop-by-occasion/birthday-dresses",
+            "url": "/dresses/shop-by-occasion/birthday-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "birthday-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/birthday-dresses"
+            ]
+          },
+          {
+            "id": "dresses-party-dresses",
+            "label": "Party Dresses",
+            "slug": "dresses/shop-by-occasion/party-dresses",
+            "url": "/dresses/shop-by-occasion/party-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "party-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/party-dresses"
+            ]
+          },
+          {
+            "id": "dresses-cocktail-dresses",
+            "label": "Cocktail Dresses",
+            "slug": "dresses/shop-by-occasion/cocktail-dresses",
+            "url": "/dresses/shop-by-occasion/cocktail-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "cocktail-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/cocktail-dresses"
+            ]
+          },
+          {
+            "id": "dresses-wedding-guest-dresses",
+            "label": "Wedding Guest Dresses",
+            "slug": "dresses/shop-by-occasion/wedding-guest-dresses",
+            "url": "/dresses/shop-by-occasion/wedding-guest-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "wedding-guest-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/wedding-guest-dresses"
+            ]
+          },
+          {
+            "id": "dresses-evening-dresses",
+            "label": "Evening Dresses",
+            "slug": "dresses/shop-by-occasion/evening-dresses",
+            "url": "/dresses/shop-by-occasion/evening-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "evening-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/evening-dresses"
+            ]
+          },
+          {
+            "id": "dresses-gala-dresses",
+            "label": "Gala Dresses",
+            "slug": "dresses/shop-by-occasion/gala-dresses",
+            "url": "/dresses/shop-by-occasion/gala-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "gala-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/gala-dresses"
+            ]
+          },
+          {
+            "id": "dresses-prom-dresses",
+            "label": "Prom Dresses",
+            "slug": "dresses/shop-by-occasion/prom-dresses",
+            "url": "/dresses/shop-by-occasion/prom-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "prom-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/prom-dresses"
+            ]
+          },
+          {
+            "id": "dresses-prom-gala-dresses",
+            "label": "Prom & Gala Dresses",
+            "slug": "dresses/shop-by-occasion/prom-and-gala-dresses",
+            "url": "/dresses/shop-by-occasion/prom-and-gala-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "prom-dresses",
+                "gala-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/prom-gala-dresses"
+            ]
+          },
+          {
+            "id": "dresses-formal-dresses",
+            "label": "Formal Dresses",
+            "slug": "dresses/shop-by-occasion/formal-dresses",
+            "url": "/dresses/shop-by-occasion/formal-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-occasion",
+              "values": [
+                "formal-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/formal-dresses"
+            ]
+          }
+        ],
+        "title": "Shop by Occasion"
+      },
+      {
+        "id": "dresses-shop-by-style",
+        "items": [
+          {
+            "id": "dresses-bodycon-dresses",
+            "label": "Bodycon Dresses",
+            "slug": "dresses/shop-by-style/bodycon-dresses",
+            "url": "/dresses/shop-by-style/bodycon-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "bodycon-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/bodycon-dresses"
+            ]
+          },
+          {
+            "id": "dresses-one-shoulder-dresses",
+            "label": "One-Shoulder Dresses",
+            "slug": "dresses/shop-by-style/one-shoulder-dresses",
+            "url": "/dresses/shop-by-style/one-shoulder-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "one-shoulder-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/one-shoulder-dresses"
+            ]
+          },
+          {
+            "id": "dresses-off-shoulder-dresses",
+            "label": "Off-Shoulder Dresses",
+            "slug": "dresses/shop-by-style/off-shoulder-dresses",
+            "url": "/dresses/shop-by-style/off-shoulder-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "off-shoulder-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/off-shoulder-dresses"
+            ]
+          },
+          {
+            "id": "dresses-halter-neck-dresses",
+            "label": "Halter Neck Dresses",
+            "slug": "dresses/shop-by-style/halter-neck-dresses",
+            "url": "/dresses/shop-by-style/halter-neck-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "halter-neck-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/halter-neck-dresses"
+            ]
+          },
+          {
+            "id": "dresses-long-sleeve-dresses",
+            "label": "Long-Sleeve Dresses",
+            "slug": "dresses/shop-by-style/long-sleeve-dresses",
+            "url": "/dresses/shop-by-style/long-sleeve-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "long-sleeve-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/long-sleeve-dresses"
+            ]
+          },
+          {
+            "id": "dresses-backless-dresses",
+            "label": "Backless Dresses",
+            "slug": "dresses/shop-by-style/backless-dresses",
+            "url": "/dresses/shop-by-style/backless-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "backless-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/backless-dresses"
+            ]
+          },
+          {
+            "id": "dresses-embellished-dresses",
+            "label": "Embellished Dresses",
+            "slug": "dresses/shop-by-style/embellished-dresses",
+            "url": "/dresses/shop-by-style/embellished-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "embellished-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/embellished-dresses"
+            ]
+          },
+          {
+            "id": "dresses-corset-dresses",
+            "label": "Corset Dresses",
+            "slug": "dresses/shop-by-style/corset-dresses",
+            "url": "/dresses/shop-by-style/corset-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-style",
+              "values": [
+                "corset-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/corset-dresses"
+            ]
+          }
+        ],
+        "title": "Shop by Style"
+      },
+      {
+        "id": "dresses-shop-by-fabric",
+        "items": [
+          {
+            "id": "dresses-satin-dresses",
+            "label": "Satin Dresses",
+            "slug": "dresses/shop-by-fabric/satin-dresses",
+            "url": "/dresses/shop-by-fabric/satin-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "satin-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/satin-dresses"
+            ]
+          },
+          {
+            "id": "dresses-lace-dresses",
+            "label": "Lace Dresses",
+            "slug": "dresses/shop-by-fabric/lace-dresses",
+            "url": "/dresses/shop-by-fabric/lace-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "lace-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/lace-dresses"
+            ]
+          },
+          {
+            "id": "dresses-sequin-dresses",
+            "label": "Sequin Dresses",
+            "slug": "dresses/shop-by-fabric/sequin-dresses",
+            "url": "/dresses/shop-by-fabric/sequin-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "sequin-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/sequin-dresses"
+            ]
+          },
+          {
+            "id": "dresses-mesh-dresses",
+            "label": "Mesh Dresses",
+            "slug": "dresses/shop-by-fabric/mesh-dresses",
+            "url": "/dresses/shop-by-fabric/mesh-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "mesh-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/mesh-dresses"
+            ]
+          },
+          {
+            "id": "dresses-velvet-dresses",
+            "label": "Velvet Dresses",
+            "slug": "dresses/shop-by-fabric/velvet-dresses",
+            "url": "/dresses/shop-by-fabric/velvet-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "velvet-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/velvet-dresses"
+            ]
+          },
+          {
+            "id": "dresses-chiffon-dresses",
+            "label": "Chiffon Dresses",
+            "slug": "dresses/shop-by-fabric/chiffon-dresses",
+            "url": "/dresses/shop-by-fabric/chiffon-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "chiffon-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/chiffon-dresses"
+            ]
+          },
+          {
+            "id": "dresses-bandage-dresses",
+            "label": "Bandage Dresses",
+            "slug": "dresses/shop-by-fabric/bandage-dresses",
+            "url": "/dresses/shop-by-fabric/bandage-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "bandage-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/bandage-dresses"
+            ]
+          },
+          {
+            "id": "dresses-silk-dresses",
+            "label": "Silk Dresses",
+            "slug": "dresses/shop-by-fabric/silk-dresses",
+            "url": "/dresses/shop-by-fabric/silk-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shop-by-fabric",
+              "values": [
+                "silk-dresses"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/silk-dresses"
+            ]
+          }
+        ],
+        "title": "Shop by Fabric"
+      },
+      {
+        "id": "dresses-shop-by-colour",
+        "items": [
+          {
+            "id": "dresses-black-dresses",
+            "label": "Black Dresses",
+            "slug": "dresses/shop-by-colour/black-dresses",
+            "url": "/dresses/shop-by-colour/black-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "black"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/black-dresses"
+            ]
+          },
+          {
+            "id": "dresses-white-dresses",
+            "label": "White Dresses",
+            "slug": "dresses/shop-by-colour/white-dresses",
+            "url": "/dresses/shop-by-colour/white-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "white"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/white-dresses"
+            ]
+          },
+          {
+            "id": "dresses-red-dresses",
+            "label": "Red Dresses",
+            "slug": "dresses/shop-by-colour/red-dresses",
+            "url": "/dresses/shop-by-colour/red-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "red"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/red-dresses"
+            ]
+          },
+          {
+            "id": "dresses-burgundy-dresses",
+            "label": "Burgundy Dresses",
+            "slug": "dresses/shop-by-colour/burgundy-dresses",
+            "url": "/dresses/shop-by-colour/burgundy-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "burgundy"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/burgundy-dresses"
+            ]
+          },
+          {
+            "id": "dresses-green-dresses",
+            "label": "Green Dresses",
+            "slug": "dresses/shop-by-colour/green-dresses",
+            "url": "/dresses/shop-by-colour/green-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "green"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/green-dresses"
+            ]
+          },
+          {
+            "id": "dresses-pink-dresses",
+            "label": "Pink Dresses",
+            "slug": "dresses/shop-by-colour/pink-dresses",
+            "url": "/dresses/shop-by-colour/pink-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "pink"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/pink-dresses"
+            ]
+          },
+          {
+            "id": "dresses-brown-dresses",
+            "label": "Brown Dresses",
+            "slug": "dresses/shop-by-colour/brown-dresses",
+            "url": "/dresses/shop-by-colour/brown-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "brown"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/brown-dresses"
+            ]
+          },
+          {
+            "id": "dresses-metallic-dresses",
+            "label": "Metallic Dresses",
+            "slug": "dresses/shop-by-colour/metallic-dresses",
+            "url": "/dresses/shop-by-colour/metallic-dresses",
+            "target": {
+              "kind": "filter",
+              "dimension": "color",
+              "values": [
+                "metallic"
+              ],
+              "category": "dresses"
+            },
+            "aliases": [
+              "dresses/metallic-dresses"
+            ]
+          }
+        ],
+        "title": "Shop by Colour"
+      }
+    ],
+    "target": {
+      "kind": "category",
+      "id": "dresses"
+    },
+    "i18nKey": "nav.dresses"
+  },
+  {
+    "id": "hair",
+    "label": "HAIR",
+    "slug": "hair",
+    "url": "/hair",
+    "tiles": [
+      {
+        "id": "hair-tile-1",
+        "title": "Straight Wigs",
+        "url": "/hair/wigs/straight-wigs",
+        "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:wigs",
+          "values": [
+            "straight-wigs"
+          ],
+          "category": "hair"
+        }
+      },
+      {
+        "id": "hair-tile-2",
+        "title": "Curly Wigs",
+        "url": "/hair/wigs/curly-wigs",
+        "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:wigs",
+          "values": [
+            "curly-wigs"
+          ],
+          "category": "hair"
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "hair-s1",
+        "title": "Wigs",
+        "items": [
+          {
+            "id": "hair-wigs-straight",
+            "label": "Straight Wigs",
+            "slug": "hair/wigs/straight-wigs",
+            "url": "/hair/wigs/straight-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "straight-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/straight",
+              "shop/hair/straight-wigs",
+              "shop/straight-wigs"
+            ]
+          },
+          {
+            "id": "hair-wigs-curly",
+            "label": "Curly Wigs",
+            "slug": "hair/wigs/curly-wigs",
+            "url": "/hair/wigs/curly-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "curly-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/curly",
+              "shop/hair/curly-wigs",
+              "shop/curly-wigs"
+            ]
+          },
+          {
+            "id": "hair-wigs-wavy",
+            "label": "Wavy Wigs",
+            "slug": "hair/wigs/wavy-wigs",
+            "url": "/hair/wigs/wavy-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "wavy-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/wavy"
+            ]
+          },
+          {
+            "id": "hair-wigs-bouncy",
+            "label": "Bouncy Wigs",
+            "slug": "hair/wigs/bouncy-wigs",
+            "url": "/hair/wigs/bouncy-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "bouncy-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/bouncy"
+            ]
+          },
+          {
+            "id": "hair-wigs-braided",
+            "label": "Braided Wigs",
+            "slug": "hair/wigs/braided-wigs",
+            "url": "/hair/wigs/braided-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "braided-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/braided",
+              "shop/hair/braided-wigs",
+              "shop/braided-wigs"
+            ]
+          },
+          {
+            "id": "hair-wigs-short",
+            "label": "Short Wigs",
+            "slug": "hair/wigs/short-wigs",
+            "url": "/hair/wigs/short-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "short-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/short"
+            ]
+          },
+          {
+            "id": "hair-wigs-kinky",
+            "label": "Kinky Wigs",
+            "slug": "hair/wigs/kinky-wigs",
+            "url": "/hair/wigs/kinky-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "kinky-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/kinky"
+            ]
+          },
+          {
+            "id": "hair-wigs-yaky",
+            "label": "Yaky Wigs",
+            "slug": "hair/wigs/yaky-wigs",
+            "url": "/hair/wigs/yaky-wigs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "yaky-wigs"
+              ],
+              "category": "hair"
+            },
+            "aliases": [
+              "hair/wigs/yaky"
+            ]
+          },
+          {
+            "id": "hair-wigs-locs",
+            "label": "Locs",
+            "slug": "hair/wigs/locs",
+            "url": "/hair/wigs/locs",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:wigs",
+              "values": [
+                "locs"
+              ],
+              "category": "hair"
+            }
+          }
+        ]
+      }
+    ],
+    "target": {
+      "kind": "category",
+      "id": "hair"
+    },
+    "i18nKey": "nav.hair"
+  },
+  {
+    "id": "accessories",
+    "label": "ACCESSORIES",
+    "slug": "accessories",
+    "url": "/accessories",
+    "tiles": [
+      {
+        "id": "acc-tile-1",
+        "title": "Handbags",
+        "url": "/accessories/bags/handbags",
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:bags",
+          "values": [
+            "handbags"
+          ],
+          "category": "accessories"
+        }
+      },
+      {
+        "id": "acc-tile-2",
+        "title": "Heels",
+        "url": "/accessories/shoes/heels",
+        "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=900&auto=format&fit=crop",
+        "target": {
+          "kind": "filter",
+          "dimension": "subcat:shoes",
+          "values": [
+            "heels"
+          ],
+          "category": "accessories"
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "accessories-s1",
+        "title": "Shoes",
+        "items": [
+          {
+            "id": "accessories-shoes-heels",
+            "label": "Heels",
+            "slug": "accessories/shoes/heels",
+            "url": "/accessories/shoes/heels",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:shoes",
+              "values": [
+                "heels"
+              ],
+              "category": "accessories"
+            }
+          }
+        ]
+      },
+      {
+        "id": "accessories-s2",
+        "title": "Bags",
+        "items": [
+          {
+            "id": "accessories-bags-handbags",
+            "label": "Handbags",
+            "slug": "accessories/bags/handbags",
+            "url": "/accessories/bags/handbags",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:bags",
+              "values": [
+                "handbags"
+              ],
+              "category": "accessories"
+            }
+          },
+          {
+            "id": "accessories-bags-clutch",
+            "label": "Clutch Bags",
+            "slug": "accessories/bags/clutch-bags",
+            "url": "/accessories/bags/clutch-bags",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:bags",
+              "values": [
+                "clutch-bags"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/bags/clutch"
+            ]
+          },
+          {
+            "id": "accessories-bags-shoulder",
+            "label": "Shoulder Bags",
+            "slug": "accessories/bags/shoulder-bags",
+            "url": "/accessories/bags/shoulder-bags",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:bags",
+              "values": [
+                "shoulder-bags"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/bags/shoulder"
+            ]
+          },
+          {
+            "id": "accessories-bags-mini",
+            "label": "Mini Bags",
+            "slug": "accessories/bags/mini-bags",
+            "url": "/accessories/bags/mini-bags",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:bags",
+              "values": [
+                "mini-bags"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/bags/mini"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "accessories-s3",
+        "title": "Jewellery",
+        "items": [
+          {
+            "id": "accessories-jewelry-earrings",
+            "label": "Earrings",
+            "slug": "accessories/jewellery/earrings",
+            "url": "/accessories/jewellery/earrings",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:jewellery",
+              "values": [
+                "earrings"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/jewelry/earrings",
+              "shop/accessories/earrings",
+              "shop/earrings"
+            ]
+          },
+          {
+            "id": "accessories-jewelry-necklaces",
+            "label": "Necklaces",
+            "slug": "accessories/jewellery/necklaces",
+            "url": "/accessories/jewellery/necklaces",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:jewellery",
+              "values": [
+                "necklaces"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/jewelry/necklaces"
+            ]
+          },
+          {
+            "id": "accessories-jewelry-bracelets",
+            "label": "Bracelets & Bangles",
+            "slug": "accessories/jewellery/bracelets-and-bangles",
+            "url": "/accessories/jewellery/bracelets-and-bangles",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:jewellery",
+              "values": [
+                "bracelets-bangles"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/jewelry/bracelets"
+            ]
+          },
+          {
+            "id": "accessories-jewelry-rings",
+            "label": "Rings",
+            "slug": "accessories/jewellery/rings",
+            "url": "/accessories/jewellery/rings",
+            "target": {
+              "kind": "filter",
+              "dimension": "subcat:jewellery",
+              "values": [
+                "rings"
+              ],
+              "category": "accessories"
+            },
+            "aliases": [
+              "accessories/jewelry/rings"
+            ]
+          }
+        ]
+      }
+    ],
+    "target": {
+      "kind": "category",
+      "id": "accessories"
+    },
+    "i18nKey": "nav.accessories"
+  }
+]

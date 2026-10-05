@@ -15,6 +15,7 @@
     "seed:sizes": "node scripts/seed-sizes.js",
     "seed:categories": "node scripts/seed-categories.js",
     "seed:colors": "node scripts/seed-colors.js",
+    "seed:navigation": "node scripts/seed-navigation.js",
     "test": "node --test --test-concurrency=1 test/*.test.js",
     "lint": "eslint ."
   },

@@ -136,6 +136,10 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `PUT` | `/admin/taxonomy/categories/order` | Bearer + role | `{ ids }` — every category id in the new order. Anything but exactly the current set → `409` |
 | `DELETE` | `/admin/taxonomy/categories/:id` | Bearer + role | removes one and spends its id (`FreedId` kind `category`) |
 | `POST` | `/admin/taxonomy/categories/reset` | Bearer + role | back to the shipped three; every id added since is spent |
+| `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
+| `GET` | `/admin/navigation` | Bearer | same, to staff |
+| `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |
+| `POST` | `/admin/navigation/reset` | Bearer + role | back to the shipped menu; bumps the version so an open editor cannot save over the reset |
 | `GET` | `/storefront/taxonomy/colors` | — | every colour (`id`, `name`, `hex`, `family`), A–Z. Public: every product's swatches and the colour filter resolve through it |
 | `GET` | `/admin/taxonomy/colors` · `/admin/taxonomy/colors/:id` | Bearer | same list to staff; `:id` unknown → `404` |
 | `POST` | `/admin/taxonomy/colors` | Bearer + role | `{ name, hex, family }`, `strict()`. `201`. Id derived from the name past live and spent ids; duplicate name → `409` |
