@@ -23,6 +23,9 @@ enum AuditAction {
   STAFF_ROLE_CHANGE
   STAFF_STATUS_CHANGE
   PASSWORD_CHANGE
+  PROFILE_UPDATE
+  PASSWORD_RESET_REQUEST
+  PASSWORD_RESET
   SIZE_GUIDE_UPDATE
   SIZE_GUIDE_RESET
   SIZE_CREATE
@@ -87,6 +90,8 @@ model User {
   email              String
   passwordHash       String
   name               String?
+  /// A shopper's contact number, prefilled at checkout. Optional.
+  phone              String?
   role               String        @default("staff")
   preferences        Json?
   tokenVersion       Int           @default(0)
@@ -470,6 +475,20 @@ model Counter {
   value Int
 
   @@map("counters")
+}
+
+/// A password-reset link: one use, one hour. Only the token's hash is stored,
+/// so a leaked database cannot be used to reset anyone's password.
+model PasswordReset {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("password_resets")
 }
 
 /// An id that has been spent and must never be issued again.

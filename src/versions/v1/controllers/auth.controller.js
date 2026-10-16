@@ -124,3 +124,25 @@ export async function changePassword(req, res) {
   const user = await auth.changePassword(req.user.id, req.body, refreshToken);
   res.json({ data: user });
 }
+
+/** PATCH /auth/me — the caller's own name, phone, and (with their password) email. */
+export async function updateProfile(req, res) {
+  res.json({ data: await auth.updateProfile(req.user.id, req.body) });
+}
+
+/** POST /auth/password-reset — always 204, whether or not the address has an account. */
+export async function requestPasswordReset(req, res) {
+  await auth.requestPasswordReset({ realm: req.realm, email: req.body.email }, auth.requestMeta(req));
+  res.status(204).end();
+}
+
+/** POST /auth/password-reset/confirm — sets the new password and signs the account out everywhere. */
+export async function confirmPasswordReset(req, res) {
+  await auth.confirmPasswordReset({ realm: req.realm, ...req.body }, auth.requestMeta(req));
+  res.status(204).end();
+}
+
+/** GET /admin/customers — shoppers with an account, for the Customers page. */
+export async function listCustomers(req, res) {
+  res.json({ data: await auth.listCustomers() });
+}

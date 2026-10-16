@@ -57,6 +57,20 @@ export const staffStatusSchema = z.object({
     }),
 });
 
+/** `PATCH /auth/me`: the caller's own details. Changing `email` needs `currentPassword`. */
+export const profileSchema = z
+  .object({
+    name: z.string().trim().max(120).optional(),
+    phone: z.string().trim().max(40).optional(),
+    email: email.optional(),
+    currentPassword: z.string().max(200).optional(),
+  })
+  .strict();
+
+export const passwordResetRequestSchema = z.object({ email }).strict();
+
+export const passwordResetConfirmSchema = z.object({ token: z.string().min(20).max(200), password }).strict();
+
 export const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, "Enter your current password."),

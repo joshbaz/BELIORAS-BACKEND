@@ -19,7 +19,7 @@ import { z } from "zod";
 /** Addresses the storefront already uses. Mirrors the client's `RESERVED_SLUGS`. */
 export const RESERVED_SLUGS = new Set([
   "product", "checkout", "account", "wishlist", "search", "login", "signup",
-  "forgot-password", "atelier", "dashboard", "faq", "about-us", "contact-us",
+  "forgot-password", "reset-password", "atelier", "dashboard", "faq", "about-us", "contact-us",
   "order-tracking", "hair-length-guide", "shoe-size-guide", "privacy-policy",
   "terms-of-service", "shipping-policy", "return-and-refund-policy",
   "cookie-policy", "whats-new", "newsletter",

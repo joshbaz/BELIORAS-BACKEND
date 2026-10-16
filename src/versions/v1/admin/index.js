@@ -7,6 +7,10 @@ import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
 import colorRoutes from "../routes/colors.routes.js";
 import navigationRoutes from "../routes/navigation.routes.js";
+import { listCustomers } from "../controllers/auth.controller.js";
+import { authenticate } from "../middlewares/authenticate.js";
+import { requireBoundary } from "../middlewares/boundary.js";
+import { requireRole } from "../middlewares/requireRole.js";
 import orderRoutes from "../routes/orders.routes.js";
 import salesRoutes from "../routes/sales.routes.js";
 import uploadRoutes from "../routes/uploads.routes.js";
@@ -55,6 +59,9 @@ router.use("/uploads", uploadRoutes);
 // and the store settings that price an order and print its invoice.
 router.use("/orders", orderRoutes);
 router.use(salesRoutes);
+
+// Shoppers with an account, for the Customers page (read-only).
+router.get("/customers", authenticate, requireBoundary, requireRole("support", "staff", "finance", "super-admin"), listCustomers);
 
 // TODO: Mount sales report routes here
 

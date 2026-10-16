@@ -10,6 +10,8 @@ import { hashToken, signAccessToken, signRefreshToken, verifyRefreshToken } from
 import { ROLES, defaultRoleFor, assertAssignableRole } from "./roles.js";
 import { publicUser } from "./guards.js";
 import * as sessionCache from "./sessionCache.js";
+import { randomBytes } from "node:crypto";
+import { queueEmail } from "../emails/emails.service.js";
 
 const SALT_ROUNDS = 10;
 
@@ -83,7 +85,99 @@ export async function register({ realm, name, email, password }, meta = {}) {
 
   const session = await issueSession(user, meta);
   await audit(user.id, realm, "REGISTER", meta);
+  if (realm === "customer") {
+    await queueEmail(prisma, { type: "welcome", to: user.email, subject: "Welcome to Belioras", data: { name: user.name } });
+  }
   return session;
+}
+
+/**
+ * The caller's own name, phone and email. Changing the email — where order
+ * confirmations and reset links go — needs the current password, checked here
+ * rather than in a separate request, so a wrong password cannot half-apply.
+ */
+export async function updateProfile(userId, { name, phone, email, currentPassword }) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new ApiError("Please sign in to continue.", 401);
+
+  const nextEmail = email && email !== user.email ? email : null;
+  if (nextEmail) {
+    if (!currentPassword || !(await bcrypt.compare(currentPassword, user.passwordHash))) {
+      throw new ApiError("Enter your current password to change your email.", 401, {
+        details: { fieldErrors: { currentPassword: "Your current password is incorrect." } },
+      });
+    }
+    const taken = await prisma.user.findUnique({ where: { realm_email: { realm: user.realm, email: nextEmail } } });
+    if (taken) throw new ApiError("An account with this email already exists.", 409);
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      ...(name !== undefined ? { name: name || null } : {}),
+      ...(phone !== undefined ? { phone: phone || null } : {}),
+      ...(nextEmail ? { email: nextEmail } : {}),
+    },
+  });
+  await sessionCache.del(userId);
+  const fields = Object.entries({ name, phone, email }).filter(([, v]) => v !== undefined).map(([k]) => k);
+  await audit(userId, user.realm, "PROFILE_UPDATE", { meta: { fields } });
+  return publicUser(updated);
+}
+
+const RESET_TTL_MINUTES = 60;
+
+/**
+ * Starts a password reset. Always answers the same, whether or not the address
+ * has an account, so the form cannot be used to find out who shops here.
+ *
+ * Only the token's hash is stored. The link goes out by email; until a mail
+ * provider is connected it sits in the outbox, and outside production the
+ * link is included there so the flow can be tested.
+ */
+export async function requestPasswordReset({ realm, email }, meta = {}) {
+  const user = await prisma.user.findUnique({ where: { realm_email: { realm, email } } });
+  if (!user || user.status === "suspended") return;
+
+  const token = randomBytes(32).toString("base64url");
+  await prisma.passwordReset.create({
+    data: { userId: user.id, tokenHash: hashToken(token), expiresAt: new Date(Date.now() + RESET_TTL_MINUTES * 60_000) },
+  });
+  const link = `${env.CLIENT_ORIGIN}/${realm === "staff" ? "atelier/" : ""}reset-password?token=${token}`;
+  await queueEmail(prisma, {
+    type: "password-reset",
+    to: user.email,
+    subject: "Reset your Belioras password",
+    data: { expiresInMinutes: RESET_TTL_MINUTES, ...(env.NODE_ENV !== "production" ? { link } : {}) },
+  });
+  await audit(user.id, realm, "PASSWORD_RESET_REQUEST", meta);
+}
+
+/**
+ * Finishes a reset: sets the new password, uses up the link, and signs the
+ * account out everywhere — whoever asked for the reset may not be the only
+ * one who had the old password.
+ */
+export async function confirmPasswordReset({ realm, token, password }, meta = {}) {
+  const reset = await prisma.passwordReset.findUnique({ where: { tokenHash: hashToken(token) } });
+  const user = reset ? await prisma.user.findUnique({ where: { id: reset.userId } }) : null;
+  if (!reset || reset.usedAt || reset.expiresAt < new Date() || !user || user.realm !== realm) {
+    throw new ApiError("This reset link has expired or was already used. Ask for a new one.", 400);
+  }
+  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: user.id }, data: { passwordHash, mustChangePassword: false, tokenVersion: { increment: 1 } } }),
+    prisma.passwordReset.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
+    prisma.session.deleteMany({ where: { userId: user.id } }),
+  ]);
+  await sessionCache.del(user.id);
+  await audit(user.id, realm, "PASSWORD_RESET", meta);
+}
+
+/** Shoppers with an account, newest first, for the dashboard's Customers page. */
+export async function listCustomers() {
+  const users = await prisma.user.findMany({ where: { realm: "customer" }, orderBy: { createdAt: "desc" } });
+  return users.map(publicUser);
 }
 
 export async function login({ realm, email, password }, meta = {}) {

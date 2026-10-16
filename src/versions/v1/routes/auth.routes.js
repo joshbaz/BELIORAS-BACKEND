@@ -16,6 +16,9 @@ import {
   register,
   revokeSession,
   updatePreferences,
+  updateProfile,
+  requestPasswordReset,
+  confirmPasswordReset,
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
@@ -26,7 +29,10 @@ import { ROLES } from "../../../features/auth/roles.js";
 import {
   changePasswordSchema,
   loginSchema,
+  passwordResetConfirmSchema,
+  passwordResetRequestSchema,
   preferencesSchema,
+  profileSchema,
   registerSchema,
   staffCreateSchema,
   staffRoleSchema,
@@ -46,8 +52,16 @@ router.post("/refresh", refreshLimiter, refreshSession);
 router.post("/logout", logout);
 router.post("/logout-all", logoutAll);
 
+// Forgotten password: ask for a link (always 204), then use it once. Rate
+// limited like sign-in, since both take an email address from anyone.
+router.post("/password-reset", authLimiter, validate(passwordResetRequestSchema), requestPasswordReset);
+router.post("/password-reset/confirm", authLimiter, validate(passwordResetConfirmSchema), confirmPasswordReset);
+
 // Authenticated
 router.get("/me", authenticate, requireBoundary, getMe);
+// Changing the email inside this body needs the current password, so it shares
+// the password limiter.
+router.patch("/me", authenticate, requireBoundary, passwordLimiter, validate(profileSchema), updateProfile);
 router.patch("/me/preferences", authenticate, requireBoundary, validate(preferencesSchema), updatePreferences);
 
 // Password change — any signed-in member of this realm, and rate limited
