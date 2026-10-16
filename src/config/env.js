@@ -24,6 +24,8 @@ const envSchema = z.object({
   // On by default outside production and refused in production unless set,
   // because it marks an order paid without any money moving.
   PAYMENTS_SIMULATED: z.enum(["true", "false"]).optional(),
+  // How long an unpaid order holds its stock before it lapses and is cancelled.
+  ORDER_PAYMENT_TTL_MINUTES: z.coerce.number().int().positive().default(30),
   RATE_LIMIT_ENABLED: z
     .enum(["true", "false"])
     .default("true")

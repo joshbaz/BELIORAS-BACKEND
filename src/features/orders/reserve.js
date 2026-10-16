@@ -1,11 +1,17 @@
 /* Reserved Units */
 
+import { env } from "../../config/index.js";
 import { ANY, isTracked } from "../products/stock.js";
 
 /**
  * Units held by orders that are placed but not yet shipped (to pay, to ship).
  * Never stored: worked out from the orders themselves, so it cannot drift.
  * Available = on hand − held, and is what a shopper can buy.
+ *
+ * An unpaid order holds only for `ORDER_PAYMENT_TTL_MINUTES`: a checkout that
+ * was abandoned at the payment step must not keep a piece off sale for good.
+ * The hold lapses by time alone, so stock comes back the moment it expires;
+ * `expireUnpaidOrders` later marks the order cancelled and tells the shopper.
  */
 
 export const HOLDING = ["to-pay", "to-ship"];
@@ -38,9 +44,19 @@ export function variantOf(product, line, byName) {
  * Held units by variant key and by product (`variantKey(id)` is its total).
  * `productIds` narrows the read to the orders that matter for a checkout.
  */
+/** The moment before which an unpaid order no longer holds anything. */
+export function paymentCutoff(now = Date.now()) {
+  return new Date(now - env.ORDER_PAYMENT_TTL_MINUTES * 60_000);
+}
+
+/** Orders that hold stock right now: paid and unshipped, or unpaid and still within their payment window. */
+export function holdingWhere() {
+  return { OR: [{ status: "to-ship" }, { status: "to-pay", createdAt: { gte: paymentCutoff() } }] };
+}
+
 export async function reservedUnits(db, productIds = null) {
   const byName = await colorIdsByName(db);
-  const orders = await db.order.findMany({ where: { status: { in: HOLDING } }, select: { items: true } });
+  const orders = await db.order.findMany({ where: holdingWhere(), select: { items: true } });
   const wanted = productIds ? new Set(productIds) : null;
   const map = new Map();
   const add = (key, n) => map.set(key, (map.get(key) ?? 0) + n);

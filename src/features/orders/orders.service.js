@@ -14,7 +14,7 @@ import { ANY, onHandOf } from "../products/stock.js";
 import { getStoreSettings } from "../settings/settings.service.js";
 import { inTransaction, lock, nextValue } from "./counters.js";
 import { computeTotals, round2 } from "./pricing.js";
-import { HOLDING, colorIdsByName, reservedUnits, variantKey, variantOf } from "./reserve.js";
+import { HOLDING, colorIdsByName, paymentCutoff, reservedUnits, variantKey, variantOf } from "./reserve.js";
 
 /**
  * Orders: placing them, paying for them, and every change after.
@@ -295,6 +295,34 @@ async function confirmPayment(tx, order, charge) {
   return updated;
 }
 
+/**
+ * Cancels unpaid orders whose payment window has passed, and tells each
+ * shopper. Their stock was already back on sale (see `reserve.js`); this only
+ * makes the order say so. Each update is conditional on the order still being
+ * unpaid, so a payment landing at the same moment is never overwritten.
+ * Returns the ids it cancelled.
+ */
+export async function expireUnpaidOrders() {
+  const stale = await prisma.order.findMany({ where: { status: "to-pay", createdAt: { lt: paymentCutoff() } }, select: { id: true, email: true } });
+  const cancelled = [];
+  for (const { id, email } of stale) {
+    const { count } = await prisma.order.updateMany({
+      where: { id, status: "to-pay" },
+      data: { status: "cancelled", cancelReason: "Payment was not completed in time" },
+    });
+    if (!count) continue;
+    cancelled.push(id);
+    await queueEmail(prisma, {
+      type: "order-cancelled",
+      to: email,
+      subject: `Your Belioras order ${id} was cancelled`,
+      orderId: id,
+      data: { refunded: 0, reason: "expired" },
+    });
+  }
+  return cancelled;
+}
+
 /** The development payment stand-in: charges and confirms at once. Refused where payments are not simulated. */
 export async function simulatePayment(id, { method = "card" }, who) {
   if (!paymentsSimulated()) throw new ApiError("Payments are taken by the payment provider here.", 403);
@@ -302,6 +330,10 @@ export async function simulatePayment(id, { method = "card" }, who) {
     await inTransaction(async (tx) => {
       const order = await findFor(id, who, tx);
       if (normalizeStatus(order.status) !== "to-pay") return order;
+      // Its hold has lapsed, so its pieces may already be someone else's.
+      if (order.createdAt < paymentCutoff()) {
+        throw new ApiError("This order wasn't paid in time and its pieces were released. Place it again from your bag.", 409);
+      }
       const charge = await simulateCharge(tx, order, method);
       return confirmPayment(tx, order, charge);
     }),

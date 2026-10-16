@@ -8,6 +8,7 @@ import { prisma } from "./db/prisma.js";
 import { redis } from "./db/redis.js";
 import { logger } from "./core/logger.js";
 import { initSocket } from "./sockets/index.js";
+import { expireUnpaidOrders } from "./features/orders/orders.service.js";
 
 const app = createApp();
 const server = http.createServer(app);
@@ -39,6 +40,16 @@ async function main() {
     );
     logger.info("Socket.IO attached");
   });
+
+  // Once a minute; `unref` so it never keeps the process alive: unpaid orders
+  // past their payment window are marked cancelled and the shopper told (their
+  // stock is already back on sale — holds lapse by time).
+  const sweep = () =>
+    expireUnpaidOrders()
+      .then((ids) => ids.length && logger.info({ ids }, "Expired unpaid orders"))
+      .catch((err) => logger.error({ err }, "Background sweep failed"));
+  sweep();
+  setInterval(sweep, 60_000).unref();
 }
 
 function shutdown(signal) {

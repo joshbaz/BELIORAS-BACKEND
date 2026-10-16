@@ -258,6 +258,32 @@ describe("after payment — stock and money follow the order", () => {
   });
 });
 
+describe("unpaid orders lapse", () => {
+  it("stops holding stock after the payment window, refuses a late payment, and the sweep cancels it", async () => {
+    const { prisma } = await import("../src/db/prisma.js");
+    await prisma.product.update({ where: { id: "g1" }, data: { colorways: [{ colorId: "ebony", images: [], stock: { s: 1, m: 0 } }], stock: 1 } });
+    await prisma.order.updateMany({ where: { status: { in: ["to-pay", "to-ship"] } }, data: { status: "cancelled" } });
+
+    const placed = await agent.post(`${SHOP}/checkout`).send(order({ email: "late@example.com" }));
+    assert.equal(placed.status, 201);
+    assert.equal((await agent.get(`${SHOP}/products/gown`)).body.data.colorways[0].stock.s, 0, "held while it can still be paid");
+
+    // Forty minutes later, still unpaid.
+    await prisma.order.update({ where: { id: placed.body.data.id }, data: { createdAt: new Date(Date.now() - 40 * 60_000) } });
+    assert.equal((await agent.get(`${SHOP}/products/gown`)).body.data.colorways[0].stock.s, 1, "the hold lapsed: back on sale");
+
+    const late = await agent.post(`${SHOP}/checkout/${placed.body.data.id}/simulate-payment`).send({ email: "late@example.com" });
+    assert.equal(late.status, 409);
+    assert.match(late.body.error.message, /wasn't paid in time/);
+
+    const { expireUnpaidOrders } = await import("../src/features/orders/orders.service.js");
+    assert.deepEqual(await expireUnpaidOrders(), [placed.body.data.id]);
+    const after = await prisma.order.findUnique({ where: { id: placed.body.data.id } });
+    assert.equal(after.status, "cancelled");
+    assert.ok(await prisma.email.findFirst({ where: { orderId: placed.body.data.id, type: "order-cancelled" } }));
+  });
+});
+
 describe("store settings", () => {
   it("serves settings to the shop and lets only administrators change them", async () => {
     const res = await agent.get(`${SHOP}/settings`);
