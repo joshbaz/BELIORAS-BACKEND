@@ -7,6 +7,8 @@ import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
 import colorRoutes from "../routes/colors.routes.js";
 import navigationRoutes from "../routes/navigation.routes.js";
+import productRoutes from "../routes/products.routes.js";
+import inventoryRoutes from "../routes/inventory.routes.js";
 import categoryRoutes from "../routes/categories.routes.js";
 
 const router = Router();
@@ -38,6 +40,11 @@ router.use("/taxonomy/colors", colorRoutes);
 // The mega menu, same section gate as the rest of the catalogue content.
 router.use("/navigation", navigationRoutes);
 
-// TODO: Mount inventory, global orders, sales report routes here
+// The catalogue and its stock. Product writes take the Products roles; stock
+// takes Inventory's, with order-driven moves open to whoever handles orders.
+router.use("/products", productRoutes);
+router.use("/inventory", inventoryRoutes);
+
+// TODO: Mount global orders, sales report routes here
 
 export default router;

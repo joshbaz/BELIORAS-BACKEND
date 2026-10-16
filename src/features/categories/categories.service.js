@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
 import { SEED_CATEGORIES } from "./seed.js";
+import { describeUsers, productsUsing } from "../products/products.service.js";
 
 /**
  * Categories: what a piece is, the sizes it offers, and its "Shop by …"
@@ -155,6 +156,19 @@ export async function updateCategory(id, body, actor, meta = {}) {
 
   const fields = clean(body, current);
   await assertNameFree(fields.name, id);
+
+  // A subcategory type still tagged on a live piece cannot be removed: the
+  // piece would keep a tag that no longer files it anywhere.
+  const kept = new Set(fields.subcategories.flatMap((s) => s.types.map((t) => `${s.id}:${t.id}`)));
+  for (const sub of current.subcategories ?? []) {
+    for (const type of sub.types ?? []) {
+      if (kept.has(`${sub.id}:${type.id}`)) continue;
+      const using = await productsUsing({ collectionId: id, subcategory: { sub: sub.id, type: type.id } });
+      if (using.length) {
+        throw new ApiError(`${type.name} is tagged on ${describeUsers(using)}. Untag it before removing it.`, 409);
+      }
+    }
+  }
   const record = await prisma.category.update({ where: { id }, data: fields });
   await audit(actor.id, "staff", "CATEGORY_UPDATE", {
     ...meta,
@@ -167,6 +181,11 @@ export async function updateCategory(id, body, actor, meta = {}) {
 export async function deleteCategory(id, actor, meta = {}) {
   const current = await prisma.category.findUnique({ where: { id } });
   if (!current) throw new ApiError("That category no longer exists.", 404);
+
+  const using = await productsUsing({ collectionId: id });
+  if (using.length) {
+    throw new ApiError(`${current.name} still holds ${describeUsers(using)}. Move them to another category first.`, 409);
+  }
 
   await prisma.$transaction([
     prisma.category.delete({ where: { id } }),

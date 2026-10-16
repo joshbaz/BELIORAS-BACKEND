@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "./slug.js";
 import { SEED_SIZES } from "./seed.js";
+import { describeUsers, productsUsing } from "../products/products.service.js";
 
 /**
  * The size list.
@@ -157,6 +158,15 @@ export async function renameSize(id, { name }, actor, meta = {}) {
 export async function deleteSize(id, actor, meta = {}) {
   const current = await prisma.size.findUnique({ where: { id } });
   if (!current) throw new ApiError("That size no longer exists.", 404);
+
+  // Now that categories and products live here, the guard the dashboard used
+  // to be alone in enforcing is the server's too.
+  const offering = (await prisma.category.findMany({ select: { name: true, sizes: true } })).filter((c) => c.sizes.includes(id));
+  if (offering.length) {
+    throw new ApiError(`${current.name} is offered by ${offering.map((c) => c.name).join(", ")}. Untick it there first.`, 409);
+  }
+  const using = await productsUsing({ sizeId: id });
+  if (using.length) throw new ApiError(`${current.name} is on ${describeUsers(using)}. Remove it from them first.`, 409);
 
   await prisma.$transaction([
     prisma.size.delete({ where: { id } }),

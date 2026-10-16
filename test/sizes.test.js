@@ -76,6 +76,11 @@ async function restoreList() {
 
 before(async () => {
   agent = await api();
+  // Categories and products now guard a size's delete. These tests are about
+  // the list itself, so they start with nothing using it.
+  const { prisma } = await import("../src/db/prisma.js");
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
   await restoreList();
   ids.content = await tokenFor("content");
   ids.staff = await tokenFor("staff");
@@ -280,6 +285,27 @@ describe("size list — deleting and spent ids", () => {
     const second = await agent.post(ADMIN).set("Authorization", ids.content).send({ name: "Tall" });
     assert.equal(second.body.data.id, "tall-2", "a re-added name must not reclaim the spent id");
     await agent.delete(`${ADMIN}/tall-2`).set("Authorization", ids.content);
+  });
+});
+
+describe("size list — in-use guard", () => {
+  it("refuses to delete a size a category offers or a product carries", async () => {
+    const { prisma } = await import("../src/db/prisma.js");
+    await prisma.category.create({ data: { id: "guard-cat", name: "Guard Cat", position: 0, sizes: ["s"], subcategories: [] } });
+    const offered = await agent.delete(`${ADMIN}/s`).set("Authorization", ids.content);
+    assert.equal(offered.status, 409);
+    assert.match(offered.body.error.message, /offered by Guard Cat/);
+
+    await prisma.category.update({ where: { id: "guard-cat" }, data: { sizes: [] } });
+    await prisma.product.create({
+      data: { id: "guard-p", slug: "guard-p", name: "Guard Piece", status: "active", collectionId: "guard-cat", price: 10, stock: 1, sizes: ["s"], tags: [], attributes: {} },
+    });
+    const carried = await agent.delete(`${ADMIN}/s`).set("Authorization", ids.content);
+    assert.equal(carried.status, 409);
+    assert.match(carried.body.error.message, /Guard Piece/);
+
+    await prisma.product.deleteMany({ where: { id: "guard-p" } });
+    await prisma.category.deleteMany({ where: { id: "guard-cat" } });
   });
 });
 

@@ -1,0 +1,355 @@
+[
+  {
+    "id": "p1",
+    "slug": "aurora-satin-midi-dress",
+    "name": "Aurora Satin Midi Dress",
+    "price": 129,
+    "originalPrice": 169,
+    "collectionId": "dresses",
+    "description": "Liquid satin midi with a softly draped neckline and concealed zip. Cut to skim the body without clinging, finished with a subtle side slit.",
+    "details": [
+      "Concealed back zip",
+      "Side slit",
+      "Fully lined",
+      "Made in Portugal"
+    ],
+    "materials": [
+      "95% viscose satin",
+      "5% elastane"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": true,
+    "images": [
+      "https://images.unsplash.com/photo-1613423755148-0ff5515d60be?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-18",
+    "featured": true,
+    "tags": [
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-fabric:satin-dresses"
+    ],
+    "sku": "BEL-P1",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1613423755148-0ff5515d60be?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        },
+        "video": {
+          "url": "https://assets.mixkit.co/videos/805/805-720.mp4",
+          "poster": "https://assets.mixkit.co/videos/805/805-thumb-720-0.jpg"
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 54,
+    "modelFit": {
+      "modelId": "lena",
+      "size": "xs"
+    }
+  },
+  {
+    "id": "p2",
+    "slug": "isabelle-linen-wrap-dress",
+    "name": "Isabelle Linen Wrap Dress",
+    "price": 98,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Airy European linen crafted into a timeless wrap silhouette. Tie waist, elbow sleeves, natural breathability for warm days.",
+    "details": [
+      "Adjustable wrap tie",
+      "Elbow-length sleeves",
+      "Side pockets"
+    ],
+    "materials": [
+      "100% European flax linen"
+    ],
+    "care": [
+      "machine-30",
+      "Reshape while damp",
+      "iron-high"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": true,
+    "images": [
+      "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-03-06",
+    "tags": [
+      "subcat:shop-by-category:midi-dresses"
+    ],
+    "sku": "BEL-P2",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "sand",
+        "images": [
+          "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "rosewood",
+        "images": [
+          "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 41
+  },
+  {
+    "id": "p3",
+    "slug": "serafina-velvet-slip-dress",
+    "name": "Serafina Velvet Slip Dress",
+    "price": 149,
+    "originalPrice": 199,
+    "collectionId": "dresses",
+    "description": "Deep-pile velvet slip with delicate adjustable straps. Falls to mid-calf with a bias cut that moves with you.",
+    "details": [
+      "Adjustable straps",
+      "Bias cut",
+      "V-neck"
+    ],
+    "materials": [
+      "92% cotton velvet",
+      "8% elastane"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "no-tumble"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": false,
+    "images": [
+      "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-03-20",
+    "tags": [
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-fabric:velvet-dresses"
+    ],
+    "sku": "BEL-P3",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "forest",
+        "images": [
+          "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 63,
+    "modelFit": {
+      "modelId": "lena",
+      "size": "xs"
+    }
+  },
+  {
+    "id": "p4",
+    "slug": "camille-maxi-dress",
+    "name": "Camille Pleated Maxi Dress",
+    "price": 118,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Featherlight pleated maxi with a square neckline and optional sash. Packable, effortless, endlessly wearable.",
+    "details": [
+      "Square neckline",
+      "Removable sash",
+      "Floor length"
+    ],
+    "materials": [
+      "100% polyester crepe"
+    ],
+    "care": [
+      "machine-30",
+      "hang-dry"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": false,
+    "images": [
+      "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-22",
+    "tags": [
+      "subcat:shop-by-category:maxi-dresses"
+    ],
+    "sku": "BEL-P4",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "sand",
+        "images": [
+          "https://images.unsplash.com/photo-1581750340249-ea1cf6560f37?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 50
+  }
+]

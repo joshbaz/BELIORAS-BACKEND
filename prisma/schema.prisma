@@ -40,6 +40,14 @@ enum AuditAction {
   COLOR_RESET
   NAVIGATION_UPDATE
   NAVIGATION_RESET
+  PRODUCT_CREATE
+  PRODUCT_UPDATE
+  PRODUCT_DELETE
+  PRODUCT_RESTORE
+  STOCK_ADJUST
+  STOCK_RECEIVE
+  STOCK_ORDER
+  INVENTORY_SETTINGS
 }
 
 enum AccountStatus {
@@ -66,29 +74,29 @@ enum AccountStatus {
 /// every existing token, and all of its sessions are deleted, because a role
 /// change alone leaves the person able to sign straight back in.
 model User {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  realm        Realm
-  email        String
-  passwordHash String
-  name         String?
-  role         String     @default("staff")
-  preferences  Json?
-  tokenVersion Int        @default(0)
+  id                 String        @id @default(auto()) @map("_id") @db.ObjectId
+  realm              Realm
+  email              String
+  passwordHash       String
+  name               String?
+  role               String        @default("staff")
+  preferences        Json?
+  tokenVersion       Int           @default(0)
   /// Set when an account was created by another admin with a temporary
   /// password. Such an account may sign in and change its password, but the
   /// dashboard gate keeps it out of the app until the flag clears, so a
   /// password that was read aloud in a meeting cannot stay valid for good.
-  mustChangePassword Boolean @default(false)
+  mustChangePassword Boolean       @default(false)
   /// Sign-in is refused while this is "suspended". Kept as a column rather than
   /// inferred from a missing role so an account can be switched back on without
   /// anyone having to remember what it used to be.
-  status     AccountStatus @default(active)
+  status             AccountStatus @default(active)
   /// When it was suspended, for the roster and the audit trail. Null while active.
-  suspendedAt DateTime?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  sessions     Session[]
-  auditLogs    AuditLog[]
+  suspendedAt        DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  sessions           Session[]
+  auditLogs          AuditLog[]
 
   @@unique([realm, email])
   @@index([realm, role])
@@ -99,15 +107,15 @@ model User {
 /// deletes the matching rows. The refreshHash is the SHA-256 of the refresh token
 /// so the raw token is never stored.
 model Session {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String    @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
   realm         Realm
-  refreshHash   String    @unique
+  refreshHash   String   @unique
   refreshExpiry DateTime
   userAgent     String?
   ip            String?
-  createdAt     DateTime  @default(now())
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("sessions")
@@ -261,6 +269,75 @@ model Navigation {
   updatedAt DateTime @updatedAt
 
   @@map("navigation")
+}
+
+/// A piece in the catalogue.
+///
+/// The columns are what the server's own rules and queries need: the address
+/// (`slug`, unique), what the shop may show (`status`, `deletedAt`), where it
+/// is filed (`collectionId`, `tags`), and stock (`stock`, `colorways`, `sizes`).
+/// Everything else a piece carries — description, care, photos, hair length,
+/// cost price… — is `attributes`, so a new field reaches the shop without a
+/// migration. The service flattens the two back into one object.
+///
+/// `id` is permanent and never reissued: order lines and the stock history
+/// reference it. A delete is soft (`deletedAt`), which is also what lets the
+/// dashboard's Undo bring the very same piece back; a new piece's id is
+/// numbered past every row, deleted ones included.
+///
+/// Stock lives in `colorways[].stock[size]` for a piece counted per colour and
+/// size, or `stock` alone for one that is not; `stock` is always the total.
+/// Every change to it writes a `StockMovement` in the same transaction.
+model Product {
+  id           String    @id @map("_id")
+  slug         String    @unique
+  name         String
+  status       String
+  collectionId String
+  price        Float
+  stock        Int
+  sizes        String[]
+  tags         String[]
+  colorways    Json?
+  attributes   Json
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@index([collectionId])
+  @@index([status])
+  @@map("products")
+}
+
+/// One change to what is on the shelf, and why. Written in the same
+/// transaction as the stock change itself, so the history and the count can
+/// never disagree. `colorId`/`size` are "*" for a piece counted as one number.
+model StockMovement {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String
+  colorId     String
+  size        String
+  delta       Int
+  onHandAfter Int
+  /// received · adjusted · counted · damaged · sold · returned
+  reason      String
+  orderId     String?
+  note        String?
+  /// Who made the change, by name as the dashboard shows it.
+  by          String?
+  at          DateTime @default(now())
+
+  @@index([productId, at])
+  @@map("stock_movements")
+}
+
+/// Small shop-wide settings documents, keyed by section ("inventory").
+model Setting {
+  id        String   @id @map("_id")
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
 }
 
 /// An id that has been spent and must never be issued again.

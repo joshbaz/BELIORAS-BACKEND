@@ -1,0 +1,197 @@
+[
+  {
+    "id": "h1",
+    "slug": "brazilian-remy-straight-20",
+    "name": "Brazilian Remy Straight 20\"",
+    "price": 159,
+    "originalPrice": 189,
+    "collectionId": "hair",
+    "description": "Single-drawn Brazilian Remy hair, cuticle intact and aligned. Natural movement from root to tip, tangle-resistant.",
+    "details": [
+      "Single drawn",
+      "Cuticle aligned",
+      "Tangle resistant"
+    ],
+    "materials": [
+      "100% human Remy hair"
+    ],
+    "care": [
+      "Shampoo in downward motion",
+      "low-heat-styling",
+      "detangle"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 21,
+    "isNew": false,
+    "bestseller": true,
+    "images": [
+      "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg"
+    ],
+    "isNonReturnable": true,
+    "hairType": "brazilian",
+    "lengthInInches": 20,
+    "weight": 100,
+    "createdAt": "2026-04-03",
+    "sku": "BEL-H1",
+    "tags": [
+      "subcat:wigs:straight-wigs"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "natural-black",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      },
+      {
+        "colorId": "caramel",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      }
+    ],
+    "costPrice": 67
+  },
+  {
+    "id": "h2",
+    "slug": "indian-remy-body-wave-18",
+    "name": "Indian Remy Body Wave 18\"",
+    "price": 139,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Soft body wave from premium Indian Remy. Loose, natural curl pattern that blends with both relaxed and natural textures.",
+    "details": [
+      "Remy grade",
+      "Protective cuticle",
+      "Blends with natural texture"
+    ],
+    "materials": [
+      "100% human Remy hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "Braid at night"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": true,
+    "bestseller": false,
+    "images": [
+      "https://images.unsplash.com/photo-1620331311520-246422fd82f9?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "isNonReturnable": true,
+    "hairType": "indian",
+    "lengthInInches": 18,
+    "weight": 100,
+    "createdAt": "2026-07-26",
+    "sku": "BEL-H2",
+    "tags": [
+      "subcat:wigs:wavy-wigs"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "dark-brown",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "honey-blonde",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 58
+  },
+  {
+    "id": "h3",
+    "slug": "brazilian-remy-deep-wave-22",
+    "name": "Brazilian Remy Deep Wave 22\"",
+    "price": 179,
+    "originalPrice": 209,
+    "collectionId": "hair",
+    "description": "Juicy deep wave with defined, uniform curls. Fuller body and longer wear \u2014 a customer favourite for installs.",
+    "details": [
+      "Deep wave pattern",
+      "Uniform curl",
+      "Long wear"
+    ],
+    "materials": [
+      "100% human Remy hair"
+    ],
+    "care": [
+      "Water-based products only",
+      "Style with mousse",
+      "Finger comb wet"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": false,
+    "bestseller": true,
+    "images": [
+      "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG"
+    ],
+    "isNonReturnable": true,
+    "hairType": "brazilian",
+    "lengthInInches": 22,
+    "weight": 100,
+    "createdAt": "2026-04-17",
+    "sku": "BEL-H3",
+    "tags": [
+      "subcat:wigs:wavy-wigs"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "jet-black",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 75
+  }
+]

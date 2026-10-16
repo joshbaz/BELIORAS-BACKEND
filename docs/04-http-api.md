@@ -136,6 +136,17 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `PUT` | `/admin/taxonomy/categories/order` | Bearer + role | `{ ids }` — every category id in the new order. Anything but exactly the current set → `409` |
 | `DELETE` | `/admin/taxonomy/categories/:id` | Bearer + role | removes one and spends its id (`FreedId` kind `category`) |
 | `POST` | `/admin/taxonomy/categories/reset` | Bearer + role | back to the shipped three; every id added since is spent |
+| `GET` | `/storefront/products` · `/storefront/products/:idOrSlug` | — | active pieces only, **never `costPrice`**; a draft or deleted piece is a `404` |
+| `GET` | `/admin/products` · `/admin/products/:id` | Bearer | every live piece, drafts included, with cost price |
+| `POST` | `/admin/products` | Bearer + role (content, staff, super-admin) | `201`. `strict()` body. Id is `p<n>` past every id ever issued; slug unique across every row. Refused (`422`) if its category, a colour, a size or a `subcat:` tag does not exist. `stock` is recomputed from the colourways; opening stock is written to the history |
+| `PATCH` | `/admin/products/:id` | Bearer + role | any subset of the same fields. Slug moves only when the name does. Stock changes from the form are written to the history in the same transaction |
+| `DELETE` | `/admin/products/:id` | Bearer + role | soft: the piece disappears everywhere, its id and slug stay reserved |
+| `POST` | `/admin/products/:id/restore` | Bearer + role | the dashboard's Undo |
+| `POST` | `/admin/inventory/adjust` | Bearer + role (staff, super-admin) | `{ productId, colorId, size, mode: add\|remove\|set, quantity, reason, note }`. Removing more than is on hand → `409`. Answers `{ movements, products }` |
+| `POST` | `/admin/inventory/receive` | Bearer + role (staff, super-admin) | `{ variants[], quantity, reason, note }` — the same number into each |
+| `POST` | `/admin/inventory/order-movements` | Bearer + role (support, staff, super-admin) | `{ orderId, reason: sold\|returned, lines[] }`. Only for orders, so support can ship without hand-editing stock. A second `sold` for the same order → `409` |
+| `GET` | `/admin/inventory/movements?productId&colorId&size` | Bearer | one variant's history, newest first |
+| `GET` · `PUT` | `/admin/inventory/settings` | Bearer (+ role staff, super-admin to write) | `{ lowStockThreshold }`, 0–999, default 3 |
 | `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
 | `GET` | `/admin/navigation` | Bearer | same, to staff |
 | `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |
@@ -171,22 +182,18 @@ different size, with stock counts to match, and nothing in the write path would
 know. The unique index on `(kind, ref)` is what makes that safe under
 concurrency.
 
-**Deletion is only half-guarded, and the gap is real.** The dashboard refuses to
-delete a size that a category offers or a product carries — but that check is
-client-side, because this server has no `Product` model and its categories
-only mirror into the browser; the catalogue lives in one browser's localStorage. The `DELETE` here is
-unguarded, so another browser, or a direct call, can remove a size that is in
-use. What the server does guarantee is the spent id, which bounds the damage to
-a size that no longer resolves rather than one that came to mean something else.
-The guard moves server-side when products do.
+**Deletion is guarded here.** A size a category offers or a live product
+carries cannot be deleted (`409`, naming who uses it). The spent id is still
+recorded, as the second line of defence.
 
 **Categories and colours follow the same rules.** A colour id is what a
 product's `colorways[].colorId` stores, so it is just as permanent. A category id is every product's
 `collectionId`, the `/dresses` URL and a filter token; a subcategory type is a
 product's `subcat:<sub>:<type>` tag (there are no flat category types). So ids never change,
-deleted category ids are spent, and the in-use guards (products in a category, a
-subcategory type still tagged, a Mega Menu link) stay client-side until
-products move here.
+deleted category ids are spent, and the in-use guards are the server's: a
+category holding live products, a colour on a live product, and a subcategory
+type still tagged on one are each a `409`. Only "a Mega Menu link points at it"
+is checked by the dashboard alone, before it asks.
 
 The staff write route groups take `content`, `staff` or `super-admin` — the
 roles the dashboard grants "edit" on Sizes & Guides. This is a list at the call

@@ -1,0 +1,2541 @@
+[
+  {
+    "id": "bf01",
+    "slug": "ivory-silk-slip-gown",
+    "name": "Ivory Silk Slip Gown",
+    "price": 290,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Bias-cut in pure mulberry silk with a whisper-light drape. Adjustable straps and a low cowl back make it as graceful from behind as it is from the front.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": false,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-18",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-style:backless-dresses",
+      "subcat:shop-by-fabric:silk-dresses",
+      "tag:new",
+      "tag:featured"
+    ],
+    "sku": "BEL-BF01",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 122
+  },
+  {
+    "id": "bf02",
+    "slug": "rose-chiffon-midi-dress",
+    "name": "Ros\u00e9 Chiffon Midi Dress",
+    "price": 240,
+    "originalPrice": 280,
+    "collectionId": "dresses",
+    "description": "Layers of blush chiffon float over a lined bodice. The off-shoulder neckline is finished with hand-rolled ruffles.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": false,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-16",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-style:off-shoulder-dresses",
+      "subcat:shop-by-fabric:chiffon-dresses",
+      "tag:new"
+    ],
+    "sku": "BEL-BF02",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1443180683100-fbb2c471775e?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 101
+  },
+  {
+    "id": "bf03",
+    "slug": "noire-bodycon-mini",
+    "name": "Noire Bodycon Mini",
+    "price": 160,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Sculpting bandage panels contour the figure in our signature little black dress. A house bestseller since season one.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-02",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:mini-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-style:bodycon-dresses",
+      "subcat:shop-by-fabric:bandage-dresses",
+      "tag:bestseller"
+    ],
+    "sku": "BEL-BF03",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 67
+  },
+  {
+    "id": "bf04",
+    "slug": "scarlet-gala-gown",
+    "name": "Scarlet Gala Gown",
+    "price": 480,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "A floor-sweeping column in liquid scarlet satin with an internal corset. Made for entrances.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 48,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-10",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-style:corset-dresses",
+      "subcat:shop-by-fabric:satin-dresses",
+      "tag:featured"
+    ],
+    "sku": "BEL-BF04",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "scarlet",
+        "images": [
+          "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        },
+        "video": {
+          "url": "https://assets.mixkit.co/videos/18208/18208-720.mp4",
+          "poster": "https://assets.mixkit.co/videos/18208/18208-thumb-720-0.jpg"
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1558513248-f87da9f8fe92?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      }
+    ],
+    "costPrice": 202,
+    "limited": true,
+    "modelFit": {
+      "modelId": "amara",
+      "size": "s"
+    }
+  },
+  {
+    "id": "bf05",
+    "slug": "poudre-tulle-prom-dress",
+    "name": "Poudre Tulle Prom Dress",
+    "price": 420,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Cloud-like tiers of powder-pink tulle over a boned bodice, scattered with hand-set crystals.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-12",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:prom-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-style:embellished-dresses",
+      "subcat:shop-by-fabric:mesh-dresses",
+      "tag:new"
+    ],
+    "sku": "BEL-BF05",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 176,
+    "modelFit": {
+      "modelId": "amara",
+      "size": "s"
+    }
+  },
+  {
+    "id": "bf06",
+    "slug": "fleur-halter-maxi",
+    "name": "Fleur Halter Maxi",
+    "price": 265,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Botanical print on fluid georgette with a halter tie that adjusts to the centimetre.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1649109668399-f2aa27708952?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-04",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:halter-neck-dresses",
+      "subcat:shop-by-fabric:chiffon-dresses"
+    ],
+    "sku": "BEL-BF06",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "forest",
+        "images": [
+          "https://images.unsplash.com/photo-1649109668399-f2aa27708952?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1558513248-f87da9f8fe92?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 111
+  },
+  {
+    "id": "bf07",
+    "slug": "blush-off-shoulder-midi",
+    "name": "Blush Off-Shoulder Midi",
+    "price": 230,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Duchess satin with a structured fold-over neckline and gently gathered skirt.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-20",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:off-shoulder-dresses",
+      "subcat:shop-by-fabric:satin-dresses",
+      "tag:bestseller"
+    ],
+    "sku": "BEL-BF07",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 97
+  },
+  {
+    "id": "bf08",
+    "slug": "velvet-bordeaux-long-sleeve-midi",
+    "name": "Velvet Bordeaux Long-Sleeve Midi",
+    "price": 310,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Silk-blend velvet in deep bordeaux, cut close through the body with softly padded shoulders.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 48,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-22",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-style:long-sleeve-dresses",
+      "subcat:shop-by-fabric:velvet-dresses",
+      "tag:featured"
+    ],
+    "sku": "BEL-BF08",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "forest",
+        "images": [
+          "https://images.unsplash.com/photo-1557274426-7a739b45d09a?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 130,
+    "modelFit": {
+      "modelId": "lena",
+      "size": "xs"
+    }
+  },
+  {
+    "id": "bf09",
+    "slug": "sequin-champagne-mini",
+    "name": "Sequin Champagne Mini",
+    "price": 280,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Hand-applied champagne paillettes on stretch mesh \u2014 catches every light in the room.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 48,
+    "isNew": true,
+    "bestseller": true,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-08",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:mini-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-style:embellished-dresses",
+      "subcat:shop-by-fabric:sequin-dresses",
+      "tag:new",
+      "tag:bestseller"
+    ],
+    "sku": "BEL-BF09",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [
+          "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      },
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      }
+    ],
+    "costPrice": 118
+  },
+  {
+    "id": "bf10",
+    "slug": "lace-ivory-maxi",
+    "name": "Lace Ivory Maxi",
+    "price": 360,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Guipure lace over a champagne underlayer, with scalloped hems at the sleeve and skirt.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 48,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1616348490852-d80c545b4f79?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-15",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-style:long-sleeve-dresses",
+      "subcat:shop-by-fabric:lace-dresses"
+    ],
+    "sku": "BEL-BF10",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1616348490852-d80c545b4f79?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      },
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      }
+    ],
+    "costPrice": 151
+  },
+  {
+    "id": "bf11",
+    "slug": "mesh-corset-midi",
+    "name": "Mesh Corset Midi",
+    "price": 195,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Illusion mesh panels meet a fully boned corsetry interior. Sharp lines, soft feel.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1569530593433-77299d056539?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-20",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:corset-dresses",
+      "subcat:shop-by-fabric:mesh-dresses",
+      "tag:new"
+    ],
+    "sku": "BEL-BF11",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1569530593433-77299d056539?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1542892770-3e6a09c7a7da?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 82
+  },
+  {
+    "id": "bf12",
+    "slug": "golden-hour-one-shoulder-maxi",
+    "name": "Golden Hour One-Shoulder Maxi",
+    "price": 340,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Single-shoulder silhouette in sun-washed crepe with a subtle side slit.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 60,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1677715156741-b7af71207c4d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-01",
+    "tags": [
+      "cat:dresses",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-style:one-shoulder-dresses"
+    ],
+    "sku": "BEL-BF12",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "caramel",
+        "images": [
+          "https://images.unsplash.com/photo-1677715156741-b7af71207c4d?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [
+          "https://images.unsplash.com/photo-1641521119204-ca47d21ed8eb?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 143,
+    "limited": true,
+    "modelFit": {
+      "modelId": "amara",
+      "size": "s"
+    }
+  },
+  {
+    "id": "bf13",
+    "slug": "camel-wool-coat",
+    "name": "Camel Wool Coat",
+    "price": 450,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Double-faced Italian wool in the perfect camel. Dropped shoulder, hidden closure, welt pockets.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 20,
+    "isNew": false,
+    "bestseller": true,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-28",
+    "tags": [
+      "subcat:shop-by-occasion:evening-dresses",
+      "tag:featured",
+      "tag:bestseller",
+      "subcat:shop-by-category:coats-jackets"
+    ],
+    "sku": "BEL-BF13",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 189
+  },
+  {
+    "id": "bf14",
+    "slug": "noir-leather-biker",
+    "name": "Noir Leather Biker",
+    "price": 520,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Butter-soft lambskin with asymmetric zip and snap-down lapels. Breaks in beautifully.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 16,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-30",
+    "tags": [
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-category:coats-jackets"
+    ],
+    "sku": "BEL-BF14",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 218
+  },
+  {
+    "id": "bf15",
+    "slug": "tailored-crepe-jumpsuit",
+    "name": "Tailored Crepe Jumpsuit",
+    "price": 220,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Sharp suiting lines in stretch crepe \u2014 wide leg, cinched waist, zero effort.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 20,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-19",
+    "tags": [
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "tag:new",
+      "subcat:shop-by-category:jumpsuits"
+    ],
+    "sku": "BEL-BF15",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 92
+  },
+  {
+    "id": "bf16",
+    "slug": "satin-wide-leg-jumpsuit",
+    "name": "Satin Wide-Leg Jumpsuit",
+    "price": 245,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Liquid satin with a cowl neck and dramatic puddle hem. Adjust the strap to taste.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 12,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-08",
+    "tags": [
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-fabric:satin-dresses",
+      "subcat:shop-by-category:jumpsuits"
+    ],
+    "sku": "BEL-BF16",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "burgundy",
+        "images": [],
+        "stock": {
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      }
+    ],
+    "costPrice": 103
+  },
+  {
+    "id": "bf17",
+    "slug": "sequin-two-piece-set",
+    "name": "Sequin Two-Piece Set",
+    "price": 260,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Cropped sequin blouse and bias midi skirt, sold as one look. Wear together or apart.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 16,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-21",
+    "tags": [
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-fabric:sequin-dresses",
+      "tag:new",
+      "subcat:shop-by-category:two-piece-sets"
+    ],
+    "sku": "BEL-BF17",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4
+        }
+      }
+    ],
+    "costPrice": 109
+  },
+  {
+    "id": "bf18",
+    "slug": "knit-lounge-two-piece",
+    "name": "Knit Lounge Two-Piece",
+    "price": 180,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "description": "Ribbed knit tank and matching skirt in toasted almond. Airport-to-ap\u00e9ro comfort.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 40,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-05",
+    "tags": [
+      "subcat:shop-by-category:two-piece-sets"
+    ],
+    "sku": "BEL-BF18",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ],
+    "costPrice": 76
+  },
+  {
+    "id": "bf19",
+    "slug": "silk-straight-22-wig",
+    "name": "Silk Straight 22\" Wig",
+    "price": 190,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "100% remy human hair, silk-pressed finish. HD lace front with pre-plucked hairline and 13x4 parting space.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-12",
+    "tags": [
+      "subcat:wigs:straight-wigs",
+      "color:black",
+      "tag:bestseller"
+    ],
+    "sku": "BEL-BF19",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      }
+    ],
+    "costPrice": 80
+  },
+  {
+    "id": "bf20",
+    "slug": "deep-curly-20-wig",
+    "name": "Deep Curly 20\" Wig",
+    "price": 175,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Defined deep curls with springy bounce. Transparent 4x4 closure, 180% density.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 9,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-09",
+    "tags": [
+      "subcat:wigs:curly-wigs",
+      "color:black"
+    ],
+    "sku": "BEL-BF20",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      }
+    ],
+    "costPrice": 74
+  },
+  {
+    "id": "bf21",
+    "slug": "body-wave-24-wig",
+    "name": "Body Wave 24\" Wig",
+    "price": 185,
+    "originalPrice": 210,
+    "collectionId": "hair",
+    "description": "Soft S-waves with volume that holds. Glueless cap design with combs and elastic band.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 3,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-15",
+    "tags": [
+      "subcat:wigs:wavy-wigs",
+      "color:brown",
+      "tag:new"
+    ],
+    "sku": "BEL-BF21",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 3
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 0
+        }
+      }
+    ],
+    "costPrice": 78
+  },
+  {
+    "id": "bf22",
+    "slug": "knotless-braided-wig",
+    "name": "Knotless Braided Wig",
+    "price": 210,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Hand-braided knotless box braids on a breathable cap. Six hours of braiding, saved in one step.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-14",
+    "tags": [
+      "subcat:wigs:braided-wigs",
+      "color:black"
+    ],
+    "sku": "BEL-BF22",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 88,
+    "limited": true
+  },
+  {
+    "id": "bf23",
+    "slug": "pointed-patent-pump",
+    "name": "Pointed Patent Pump",
+    "price": 225,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "95mm stiletto in mirror-polished patent leather with cushioned insole.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "eu36",
+      "eu37",
+      "eu38",
+      "eu39",
+      "eu40",
+      "eu41"
+    ],
+    "stock": 24,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-04-18",
+    "tags": [
+      "color:black",
+      "tag:bestseller",
+      "subcat:shoes:heels"
+    ],
+    "sku": "BEL-BF23",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "eu36": 4,
+          "eu37": 4,
+          "eu38": 4,
+          "eu39": 4,
+          "eu40": 4,
+          "eu41": 4
+        }
+      }
+    ],
+    "costPrice": 94
+  },
+  {
+    "id": "bf24",
+    "slug": "strappy-metallic-sandal-heel",
+    "name": "Strappy Metallic Sandal Heel",
+    "price": 195,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Barely-there straps in liquid metal leather. 85mm heel with padded footbed.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "eu36",
+      "eu37",
+      "eu38",
+      "eu39",
+      "eu40"
+    ],
+    "stock": 2,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-17",
+    "tags": [
+      "color:metallic",
+      "tag:new",
+      "subcat:shoes:heels"
+    ],
+    "sku": "BEL-BF24",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "eu36": 2,
+          "eu37": 0,
+          "eu38": 0,
+          "eu39": 0,
+          "eu40": 0
+        }
+      }
+    ],
+    "costPrice": 82
+  },
+  {
+    "id": "bf25",
+    "slug": "structured-top-handle-bag",
+    "name": "Structured Top-Handle Bag",
+    "price": 340,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Pebbled calf leather with gold-tone hardware and suede lining. Fits an iPhone Plus.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "images": [
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-25",
+    "tags": [
+      "color:brown",
+      "tag:featured",
+      "subcat:bags:handbags"
+    ],
+    "sku": "BEL-BF25",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 143
+  },
+  {
+    "id": "bf26",
+    "slug": "crystal-clutch",
+    "name": "Crystal Clutch",
+    "price": 150,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Faceted crystals set on satin, with detachable chain strap for hands-free moments.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-11",
+    "tags": [
+      "color:metallic",
+      "tag:new",
+      "subcat:bags:clutch-bags"
+    ],
+    "sku": "BEL-BF26",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      }
+    ],
+    "costPrice": 63,
+    "limited": true
+  },
+  {
+    "id": "bf27",
+    "slug": "gilded-drop-earrings",
+    "name": "Gilded Drop Earrings",
+    "price": 85,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Sculpted drops in 18k gold plate. Featherweight despite the drama.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 24,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-14",
+    "tags": [
+      "color:yellow",
+      "tag:new",
+      "subcat:jewellery:earrings"
+    ],
+    "sku": "BEL-BF27",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "champagne",
+        "images": [],
+        "stock": {
+          "one-size": 24
+        }
+      }
+    ],
+    "costPrice": 36
+  },
+  {
+    "id": "bf28",
+    "slug": "pearl-pendant-necklace",
+    "name": "Pearl Pendant Necklace",
+    "price": 120,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A single baroque freshwater pearl suspended on a fine cable chain.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 19,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-03-30",
+    "tags": [
+      "color:white",
+      "tag:bestseller",
+      "subcat:jewellery:necklaces"
+    ],
+    "sku": "BEL-BF28",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ivory",
+        "images": [],
+        "stock": {
+          "one-size": 19
+        }
+      }
+    ],
+    "costPrice": 50
+  },
+  {
+    "id": "bf29",
+    "slug": "bouncy-curl-18-wig",
+    "name": "Bouncy Curl Wig 18\"",
+    "price": 175,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Springy, defined curls in remy human hair. HD lace front with a pre-plucked hairline.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:bouncy-wigs",
+      "tag:new"
+    ],
+    "sku": "BEL-BF29",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 74
+  },
+  {
+    "id": "bf30",
+    "slug": "short-bob-10-wig",
+    "name": "Short Bob Wig 10\"",
+    "price": 145,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "A blunt, chin-skimming bob in silk-pressed remy hair. Ready to wear straight from the box.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 14,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:short-wigs"
+    ],
+    "sku": "BEL-BF30",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      },
+      {
+        "colorId": "caramel",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      }
+    ],
+    "costPrice": 61
+  },
+  {
+    "id": "bf31",
+    "slug": "kinky-curly-16-wig",
+    "name": "Kinky Curly Wig 16\"",
+    "price": 165,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Tight, natural-texture coils that blend with your own curls. Density 180%.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 9,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:kinky-wigs"
+    ],
+    "sku": "BEL-BF31",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      }
+    ],
+    "costPrice": 69
+  },
+  {
+    "id": "bf32",
+    "slug": "yaky-straight-20-wig",
+    "name": "Yaky Straight Wig 20\"",
+    "price": 170,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "A relaxed-texture yaky straight with the softness of pressed natural hair.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:yaky-wigs",
+      "tag:new"
+    ],
+    "sku": "BEL-BF32",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 6
+        }
+      }
+    ],
+    "costPrice": 71
+  },
+  {
+    "id": "bf33",
+    "slug": "faux-locs-22-wig",
+    "name": "Faux Locs Wig 22\"",
+    "price": 210,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Hand-finished locs on a breathable lace cap \u2014 a protective style without the install.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "sulfate-free",
+      "air-dry",
+      "wig-stand"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:locs"
+    ],
+    "sku": "BEL-BF33",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "dark-brown",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 88
+  },
+  {
+    "id": "bf34",
+    "slug": "soft-leather-shoulder-bag",
+    "name": "Soft Leather Shoulder Bag",
+    "price": 295,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Slouchy full-grain leather with a chain-and-leather strap. Roomy enough for the day.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:bags:shoulder-bags",
+      "tag:new"
+    ],
+    "sku": "BEL-BF34",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 124
+  },
+  {
+    "id": "bf35",
+    "slug": "mini-saddle-bag",
+    "name": "Mini Saddle Bag",
+    "price": 260,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A compact saddle silhouette in pebbled leather, with a detachable crossbody strap.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:bags:mini-bags"
+    ],
+    "sku": "BEL-BF35",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 109
+  },
+  {
+    "id": "bf36",
+    "slug": "gold-cuff-bangle",
+    "name": "Gold Cuff Bangle",
+    "price": 95,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A sculpted open cuff in 18k gold plate. Adjusts gently to the wrist.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 20,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:jewellery:bracelets-bangles"
+    ],
+    "sku": "BEL-BF36",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 20
+        }
+      }
+    ],
+    "costPrice": 40
+  },
+  {
+    "id": "bf37",
+    "slug": "signet-stacking-ring",
+    "name": "Signet Stacking Ring",
+    "price": 78,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A slim signet in 18k gold plate, made to stack with the rest of your rings.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "wipe-clean",
+      "keep-dry",
+      "dust-bag"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 25,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:jewellery:rings"
+    ],
+    "sku": "BEL-BF37",
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 25
+        }
+      }
+    ],
+    "costPrice": 33
+  }
+]

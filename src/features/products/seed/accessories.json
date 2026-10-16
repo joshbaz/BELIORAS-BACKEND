@@ -1,0 +1,221 @@
+[
+  {
+    "id": "a1",
+    "slug": "the-belo-shopper",
+    "name": "The Belo Leather Shopper",
+    "price": 189,
+    "originalPrice": 229,
+    "collectionId": "accessories",
+    "description": "Structured full-grain leather shopper with gold hardware and inner zip pocket. Fits a 13\" laptop with room to spare.",
+    "details": [
+      "Full-grain leather",
+      "Gold hardware",
+      "Inner zip pocket"
+    ],
+    "materials": [
+      "Full-grain cow leather",
+      "Cotton lining"
+    ],
+    "care": [
+      "wipe-clean",
+      "Leather conditioner monthly"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": true,
+    "bestseller": true,
+    "images": [
+      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "isNonReturnable": false,
+    "createdAt": "2026-07-30",
+    "sku": "BEL-A1",
+    "tags": [
+      "subcat:bags:handbags"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "caramel",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ],
+    "costPrice": 79
+  },
+  {
+    "id": "a2",
+    "slug": "heirloom-silk-scarf",
+    "name": "Heirloom Silk Scarf",
+    "price": 69,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Hand-rolled edge silk twill scarf in a bespoke Belioras print. Wear at the neck, in the hair, or on the handle of your bag.",
+    "details": [
+      "90x90cm",
+      "Hand-rolled edges",
+      "Bespoke print"
+    ],
+    "materials": [
+      "100% mulberry silk twill"
+    ],
+    "care": [
+      "dry-clean",
+      "no-bleach",
+      "steam"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 27,
+    "isNew": false,
+    "bestseller": false,
+    "images": [
+      "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "isNonReturnable": true,
+    "createdAt": "2026-05-01",
+    "sku": "BEL-A2",
+    "tags": [
+      "subcat:other-accessories:scarves"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "champagne",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      },
+      {
+        "colorId": "blush",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      }
+    ],
+    "costPrice": 29
+  },
+  {
+    "id": "a3",
+    "slug": "ormolu-gold-chain-belt",
+    "name": "Ormolu Gold Chain Belt",
+    "price": 79,
+    "originalPrice": 99,
+    "collectionId": "accessories",
+    "description": "Sculptural gold-tone chain belt that cinches dresses and trousers alike. Adjustable, weighty, quietly loud.",
+    "details": [
+      "Gold-tone",
+      "Adjustable length",
+      "Lobster clasp"
+    ],
+    "materials": [
+      "Brass, gold plated"
+    ],
+    "care": [
+      "polish",
+      "no-perfume"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 33,
+    "isNew": true,
+    "bestseller": false,
+    "images": [
+      "https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "isNonReturnable": false,
+    "createdAt": "2026-08-02",
+    "sku": "BEL-A3",
+    "tags": [
+      "subcat:other-accessories:belts"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 33
+        }
+      }
+    ],
+    "costPrice": 33
+  },
+  {
+    "id": "a4",
+    "slug": "ormolu-gold-hoops",
+    "name": "Ormolu Gold Hoops",
+    "price": 59,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Polished gold-tone hoops with a featherweight core. Everyday heirlooms that close flush and stay put.",
+    "details": [
+      "Gold-tone",
+      "Flush closure",
+      "Hypoallergenic stud"
+    ],
+    "materials": [
+      "Brass, gold plated",
+      "Stainless steel post"
+    ],
+    "care": [
+      "Rinse after wear",
+      "Store dry"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 41,
+    "isNew": false,
+    "bestseller": true,
+    "images": [
+      "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "isNonReturnable": true,
+    "createdAt": "2026-05-15",
+    "sku": "BEL-A4",
+    "tags": [
+      "subcat:jewellery:earrings"
+    ],
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 41
+        }
+      }
+    ],
+    "costPrice": 25
+  }
+]

@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
 import { SEED_COLORS } from "./seed.js";
+import { describeUsers, productsUsing } from "../products/products.service.js";
 
 /**
  * The colour list: a boutique name, a swatch, and the shop filter family.
@@ -85,6 +86,9 @@ export async function updateColor(id, { name, hex, family }, actor, meta = {}) {
 export async function deleteColor(id, actor, meta = {}) {
   const current = await prisma.color.findUnique({ where: { id } });
   if (!current) throw new ApiError("That colour no longer exists.", 404);
+
+  const using = await productsUsing({ colorId: id });
+  if (using.length) throw new ApiError(`${current.name} is on ${describeUsers(using)}. Remove it from them first.`, 409);
 
   await prisma.$transaction([
     prisma.color.delete({ where: { id } }),
