@@ -9,6 +9,7 @@ import { redis } from "./db/redis.js";
 import { logger } from "./core/logger.js";
 import { initSocket } from "./sockets/index.js";
 import { expireUnpaidOrders } from "./features/orders/orders.service.js";
+import { sendDueCampaigns } from "./features/marketing/marketing.service.js";
 
 const app = createApp();
 const server = http.createServer(app);
@@ -41,13 +42,15 @@ async function main() {
     logger.info("Socket.IO attached");
   });
 
-  // Once a minute; `unref` so it never keeps the process alive: unpaid orders
-  // past their payment window are marked cancelled and the shopper told (their
-  // stock is already back on sale — holds lapse by time).
+  // Once a minute; `unref` so it never keeps the process alive:
+  //   - unpaid orders past their payment window are marked cancelled and the
+  //     shopper told (their stock is already back on sale — holds lapse by time);
+  //   - scheduled newsletter campaigns that are due are sent.
   const sweep = () =>
-    expireUnpaidOrders()
-      .then((ids) => ids.length && logger.info({ ids }, "Expired unpaid orders"))
-      .catch((err) => logger.error({ err }, "Background sweep failed"));
+    Promise.all([
+      expireUnpaidOrders().then((ids) => ids.length && logger.info({ ids }, "Expired unpaid orders")),
+      sendDueCampaigns().then((ids) => ids.length && logger.info({ ids }, "Sent scheduled campaigns")),
+    ]).catch((err) => logger.error({ err }, "Background sweep failed"));
   sweep();
   setInterval(sweep, 60_000).unref();
 }

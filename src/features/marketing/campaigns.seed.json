@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cmp_001",
+    "subject": "The Autumn Edit",
+    "previewText": "Satin, velvet and the colours of the season.",
+    "heading": "The Autumn Edit",
+    "body": "Liquid satin for long evenings, velvet for the first cold nights. Our autumn pieces arrive in limited numbers, and Letter readers see them first.\n\nEach is cut in Lisbon and finished by hand. When a colour is gone, it is gone for the season.",
+    "productIds": ["p1", "bf08", "bf13", "p3"],
+    "cta": { "label": "Discover the edit", "url": "/new-arrivals" },
+    "status": "sent",
+    "sendAt": null,
+    "sentAt": "2026-09-01T08:00:00Z",
+    "recipients": 6,
+    "createdAt": "2026-08-27T14:00:00Z",
+    "updatedAt": "2026-09-01T08:00:00Z"
+  },
+  {
+    "id": "cmp_002",
+    "subject": "Private sale: Letter readers first",
+    "previewText": "Forty-eight hours before anyone else.",
+    "heading": "A private sale, for Letter readers",
+    "body": "For two days, selected evening pieces are offered to Letter readers before they reach the shop.\n\nThe selection is small and will not be restocked.",
+    "productIds": ["bf04", "bf09"],
+    "cta": { "label": "Shop the private sale", "url": "/shop" },
+    "status": "scheduled",
+    "sendAt": "2026-09-20T08:00:00Z",
+    "sentAt": null,
+    "recipients": null,
+    "createdAt": "2026-09-10T09:30:00Z",
+    "updatedAt": "2026-09-10T09:45:00Z"
+  },
+  {
+    "id": "cmp_003",
+    "subject": "Gifts, chosen slowly",
+    "previewText": "",
+    "heading": "Gifts, chosen slowly",
+    "body": "A short list of pieces that make a considered gift.",
+    "productIds": [],
+    "cta": { "label": "Browse accessories", "url": "/accessories" },
+    "status": "draft",
+    "sendAt": null,
+    "sentAt": null,
+    "recipients": null,
+    "createdAt": "2026-09-12T15:10:00Z",
+    "updatedAt": "2026-09-12T15:10:00Z"
+  }
+]

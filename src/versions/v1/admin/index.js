@@ -12,6 +12,7 @@ import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
 import { requireRole } from "../middlewares/requireRole.js";
 import { adminReviews } from "../routes/reviews.routes.js";
+import { adminMarketing } from "../routes/marketing.routes.js";
 import orderRoutes from "../routes/orders.routes.js";
 import salesRoutes from "../routes/sales.routes.js";
 import uploadRoutes from "../routes/uploads.routes.js";
@@ -61,6 +62,7 @@ router.use("/uploads", uploadRoutes);
 router.use("/orders", orderRoutes);
 router.use(salesRoutes);
 router.use(adminReviews);
+router.use(adminMarketing);
 
 // Shoppers with an account, for the Customers page (read-only).
 router.get("/customers", authenticate, requireBoundary, requireRole("support", "staff", "finance", "super-admin"), listCustomers);

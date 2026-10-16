@@ -162,6 +162,9 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `GET` | `/admin/customers` | support, staff, finance, super-admin | shoppers with an account |
 | `GET` · `POST` | `/storefront/reviews` | optional Bearer | published reviews (`?productId`, `?limit`); a new one is `pending`, and `verified` is decided from the reviewer's orders |
 | `GET` · `POST` · `PUT` | `/admin/reviews`, `…/:id/publish`, `…/:id/hide`, `…/:id/reply` | content, support, staff, super-admin | moderation. Products carry `rating` / `reviewCount` from published reviews |
+| `POST` | `/storefront/newsletter/subscribe` · `confirm` · `unsubscribe`; `GET …/subscription`, `POST …/unsubscribe-me` (Bearer) | — (subscribe rate limited) | double opt-in; welcome code once per address |
+| `GET`… | `/admin/newsletter/subscribers[/:id]`, `…/campaigns[/:id][/schedule\|unschedule\|send]`, `…/audience`, `…/settings`, `PUT …/welcome` | content, staff, super-admin | a sent campaign is final; scheduled ones are sent by the server's minute sweep |
+| `POST` · `GET` | `/storefront/contact` · `/admin/contact/messages` | — (rate limited) · support, staff, super-admin | every message kept and queued to client care |
 | `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
 | `GET` | `/admin/navigation` | Bearer | same, to staff |
 | `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |

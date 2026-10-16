@@ -1,0 +1,11 @@
+{
+  "rev": 1,
+  "consentText": "Collection previews and private sales from Belioras, about once a month. Unsubscribe from any email.",
+  "welcome": {
+    "enabled": true,
+    "couponCode": "WELCOME10",
+    "subject": "Welcome to the Belioras Letter",
+    "heading": "Welcome to the Letter",
+    "body": "Thank you for joining us. As a welcome, here is 10% off your first order.\n\nWe write about once a month, with new collections and private sales before anyone else."
+  }
+}

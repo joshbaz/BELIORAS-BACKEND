@@ -62,6 +62,12 @@ enum AuditAction {
   REVIEW_PUBLISH
   REVIEW_HIDE
   REVIEW_REPLY
+  NEWSLETTER_UPDATE
+  CAMPAIGN_SAVE
+  CAMPAIGN_SEND
+  CAMPAIGN_DELETE
+  SUBSCRIBER_UNSUBSCRIBE
+  SUBSCRIBER_ERASE
 }
 
 enum AccountStatus {
@@ -514,6 +520,61 @@ model Review {
 
   @@index([productId, status])
   @@map("reviews")
+}
+
+/// Someone on the Belioras Letter's list. Double opt-in: `pending` until the
+/// confirmation link is followed; only `subscribed` people are sent campaigns.
+/// Unsubscribing keeps the record (so a later import cannot quietly re-add
+/// them); erasure, for a GDPR request, deletes it. `token` is the capability
+/// in confirmation and unsubscribe links.
+model Subscriber {
+  id             String    @id @map("_id")
+  email          String    @unique
+  name           String?
+  userId         String?
+  status         String
+  source         String
+  consentText    String
+  consentedAt    DateTime
+  confirmedAt    DateTime?
+  unsubscribedAt DateTime?
+  token          String?   @unique
+  welcomeCode    String?
+  welcomeSentAt  DateTime?
+
+  @@index([status])
+  @@map("subscribers")
+}
+
+/// A newsletter campaign. A sent one is the record of what went out and is never edited.
+model Campaign {
+  id          String    @id @map("_id")
+  subject     String
+  previewText String    @default("")
+  heading     String    @default("")
+  body        String    @default("")
+  productIds  String[]
+  cta         Json
+  status      String
+  sendAt      DateTime?
+  sentAt      DateTime?
+  recipients  Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("campaigns")
+}
+
+/// A message from the contact form, kept so nothing a shopper wrote is lost.
+model ContactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
 }
 
 /// An id that has been spent and must never be issued again.
