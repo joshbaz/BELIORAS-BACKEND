@@ -15,6 +15,10 @@ process.env.RATE_LIMIT_ENABLED = "false";
 process.env.DATABASE_URL = process.env.TEST_DATABASE_URL ?? "mongodb://localhost:27017/belioras_test";
 process.env.REDIS_URL = process.env.TEST_REDIS_URL ?? "redis://localhost:6379/1";
 process.env.SESSION_CACHE_TTL = process.env.SESSION_CACHE_TTL ?? "60s";
+// Uploads in tests go to local disk, never to the real ImageKit library, even
+// when the developer's .env carries ImageKit keys.
+process.env.IMAGEKIT_PRIVATE_KEY = "";
+process.env.UPLOAD_DIR = process.env.TEST_UPLOAD_DIR ?? "uploads-test";
 
 import request from "supertest";
 

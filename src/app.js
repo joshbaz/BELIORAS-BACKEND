@@ -3,6 +3,7 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
+import path from "node:path";
 import helmet from "helmet";
 import { config, env } from "./config/index.js";
 import { httpLogger } from "./core/logger.js";
@@ -11,6 +12,7 @@ import { notFound } from "./middlewares/notFound.js";
 import { createGlobalLimiter } from "./middlewares/rateLimit.js";
 import { requestId } from "./middlewares/requestId.js";
 import v1Routes from "./versions/v1/index.js";
+import { LOCAL_PATH, storageMode } from "./features/uploads/uploads.service.js";
 
 export function createApp() {
   const app = express();
@@ -31,6 +33,12 @@ export function createApp() {
   app.get("/", (req, res) => {
     res.json({ data: { name: "Belioras API", version: "v1" } });
   });
+
+  // Development uploads, when ImageKit is not configured. File names are random
+  // and never reused, so they can be cached for good.
+  if (storageMode() === "local") {
+    app.use(LOCAL_PATH, express.static(path.resolve(env.UPLOAD_DIR), { immutable: true, maxAge: "365d", index: false }));
+  }
 
   app.use(`${config.api.root}${config.api.version}`, v1Routes);
 

@@ -13,6 +13,18 @@ import { z } from "zod";
  */
 
 const text = (max) => z.string().max(max);
+
+/**
+ * A photo or video address that works for everyone: an http(s) URL (ImageKit,
+ * or a legacy hosted photo) or a path on this site (`/api/uploads/…`, `/img/…`).
+ * A `blob:` or `data:` URL only ever exists in the browser that made it, so
+ * saving one would publish a picture nobody else can see.
+ */
+export const mediaUrl = z
+  .string()
+  .trim()
+  .max(2000)
+  .refine((v) => /^(https?:\/\/|\/(?!\/))/i.test(v), "Upload the photo again — it was never saved to the server.");
 const money = z.number().finite().nonnegative().max(1_000_000);
 const count = z.number().int().nonnegative().max(1_000_000);
 const lines = z.array(text(2000)).max(100);
@@ -20,8 +32,8 @@ const lines = z.array(text(2000)).max(100);
 const colorway = z
   .object({
     colorId: z.string().trim().min(1).max(80),
-    images: z.array(text(2000)).max(40).default([]),
-    video: z.object({ url: text(2000), poster: text(2000).nullable().optional() }).strict().optional(),
+    images: z.array(mediaUrl).max(40).default([]),
+    video: z.object({ url: mediaUrl, poster: mediaUrl.nullable().optional() }).strict().optional(),
     // Per-size on hand. `null` for a colourway not counted per size yet.
     stock: z.record(z.string().min(1).max(60), count).nullable().optional(),
   })
@@ -43,7 +55,7 @@ const fields = {
   status: z.enum(["active", "draft"]).optional(),
   colorways: z.array(colorway).max(40).optional(),
   sizes: z.array(z.string().min(1).max(60)).max(60).optional(),
-  images: z.array(text(2000)).max(80).optional(),
+  images: z.array(mediaUrl).max(80).optional(),
   // On hand for a piece not counted per colour and size. Ignored (recomputed)
   // for one that is.
   stock: count.optional(),

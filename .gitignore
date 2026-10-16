@@ -22,3 +22,6 @@ yarn-error.log*
 # Editor
 .vscode/
 .idea/
+# Development uploads (see UPLOAD_DIR)
+/uploads/
+/uploads-test/

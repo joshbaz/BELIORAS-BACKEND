@@ -14,6 +14,12 @@ const envSchema = z.object({
   CLIENT_ORIGIN: z.string().url().default("http://localhost:5173"),
   SESSION_CACHE_TTL: z.string().min(1).default("60s"),
   LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal"]).default("info"),
+  // Uploads (docs/04-http-api.md). With the ImageKit keys set, photos and
+  // videos go to ImageKit's CDN; without them they are written to UPLOAD_DIR
+  // and served from /api/uploads, which is fine for development only.
+  IMAGEKIT_PRIVATE_KEY: z.string().optional(),
+  IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
+  UPLOAD_DIR: z.string().default("uploads"),
   RATE_LIMIT_ENABLED: z
     .enum(["true", "false"])
     .default("true")

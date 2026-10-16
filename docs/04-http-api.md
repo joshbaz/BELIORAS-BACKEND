@@ -147,6 +147,7 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `POST` | `/admin/inventory/order-movements` | Bearer + role (support, staff, super-admin) | `{ orderId, reason: sold\|returned, lines[] }`. Only for orders, so support can ship without hand-editing stock. A second `sold` for the same order → `409` |
 | `GET` | `/admin/inventory/movements?productId&colorId&size` | Bearer | one variant's history, newest first |
 | `GET` · `PUT` | `/admin/inventory/settings` | Bearer (+ role staff, super-admin to write) | `{ lowStockThreshold }`, 0–999, default 3 |
+| `POST` | `/admin/uploads` | Bearer + role (content, staff, super-admin) | multipart `file` (+ `folder`: products · menu · models). Type decided from the bytes: JPEG/PNG/WebP/AVIF ≤ 10 MB, MP4/MOV/WebM ≤ 100 MB. `201 { url, kind, mime, size }`. Stored on ImageKit when `IMAGEKIT_PRIVATE_KEY` + `IMAGEKIT_URL_ENDPOINT` are set, else in `UPLOAD_DIR` served at `/api/uploads` (development) |
 | `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
 | `GET` | `/admin/navigation` | Bearer | same, to staff |
 | `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |

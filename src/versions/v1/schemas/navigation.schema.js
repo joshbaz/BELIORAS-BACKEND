@@ -43,7 +43,19 @@ const section = z
   .passthrough();
 
 const tile = z
-  .object({ id, title: z.string().trim().min(1, "A feature tile needs a title.").max(120), target })
+  .object({
+    id,
+    title: z.string().trim().min(1, "A feature tile needs a title.").max(120),
+    target,
+    // An uploaded photo, or none (the tile then uses a product's photo). Never
+    // a `blob:`/`data:` URL, which only exists in the browser that made it.
+    image: z
+      .string()
+      .max(2000)
+      .refine((v) => /^(https?:\/\/|\/(?!\/))/i.test(v), "Upload the tile's photo again — it was never saved to the server.")
+      .nullable()
+      .optional(),
+  })
   .passthrough();
 
 const root = z
