@@ -278,7 +278,9 @@ describe("size guide audit", () => {
     const guide = guideOf("garment");
     await api().then((request) => request.put(`${ADMIN}/garment`).set("Authorization", bearer).send(guide));
 
-    const me = await prisma.user.findFirst({ where: { email: { in: created } }, orderBy: { createdAt: "desc" } });
+    // The account that just signed in — `created` holds every account this file
+    // made, and "newest by createdAt" picks the wrong one when two share a millisecond.
+    const me = await prisma.user.findFirst({ where: { email: created.at(-1) } });
     const entry = await prisma.auditLog.findFirst({
       where: { userId: me.id, action: "SIZE_GUIDE_UPDATE" },
       orderBy: { createdAt: "desc" },
@@ -300,7 +302,9 @@ describe("size guide audit", () => {
 
     await api().then((request) => request.post(`${ADMIN}/reset`).set("Authorization", bearer));
 
-    const me = await prisma.user.findFirst({ where: { email: { in: created } }, orderBy: { createdAt: "desc" } });
+    // The account that just signed in — `created` holds every account this file
+    // made, and "newest by createdAt" picks the wrong one when two share a millisecond.
+    const me = await prisma.user.findFirst({ where: { email: created.at(-1) } });
     const entry = await prisma.auditLog.findFirst({
       where: { userId: me.id, action: "SIZE_GUIDE_RESET" },
       orderBy: { createdAt: "desc" },
