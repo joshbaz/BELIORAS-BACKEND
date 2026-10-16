@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { present } from "../products/products.service.js";
 import { ANY, onHandOf, withOnHand } from "../products/stock.js";
+import { reservedUnits, variantKey } from "../orders/reserve.js";
 
 /**
  * Stock: what is on the shelf, every change to it, and the low-stock line.
@@ -17,11 +18,11 @@ import { ANY, onHandOf, withOnHand } from "../products/stock.js";
  * changed the piece in between — so two people receiving stock at once both
  * land, instead of one count silently overwriting the other.
  *
- * ## What stays in the dashboard
+ * ## What open orders hold
  *
- * "On hand can't drop below what open orders hold" needs the orders, which
- * still live in the browser, so the dashboard checks it before asking. The
- * server's floor is zero.
+ * On hand can't be adjusted below what open orders hold: those pieces are
+ * promised. Orders live here, so this is the server's rule; the dashboard
+ * checks it first only for a quicker message.
  */
 
 const ATTEMPTS = 8;
@@ -108,6 +109,7 @@ async function freshProducts(tx, ids) {
 export async function adjustStock({ productId, colorId, size, mode, quantity, reason, note }, actor, meta = {}) {
   if (mode !== "set" && quantity === 0) throw new ApiError("Enter how many pieces, as a whole number.", 422);
 
+  const reserved = await reservedUnits(prisma, [productId]);
   const compute = (product, c, s) => {
     const before = onHandOf(product, c, s);
     if (mode === "remove" && quantity > before) {
@@ -115,6 +117,10 @@ export async function adjustStock({ productId, colorId, size, mode, quantity, re
     }
     const after = mode === "set" ? quantity : mode === "remove" ? before - quantity : before + quantity;
     if (after === before) throw new ApiError("That leaves the count unchanged.", 422);
+    const held = reserved.get(c === ANY ? variantKey(productId) : variantKey(productId, c, s)) ?? 0;
+    if (after < held) {
+      throw new ApiError(`${held} ${held === 1 ? "is" : "are"} held by open orders, so on hand can't go below ${held}.`, 409);
+    }
     return after - before;
   };
 
@@ -142,7 +148,8 @@ export async function receiveStock({ variants, quantity, reason, note }, actor, 
 /**
  * What an order does to the shelf: "sold" takes its lines off when it ships,
  * "returned" puts lines back. An order ships once, so a second "sold" for the
- * same order is refused rather than taking the pieces twice.
+ * same order is refused rather than taking the pieces twice. Called by the
+ * order flows (shipping, refunds with restock), not over HTTP.
  */
 export async function orderMovements({ orderId, reason, lines }, actor, meta = {}) {
   if (reason === "sold") {

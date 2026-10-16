@@ -1,0 +1,54 @@
+[
+  {
+    "id": "c1",
+    "code": "WELCOME10",
+    "type": "percent",
+    "value": 10,
+    "minOrderValue": 50,
+    "maxDiscount": 30,
+    "expiresAt": "2026-12-31T23:59:59Z",
+    "active": true,
+    "description": "10% off your first order, minimum \u20ac50 spend.",
+    "maxUses": null,
+    "maxUsesPerCustomer": 1
+  },
+  {
+    "id": "c2",
+    "code": "FREESHIP",
+    "type": "free_shipping",
+    "value": 0,
+    "minOrderValue": 0,
+    "maxDiscount": null,
+    "expiresAt": "2026-12-31T23:59:59Z",
+    "active": true,
+    "description": "Free EU shipping, no minimum.",
+    "maxUses": null,
+    "maxUsesPerCustomer": null
+  },
+  {
+    "id": "c3",
+    "code": "SUMMER20",
+    "type": "percent",
+    "value": 20,
+    "minOrderValue": 120,
+    "maxDiscount": 60,
+    "expiresAt": "2026-09-30T23:59:59Z",
+    "active": true,
+    "description": "20% off orders over \u20ac120.",
+    "maxUses": 100,
+    "maxUsesPerCustomer": 1
+  },
+  {
+    "id": "c4",
+    "code": "EXPIRED10",
+    "type": "percent",
+    "value": 10,
+    "minOrderValue": 0,
+    "maxDiscount": null,
+    "expiresAt": "2025-12-31T23:59:59Z",
+    "active": false,
+    "description": "Expired test coupon.",
+    "maxUses": null,
+    "maxUsesPerCustomer": null
+  }
+]

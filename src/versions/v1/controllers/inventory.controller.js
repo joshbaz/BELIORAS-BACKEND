@@ -13,10 +13,6 @@ export async function receiveStock(req, res) {
   res.json({ data: await inventory.receiveStock(req.body, req.user, requestMeta(req)) });
 }
 
-export async function orderMovements(req, res) {
-  res.json({ data: await inventory.orderMovements(req.body, req.user, requestMeta(req)) });
-}
-
 export async function stockHistory(req, res) {
   const { productId, colorId, size } = req.query;
   if (!productId) return res.status(400).json({ error: { code: "BAD_REQUEST", message: "Say which product." } });

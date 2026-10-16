@@ -7,6 +7,8 @@ import sizeGuideRoutes from "../routes/sizeGuidesPublic.routes.js";
 import sizeRoutes from "../routes/sizesPublic.routes.js";
 import colorRoutes from "../routes/colorsPublic.routes.js";
 import navigationRoutes from "../routes/navigationPublic.routes.js";
+import orderRoutes from "../routes/ordersPublic.routes.js";
+import { getSettings } from "../controllers/sales.controller.js";
 import productRoutes from "../routes/productsPublic.routes.js";
 import categoryRoutes from "../routes/categoriesPublic.routes.js";
 
@@ -42,6 +44,12 @@ router.use("/navigation", navigationRoutes);
 // The catalogue as shoppers see it: active pieces only, no cost price.
 router.use("/products", productRoutes);
 
-// TODO: Mount orders, profile routes here
+// Checkout, a shopper's orders, coupon checks and best-seller rankings.
+router.use(orderRoutes);
+
+// The store settings the storefront shows: shipping zones, VAT, contact, copy.
+router.get("/settings", getSettings);
+
+// TODO: Mount profile routes here
 
 export default router;

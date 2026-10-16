@@ -16,3 +16,15 @@ export async function authenticate(req, res, next) {
   req.user = await checkSession(token);
   next();
 }
+/**
+ * For the routes a guest may use too (checkout, order tracking): with no token
+ * the request goes on as a guest; with one, it must be a valid session in
+ * this boundary — a bad or wrong-realm token is refused rather than quietly
+ * treated as a guest, which would hide a real session problem.
+ */
+export async function optionalAuthenticate(req, res, next) {
+  if (!req.headers.authorization) return next();
+  req.user = await checkSession(req.headers.authorization.replace(/^Bearer /, ""));
+  if (req.user.realm !== req.realm) throw new ApiError("Access denied to this service boundary.", 403);
+  next();
+}

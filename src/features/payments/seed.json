@@ -1,0 +1,264 @@
+[
+  {
+    "id": "txn_0001",
+    "orderId": "ORD-1001",
+    "provider": "stripe",
+    "providerRef": "pi_3QQGkm6aeqYowY0ugi0eWg",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 126.09,
+    "currency": "EUR",
+    "fee": 2.14,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "4242"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-03-18T10:22:40Z"
+  },
+  {
+    "id": "txn_0002",
+    "orderId": "ORD-1002",
+    "provider": "paypal",
+    "providerRef": "4UYJ2CSSWEWL0SSN0",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 168.99,
+    "currency": "EUR",
+    "fee": 4.56,
+    "method": {
+      "type": "paypal"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-04-25T14:05:55Z"
+  },
+  {
+    "id": "txn_0003",
+    "orderId": "ORD-1003",
+    "provider": "stripe",
+    "providerRef": "pi_3Q6uMeuWq8CCOKqYekK8YY",
+    "type": "charge",
+    "status": "failed",
+    "amount": 239.59,
+    "currency": "EUR",
+    "fee": 0,
+    "method": {
+      "type": "card",
+      "brand": "mastercard",
+      "last4": "5454"
+    },
+    "failureReason": "Card declined: insufficient funds.",
+    "parentId": null,
+    "createdAt": "2026-06-08T16:45:20Z"
+  },
+  {
+    "id": "txn_0004",
+    "orderId": "ORD-1003",
+    "provider": "stripe",
+    "providerRef": "pi_3QoIeAwI6EE0kE0K80EiIS",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 239.59,
+    "currency": "EUR",
+    "fee": 3.84,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "1881"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-06-08T16:48:10Z"
+  },
+  {
+    "id": "txn_0005",
+    "orderId": "ORD-1004",
+    "provider": "stripe",
+    "providerRef": "pi_3QwMGogMwcyyoU2Q0sSg4Q",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 188.99,
+    "currency": "EUR",
+    "fee": 3.08,
+    "method": {
+      "type": "apple_pay",
+      "brand": "mastercard",
+      "last4": "3222"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-08-10T09:12:35Z"
+  },
+  {
+    "id": "txn_0006",
+    "orderId": "ORD-1005",
+    "provider": "stripe",
+    "providerRef": "pi_3QEAUyG4camEaAYMiwyeAe",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 188.0,
+    "currency": "EUR",
+    "fee": 3.07,
+    "method": {
+      "type": "card",
+      "brand": "amex",
+      "last4": "0005"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-08-15T19:30:50Z"
+  },
+  {
+    "id": "txn_0007",
+    "orderId": "ORD-1006",
+    "provider": "stripe",
+    "providerRef": "pi_3QMEokKaa2Ci2iSEkMO88Y",
+    "type": "charge",
+    "status": "failed",
+    "amount": 149.0,
+    "currency": "EUR",
+    "fee": 0,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "0341"
+    },
+    "failureReason": "Card expired.",
+    "parentId": null,
+    "createdAt": "2026-08-19T08:47:25Z"
+  },
+  {
+    "id": "txn_0008",
+    "orderId": "ORD-1008",
+    "provider": "stripe",
+    "providerRef": "pi_3QKsSa46G6iMkIQmYIi0ei",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 148.99,
+    "currency": "EUR",
+    "fee": 2.48,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "4242"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-05-30T18:00:40Z"
+  },
+  {
+    "id": "txn_0009",
+    "orderId": "ORD-1008",
+    "provider": "stripe",
+    "providerRef": "re_3Q2ACwwoQMAeWGGAeuYGo4",
+    "type": "refund",
+    "status": "succeeded",
+    "amount": 148.99,
+    "currency": "EUR",
+    "fee": 0,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "4242"
+    },
+    "failureReason": null,
+    "parentId": "txn_0008",
+    "createdAt": "2026-06-02T14:40:00Z",
+    "reason": "Returned unworn"
+  },
+  {
+    "id": "txn_0010",
+    "orderId": "ORD-1009",
+    "provider": "stripe",
+    "providerRef": "pi_3QS60aaQKEmQcOImWMeyys",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 198.79,
+    "currency": "EUR",
+    "fee": 3.23,
+    "method": {
+      "type": "card",
+      "brand": "mastercard",
+      "last4": "4444"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-07-12T11:00:45Z"
+  },
+  {
+    "id": "txn_0011",
+    "orderId": "ORD-1009",
+    "provider": "stripe",
+    "providerRef": "re_3Q6wqw06Ug0WEyoagIOMke",
+    "type": "refund",
+    "status": "succeeded",
+    "amount": 94.4,
+    "currency": "EUR",
+    "fee": 0,
+    "method": {
+      "type": "card",
+      "brand": "mastercard",
+      "last4": "4444"
+    },
+    "failureReason": null,
+    "parentId": "txn_0010",
+    "createdAt": "2026-07-22T10:05:00Z",
+    "reason": "One of two returned"
+  },
+  {
+    "id": "txn_0012",
+    "orderId": "ORD-1010",
+    "provider": "paypal",
+    "providerRef": "G24GAGC88C06USYG4",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 228.0,
+    "currency": "EUR",
+    "fee": 6.03,
+    "method": {
+      "type": "paypal"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-07-28T20:16:00Z"
+  },
+  {
+    "id": "txn_0013",
+    "orderId": "ORD-1011",
+    "provider": "stripe",
+    "providerRef": "pi_3QWgW6Sc4kyAImqAsiYwam",
+    "type": "charge",
+    "status": "succeeded",
+    "amount": 107.99,
+    "currency": "EUR",
+    "fee": 1.87,
+    "method": {
+      "type": "card",
+      "brand": "visa",
+      "last4": "4242"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-05-09T13:25:30Z"
+  },
+  {
+    "id": "txn_0014",
+    "orderId": "ORD-1012",
+    "provider": "stripe",
+    "providerRef": "pi_3Q0yuQGYCkMEyAaUgiWUOy",
+    "type": "charge",
+    "status": "pending",
+    "amount": 59.0,
+    "currency": "EUR",
+    "fee": 0,
+    "method": {
+      "type": "klarna"
+    },
+    "failureReason": null,
+    "parentId": null,
+    "createdAt": "2026-08-20T07:40:30Z"
+  }
+]

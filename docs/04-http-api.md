@@ -144,10 +144,19 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `POST` | `/admin/products/:id/restore` | Bearer + role | the dashboard's Undo |
 | `POST` | `/admin/inventory/adjust` | Bearer + role (staff, super-admin) | `{ productId, colorId, size, mode: add\|remove\|set, quantity, reason, note }`. Removing more than is on hand → `409`. Answers `{ movements, products }` |
 | `POST` | `/admin/inventory/receive` | Bearer + role (staff, super-admin) | `{ variants[], quantity, reason, note }` — the same number into each |
-| `POST` | `/admin/inventory/order-movements` | Bearer + role (support, staff, super-admin) | `{ orderId, reason: sold\|returned, lines[] }`. Only for orders, so support can ship without hand-editing stock. A second `sold` for the same order → `409` |
 | `GET` | `/admin/inventory/movements?productId&colorId&size` | Bearer | one variant's history, newest first |
 | `GET` · `PUT` | `/admin/inventory/settings` | Bearer (+ role staff, super-admin to write) | `{ lowStockThreshold }`, 0–999, default 3 |
 | `POST` | `/admin/uploads` | Bearer + role (content, staff, super-admin) | multipart `file` (+ `folder`: products · menu · models). Type decided from the bytes: JPEG/PNG/WebP/AVIF ≤ 10 MB, MP4/MOV/WebM ≤ 100 MB. `201 { url, kind, mime, size }`. Stored on ImageKit when `IMAGEKIT_PRIVATE_KEY` + `IMAGEKIT_URL_ENDPOINT` are set, else in `UPLOAD_DIR` served at `/api/uploads` (development) |
+| `POST` | `/storefront/checkout` | optional Bearer (customer) | `{ email, name, phone?, items[{productId, quantity, size?, color?}], couponCode?, country, shippingAddress, expectedTotal? }` — **no prices**: the server prices every line, checks the coupon, works out shipping and VAT from the store settings, and refuses (`409`) if `expectedTotal` differs or a piece has sold out. Stock is checked under a per-product lock, so concurrent checkouts cannot oversell. `201`, status `to-pay` |
+| `POST` | `/storefront/checkout/:id/simulate-payment` | owner (account or `email`) | development payment stand-in: charges, confirms, issues the invoice number, queues the confirmation. `403` unless `PAYMENTS_SIMULATED` (default: on outside production) |
+| `GET` | `/storefront/orders` · `/storefront/orders/:id` · `…/:id/invoice?credit=` | Bearer (own) or `?email=` | a wrong email and a missing order are the same `404` |
+| `POST` | `/storefront/orders/:id/cancel` | owner | before shipping only; a paid order is refunded in full with a credit note |
+| `POST` | `/storefront/coupons/validate` · `GET /storefront/rankings/best-sellers` · `GET /storefront/settings` | — | checkout's Apply; units sold per product (ids and counts only); the public store settings |
+| `GET` | `/admin/orders` · `/admin/orders/:id` · `…/:id/invoice` | Bearer + role (support, staff, finance, super-admin) | |
+| `POST` | `/admin/orders/:id/status` · `…/cancel` · `…/refund` · `…/resend-confirmation` | Bearer + role (support, staff, super-admin) | shipping takes stock off once (before the order is written); refunds issue numbered credit notes and can restock; nobody marks an order paid by hand |
+| `GET` · `POST` · `PATCH` · `DELETE` | `/admin/coupons[/:id]`, `GET /admin/coupons/stats` | staff, super-admin write; finance reads | uses counted from orders, never stored |
+| `GET` | `/admin/transactions?orderId` · `/admin/emails?orderId` | Bearer (+ role for transactions) | read-only history and the order email outbox |
+| `GET` · `PATCH` | `/admin/settings` | Bearer; `PATCH` super-admin | section-wise merge |
 | `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
 | `GET` | `/admin/navigation` | Bearer | same, to staff |
 | `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |

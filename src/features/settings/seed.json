@@ -1,0 +1,145 @@
+{
+  "rev": 4,
+  "shipping": {
+    "zones": [
+      {
+        "id": "de",
+        "label": "Germany",
+        "flat": 0,
+        "days": "5\u201314 business days"
+      },
+      {
+        "id": "eu",
+        "label": "European Union",
+        "flat": 9.99,
+        "freeThreshold": 250,
+        "days": "5\u201314 business days"
+      },
+      {
+        "id": "intl",
+        "label": "International",
+        "flat": 14.99,
+        "days": "7\u201321 business days"
+      }
+    ],
+    "note": "Sent with DHL, tracked from our atelier."
+  },
+  "tax": {
+    "rate": 0.19,
+    "note": "All prices include 19% VAT."
+  },
+  "cookieBanner": {
+    "text": "We use cookies to keep the experience smooth and to understand how visitors use the site. By continuing, you accept our cookie policy.",
+    "button": "I understand"
+  },
+  "gpsr": {
+    "manufacturer": "Belioras \u2013 Online Boutique (Belindah Ongessa)",
+    "address": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76, 67663 Kaiserslautern, Germany",
+    "email": "support@belioras.com",
+    "note": "For product safety or conformity enquiries, contact our GPSR responsible person.",
+    "addressParts": {
+      "street": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76",
+      "postcode": "67663",
+      "city": "Kaiserslautern",
+      "country": "Germany"
+    }
+  },
+  "contact": {
+    "general": "info@belioras.com",
+    "support": "support@belioras.com",
+    "phone": "",
+    "hours": "Monday to Friday, 9:00\u201318:00 CET",
+    "boutique": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76, 67663 Kaiserslautern, Germany",
+    "responseTime": "We reply within one working day.",
+    "boutiqueParts": {
+      "street": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76",
+      "postcode": "67663",
+      "city": "Kaiserslautern",
+      "country": "Germany"
+    }
+  },
+  "social": {
+    "instagram": "https://instagram.com/belioras",
+    "pinterest": "https://pinterest.com/belioras",
+    "tiktok": "https://tiktok.com/@belioras"
+  },
+  "hero": {
+    "eyebrow": "Luxury fashion & hair",
+    "headline": "Your Style. Your Crown.",
+    "subtitle": "Luxury fashion and hair, curated for confident women.",
+    "primaryCta": {
+      "label": "Shop dresses",
+      "to": "/dresses"
+    },
+    "secondaryCta": {
+      "label": "Explore hair",
+      "to": "/hair"
+    }
+  },
+  "valueProps": [
+    {
+      "icon": "truck",
+      "title": "Free shipping in Germany",
+      "text": "And across the EU on orders over \u20ac250, tracked with DHL."
+    },
+    {
+      "icon": "refresh",
+      "title": "14-day returns",
+      "text": "Effortless returns on unworn pieces."
+    },
+    {
+      "icon": "shield",
+      "title": "Authentic, guaranteed",
+      "text": "Every item is verified at source."
+    },
+    {
+      "icon": "lock",
+      "title": "Secure checkout",
+      "text": "Encrypted payments, your data stays yours."
+    }
+  ],
+  "brandStory": {
+    "heading": "Your Style. Your Crown.",
+    "body": "Belioras is a luxury fashion and hair boutique, curated for confident women. Dresses, hair, accessories and beauty, each piece chosen by hand and sent from our atelier with DHL.",
+    "stats": [
+      {
+        "value": "34",
+        "label": "Countries we ship to"
+      },
+      {
+        "value": "14",
+        "label": "Days to change your mind"
+      },
+      {
+        "value": "1\u20134",
+        "label": "Days to prepare an order"
+      }
+    ]
+  },
+  "announcements": [
+    {
+      "id": "an1",
+      "key": "promo.freeShipping",
+      "text": "Free shipping in Germany \u00b7 free EU shipping over \u20ac250",
+      "link": "/shipping-policy",
+      "active": true,
+      "start": "",
+      "end": ""
+    },
+    {
+      "id": "an3",
+      "key": "promo.welcome10",
+      "text": "WELCOME10 \u2014 10% off your first order",
+      "link": "",
+      "active": true,
+      "start": "",
+      "end": ""
+    }
+  ],
+  "invoice": {
+    "prefix": "BEL",
+    "vatId": "",
+    "taxNumber": "",
+    "note": "Thank you for shopping with Belioras. Keep this invoice for your records; it is also your receipt."
+  }
+}

@@ -1,0 +1,392 @@
+[
+  {
+    "id": "ORD-1001",
+    "userId": "u3",
+    "email": "mariana@example.com",
+    "name": "Mariana Ribeiro",
+    "items": [
+      {
+        "productId": "p1",
+        "name": "Aurora Satin Midi Dress",
+        "quantity": 1,
+        "price": 129,
+        "size": "s",
+        "color": "Champagne"
+      }
+    ],
+    "subtotal": 129.0,
+    "discount": 12.9,
+    "shipping": 9.99,
+    "tax": 20.13,
+    "total": 126.09,
+    "couponCode": "WELCOME10",
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
+    "status": "to-review",
+    "createdAt": "2026-03-18T10:22:00Z",
+    "updatedAt": "2026-03-25T09:00:00Z",
+    "invoiceNumber": "BEL-2026-0001",
+    "paidAt": "2026-03-18T10:22:00Z",
+    "stockDeductedAt": "2026-03-18T10:22:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1002",
+    "userId": "u4",
+    "email": "clarisse@example.com",
+    "name": "Clarisse Dumas",
+    "items": [
+      {
+        "productId": "h1",
+        "name": "Brazilian Remy Straight 20\"",
+        "quantity": 1,
+        "price": 159,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
+    ],
+    "subtotal": 159.0,
+    "shipping": 9.99,
+    "tax": 26.98,
+    "total": 168.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
+    "status": "to-review",
+    "createdAt": "2026-04-25T14:05:00Z",
+    "updatedAt": "2026-05-02T11:30:00Z",
+    "invoiceNumber": "BEL-2026-0002",
+    "paidAt": "2026-04-25T14:05:00Z",
+    "stockDeductedAt": "2026-04-25T14:05:00Z",
+    "paymentMethod": "paypal"
+  },
+  {
+    "id": "ORD-1003",
+    "userId": "u5",
+    "email": "amaia@example.com",
+    "name": "Amaia Salazar",
+    "items": [
+      {
+        "productId": "p2",
+        "name": "Isabelle Linen Wrap Dress",
+        "quantity": 1,
+        "price": 98,
+        "size": "m",
+        "color": "Sand"
+      },
+      {
+        "productId": "a1",
+        "name": "The Belo Leather Shopper",
+        "quantity": 1,
+        "price": 189,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
+    ],
+    "subtotal": 287.0,
+    "discount": 57.4,
+    "shipping": 9.99,
+    "tax": 38.25,
+    "total": 239.59,
+    "couponCode": "SUMMER20",
+    "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
+    "status": "to-review",
+    "createdAt": "2026-06-08T16:45:00Z",
+    "updatedAt": "2026-06-15T12:00:00Z",
+    "invoiceNumber": "BEL-2026-0005",
+    "paidAt": "2026-06-08T16:45:00Z",
+    "stockDeductedAt": "2026-06-08T16:45:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1004",
+    "userId": "u3",
+    "email": "mariana@example.com",
+    "name": "Mariana Ribeiro",
+    "items": [
+      {
+        "productId": "h3",
+        "name": "Brazilian Remy Deep Wave 22\"",
+        "quantity": 1,
+        "price": 179,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
+    ],
+    "subtotal": 179.0,
+    "shipping": 9.99,
+    "tax": 30.17,
+    "total": 188.99,
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
+    "status": "shipped",
+    "createdAt": "2026-08-10T09:12:00Z",
+    "updatedAt": "2026-08-12T10:00:00Z",
+    "invoiceNumber": "BEL-2026-0008",
+    "paidAt": "2026-08-10T09:12:00Z",
+    "stockDeductedAt": "2026-08-10T09:12:00Z",
+    "paymentMethod": "apple_pay"
+  },
+  {
+    "id": "ORD-1005",
+    "userId": null,
+    "email": "guest@example.com",
+    "name": "Guest Customer",
+    "items": [
+      {
+        "productId": "p1",
+        "name": "Aurora Satin Midi Dress",
+        "quantity": 1,
+        "price": 129,
+        "size": "l",
+        "color": "Ebony"
+      },
+      {
+        "productId": "a4",
+        "name": "Ormolu Gold Hoops",
+        "quantity": 1,
+        "price": 59,
+        "size": "one-size",
+        "color": "Gold"
+      }
+    ],
+    "subtotal": 188.0,
+    "shipping": 0,
+    "tax": 30.02,
+    "total": 188.0,
+    "shippingAddress": "Kantstra\u00dfe 76, Berlin, 10627, Germany",
+    "status": "to-ship",
+    "createdAt": "2026-08-15T19:30:00Z",
+    "updatedAt": "2026-08-15T19:32:00Z",
+    "invoiceNumber": "BEL-2026-0009",
+    "paidAt": "2026-08-15T19:30:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1006",
+    "userId": null,
+    "email": "guest2@example.com",
+    "name": "Guest Customer",
+    "items": [
+      {
+        "productId": "p3",
+        "name": "Serafina Velvet Slip Dress",
+        "quantity": 1,
+        "price": 149,
+        "size": "xs",
+        "color": "Burgundy"
+      }
+    ],
+    "subtotal": 149.0,
+    "shipping": 0,
+    "tax": 23.79,
+    "total": 149.0,
+    "shippingAddress": "Maximilianstra\u00dfe 9, Munich, 80539, Germany",
+    "status": "to-pay",
+    "createdAt": "2026-08-19T08:47:00Z",
+    "updatedAt": "2026-08-19T08:47:00Z"
+  },
+  {
+    "id": "ORD-1007",
+    "userId": "u4",
+    "email": "clarisse@example.com",
+    "name": "Clarisse Dumas",
+    "items": [
+      {
+        "productId": "a3",
+        "name": "Ormolu Gold Chain Belt",
+        "quantity": 1,
+        "price": 79,
+        "size": "one-size",
+        "color": "Gold"
+      }
+    ],
+    "subtotal": 79.0,
+    "shipping": 9.99,
+    "tax": 14.21,
+    "total": 88.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
+    "status": "cancelled",
+    "createdAt": "2026-06-20T12:10:00Z",
+    "updatedAt": "2026-06-21T09:15:00Z"
+  },
+  {
+    "id": "ORD-1008",
+    "userId": "u5",
+    "email": "amaia@example.com",
+    "name": "Amaia Salazar",
+    "items": [
+      {
+        "productId": "h2",
+        "name": "Indian Remy Body Wave 18\"",
+        "quantity": 1,
+        "price": 139,
+        "size": "one-size",
+        "color": "Honey Blonde"
+      }
+    ],
+    "subtotal": 139.0,
+    "shipping": 9.99,
+    "tax": 23.79,
+    "total": 148.99,
+    "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
+    "status": "refunded",
+    "createdAt": "2026-05-30T18:00:00Z",
+    "updatedAt": "2026-06-02T14:40:00Z",
+    "invoiceNumber": "BEL-2026-0004",
+    "paidAt": "2026-05-30T18:00:00Z",
+    "creditNotes": [
+      {
+        "number": "BEL-CN-2026-0001",
+        "at": "2026-06-02T14:40:00Z",
+        "amount": 148.99,
+        "reason": "Returned unworn",
+        "shipping": 9.99,
+        "lines": [
+          {
+            "name": "Indian Remy Body Wave 18\"",
+            "color": "Honey Blonde",
+            "size": "one-size",
+            "quantity": 1,
+            "gross": 139.0
+          }
+        ],
+        "transactionId": "txn_0009"
+      }
+    ],
+    "stockDeductedAt": "2026-05-30T18:00:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1009",
+    "userId": "u3",
+    "email": "mariana@example.com",
+    "name": "Mariana Ribeiro",
+    "items": [
+      {
+        "productId": "p4",
+        "name": "Camille Pleated Maxi Dress",
+        "quantity": 2,
+        "price": 118,
+        "size": "xl",
+        "color": "Blush"
+      }
+    ],
+    "subtotal": 236.0,
+    "discount": 47.2,
+    "shipping": 9.99,
+    "tax": 31.74,
+    "total": 198.79,
+    "couponCode": "SUMMER20",
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
+    "status": "to-review",
+    "createdAt": "2026-07-12T11:00:00Z",
+    "updatedAt": "2026-07-20T15:00:00Z",
+    "invoiceNumber": "BEL-2026-0006",
+    "paidAt": "2026-07-12T11:00:00Z",
+    "creditNotes": [
+      {
+        "number": "BEL-CN-2026-0002",
+        "at": "2026-07-22T10:05:00Z",
+        "amount": 94.4,
+        "reason": "One of two returned",
+        "shipping": 0,
+        "lines": [
+          {
+            "name": "Camille Pleated Maxi Dress",
+            "color": "Blush",
+            "size": "xl",
+            "quantity": 1,
+            "gross": 94.4
+          }
+        ],
+        "transactionId": "txn_0011"
+      }
+    ],
+    "stockDeductedAt": "2026-07-12T11:00:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1010",
+    "userId": null,
+    "email": "guest3@example.com",
+    "name": "Guest Customer",
+    "items": [
+      {
+        "productId": "h1",
+        "name": "Brazilian Remy Straight 20\"",
+        "quantity": 1,
+        "price": 159,
+        "size": "one-size",
+        "color": "Caramel"
+      },
+      {
+        "productId": "a2",
+        "name": "Heirloom Silk Scarf",
+        "quantity": 1,
+        "price": 69,
+        "size": "one-size",
+        "color": "Champagne"
+      }
+    ],
+    "subtotal": 228.0,
+    "shipping": 0,
+    "tax": 36.4,
+    "total": 228.0,
+    "shippingAddress": "Neuer Wall 30, Hamburg, 20354, Germany",
+    "status": "to-ship",
+    "createdAt": "2026-07-28T20:15:00Z",
+    "updatedAt": "2026-07-28T20:16:00Z",
+    "invoiceNumber": "BEL-2026-0007",
+    "paidAt": "2026-07-28T20:15:00Z",
+    "paymentMethod": "paypal"
+  },
+  {
+    "id": "ORD-1011",
+    "userId": "u4",
+    "email": "clarisse@example.com",
+    "name": "Clarisse Dumas",
+    "items": [
+      {
+        "productId": "p2",
+        "name": "Isabelle Linen Wrap Dress",
+        "quantity": 1,
+        "price": 98,
+        "size": "s",
+        "color": "Rosewood"
+      }
+    ],
+    "subtotal": 98.0,
+    "shipping": 9.99,
+    "tax": 17.24,
+    "total": 107.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
+    "status": "to-review",
+    "createdAt": "2026-05-09T13:25:00Z",
+    "updatedAt": "2026-05-16T10:30:00Z",
+    "invoiceNumber": "BEL-2026-0003",
+    "paidAt": "2026-05-09T13:25:00Z",
+    "stockDeductedAt": "2026-05-09T13:25:00Z",
+    "paymentMethod": "card"
+  },
+  {
+    "id": "ORD-1012",
+    "userId": null,
+    "email": "guest4@example.com",
+    "name": "Guest Customer",
+    "items": [
+      {
+        "productId": "a4",
+        "name": "Ormolu Gold Hoops",
+        "quantity": 1,
+        "price": 59,
+        "size": "one-size",
+        "color": "Gold"
+      }
+    ],
+    "subtotal": 59.0,
+    "shipping": 0,
+    "tax": 9.42,
+    "total": 59.0,
+    "shippingAddress": "Schadowstra\u00dfe 55, D\u00fcsseldorf, 40212, Germany",
+    "status": "to-pay",
+    "createdAt": "2026-08-20T07:40:00Z",
+    "updatedAt": "2026-08-20T07:40:00Z"
+  }
+]

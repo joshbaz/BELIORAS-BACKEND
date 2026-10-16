@@ -7,6 +7,8 @@ import sizeGuideRoutes from "../routes/sizeGuides.routes.js";
 import sizeRoutes from "../routes/sizes.routes.js";
 import colorRoutes from "../routes/colors.routes.js";
 import navigationRoutes from "../routes/navigation.routes.js";
+import orderRoutes from "../routes/orders.routes.js";
+import salesRoutes from "../routes/sales.routes.js";
 import uploadRoutes from "../routes/uploads.routes.js";
 import productRoutes from "../routes/products.routes.js";
 import inventoryRoutes from "../routes/inventory.routes.js";
@@ -49,6 +51,11 @@ router.use("/inventory", inventoryRoutes);
 // Photos and videos for products, menu tiles and fit models.
 router.use("/uploads", uploadRoutes);
 
-// TODO: Mount global orders, sales report routes here
+// Orders, and what moves with them: coupons, transactions, the email outbox
+// and the store settings that price an order and print its invoice.
+router.use("/orders", orderRoutes);
+router.use(salesRoutes);
+
+// TODO: Mount sales report routes here
 
 export default router;

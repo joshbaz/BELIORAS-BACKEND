@@ -48,6 +48,14 @@ enum AuditAction {
   STOCK_RECEIVE
   STOCK_ORDER
   INVENTORY_SETTINGS
+  ORDER_STATUS
+  ORDER_CANCEL
+  ORDER_REFUND
+  ORDER_RESEND
+  COUPON_CREATE
+  COUPON_UPDATE
+  COUPON_DELETE
+  SETTINGS_UPDATE
 }
 
 enum AccountStatus {
@@ -343,6 +351,125 @@ model Setting {
   updatedAt DateTime @updatedAt
 
   @@map("settings")
+}
+
+/// An order: what was sold, to whom, for how much, and where it has got to.
+///
+/// `id` is the customer-facing reference ("ORD-1042"), numbered by `Counter`
+/// and never reused. `items` are snapshots — name, price, photo, colour and
+/// size as sold — so an order keeps describing the sale after the product
+/// changes. `invoiceNumber` is issued once, in sequence, when payment is
+/// confirmed; `creditNotes` are appended by refunds and never edited.
+///
+/// Status follows `utils/orderStatus.js`: to-pay → to-ship → shipped →
+/// to-review (delivered) → reviewed, or cancelled / refunded. Orders in to-pay
+/// and to-ship hold their units: available = on hand − held.
+model Order {
+  id              String    @id @map("_id")
+  userId          String?
+  email           String
+  name            String?
+  phone           String?
+  items           Json
+  subtotal        Float
+  discount        Float
+  shipping        Float
+  tax             Float
+  total           Float
+  couponCode      String?
+  country         String?
+  shippingAddress String?
+  status          String
+  /// Unique by construction (issued once from `Counter`), not by index: a
+  /// MongoDB unique index would treat every unpaid order's missing number as
+  /// the same value and refuse the second one.
+  invoiceNumber   String?
+  paymentMethod   String?
+  paidAt          DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  trackingRef     String?
+  carrier         String?
+  cancelReason    String?
+  stockDeductedAt DateTime?
+  stockReturnedAt DateTime?
+  creditNotes     Json
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([email])
+  @@index([status])
+  @@index([invoiceNumber])
+  @@map("orders")
+}
+
+/// Money moving against an order: a charge, or a refund against a charge.
+/// Read-only history; `simulated` marks the development payment stand-in.
+model Transaction {
+  id            String   @id @map("_id")
+  orderId       String
+  provider      String
+  providerRef   String
+  type          String
+  status        String
+  amount        Float
+  currency      String
+  fee           Float
+  method        Json?
+  failureReason String?
+  parentId      String?
+  reason        String?
+  simulated     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([orderId])
+  @@map("transactions")
+}
+
+/// A discount code. Uses are counted from orders (cancelled and refunded ones
+/// hand theirs back), never stored, so the count cannot drift.
+model Coupon {
+  id                 String    @id @map("_id")
+  code               String    @unique
+  type               String
+  value              Float
+  minOrderValue      Float     @default(0)
+  maxDiscount        Float?
+  maxUses            Int?
+  maxUsesPerCustomer Int?
+  expiresAt          DateTime?
+  active             Boolean   @default(true)
+  description        String    @default("")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@map("coupons")
+}
+
+/// An email the shop would send, queued until a mail provider is connected.
+model Email {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  to        String
+  subject   String
+  orderId   String?
+  data      Json
+  status    String   @default("queued")
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@map("emails")
+}
+
+/// Sequences that must never repeat or skip — order references, invoice and
+/// credit-note numbers, transaction ids — and per-product locks that make
+/// concurrent checkouts for the same piece take turns.
+model Counter {
+  id    String @id @map("_id")
+  value Int
+
+  @@map("counters")
 }
 
 /// An id that has been spent and must never be issued again.

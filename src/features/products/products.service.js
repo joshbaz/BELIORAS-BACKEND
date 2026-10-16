@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
 import { mergeStock, stockDiff, withTotal } from "./stock.js";
+import { reservedUnits, withAvailability } from "../orders/reserve.js";
 
 /**
  * The catalogue.
@@ -67,18 +68,27 @@ export function seedRecord(flat) {
  */
 const LIVE = { OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }] };
 
-/** Every live piece, newest first. `audience: "public"` shows only active ones, without cost price. */
+/**
+ * Every live piece, newest first. `audience: "public"` shows only active ones,
+ * without cost price, and with stock as *available* (what open orders hold
+ * taken off) — a shopper cannot read the orders to work that out themselves.
+ * Staff see on hand, and the dashboard subtracts what it holds.
+ */
 export async function listProducts({ audience = "staff" } = {}) {
   const where = audience === "public" ? { AND: [LIVE, { status: "active" }] } : LIVE;
   const rows = await prisma.product.findMany({ where, orderBy: [{ createdAt: "desc" }, { id: "asc" }] });
-  return rows.map((r) => present(r, { audience }));
+  const products = rows.map((r) => present(r, { audience }));
+  if (audience !== "public") return products;
+  const reserved = await reservedUnits(prisma);
+  return products.map((p) => withAvailability(p, reserved));
 }
 
 /** One piece by id or slug. The public read 404s a draft, so an unpublished piece has no address. */
 export async function getProduct(idOrSlug, { audience = "staff" } = {}) {
   const row = await prisma.product.findFirst({ where: { AND: [LIVE, { OR: [{ id: idOrSlug }, { slug: idOrSlug }] }] } });
   if (!row || (audience === "public" && row.status !== "active")) return null;
-  return present(row, { audience });
+  const product = present(row, { audience });
+  return audience === "public" ? withAvailability(product, await reservedUnits(prisma, [product.id])) : product;
 }
 
 /** The next `p<n>`, past every id ever issued — the shipped `bf33` counts as 33, as it always has. */

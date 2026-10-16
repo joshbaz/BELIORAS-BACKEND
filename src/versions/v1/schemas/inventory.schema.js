@@ -32,23 +32,6 @@ export const receiveStockSchema = z
   })
   .strict();
 
-/**
- * `POST /inventory/order-movements`: what shipping or a return does to stock.
- * Always tied to an order, and only ever "sold" (units leave) or "returned"
- * (units come back), so this edge cannot be used as a general stock editor by
- * roles that may handle orders but not inventory.
- */
-export const orderMovementsSchema = z
-  .object({
-    orderId: z.string().trim().min(1).max(80),
-    reason: z.enum(["sold", "returned"]),
-    lines: z
-      .array(z.object({ ...variant, quantity: z.number().int().positive().max(10000) }).strict())
-      .min(1)
-      .max(200),
-  })
-  .strict();
-
 /** `PUT /inventory/settings`. */
 export const inventorySettingsSchema = z
   .object({ lowStockThreshold: z.number().int().min(0, "Enter a whole number from 0 to 999.").max(999, "Enter a whole number from 0 to 999.") })

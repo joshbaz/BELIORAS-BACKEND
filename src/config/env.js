@@ -20,6 +20,10 @@ const envSchema = z.object({
   IMAGEKIT_PRIVATE_KEY: z.string().optional(),
   IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
   UPLOAD_DIR: z.string().default("uploads"),
+  // The development payment stand-in (POST /checkout/:id/simulate-payment).
+  // On by default outside production and refused in production unless set,
+  // because it marks an order paid without any money moving.
+  PAYMENTS_SIMULATED: z.enum(["true", "false"]).optional(),
   RATE_LIMIT_ENABLED: z
     .enum(["true", "false"])
     .default("true")

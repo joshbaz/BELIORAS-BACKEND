@@ -202,20 +202,15 @@ describe("inventory", () => {
     assert.equal(p.colorways[0].stock.s, 8, "4 + four receipts of 1 — none lost to a race");
   });
 
-  it("takes an order's pieces off once, and lets support do it without stock edit rights", async () => {
-    const body = { orderId: "BL-1", reason: "sold", lines: [{ productId: "p1", colorId: "ebony", size: "s", quantity: 2 }] };
-    const first = await agent.post(`${INV}/order-movements`).set("Authorization", auth.support).send(body);
-    assert.equal(first.status, 200);
-    assert.equal(first.body.data.movements[0].delta, -2);
-
-    const again = await agent.post(`${INV}/order-movements`).set("Authorization", auth.support).send(body);
-    assert.equal(again.status, 409, "an order ships once");
-
+  it("does not let a role that only handles orders edit stock by hand", async () => {
+    // Shipping and returns move stock inside the order flows (see orders.test.js);
+    // there is no stock edge for them, so support cannot reach one.
     const byHand = await agent
       .post(`${INV}/adjust`)
       .set("Authorization", auth.support)
       .send({ productId: "p1", colorId: "ebony", size: "s", mode: "add", quantity: 1 });
-    assert.equal(byHand.status, 403, "support may move stock for orders, not by hand");
+    assert.equal(byHand.status, 403);
+    assert.equal((await agent.post(`${INV}/order-movements`).set("Authorization", auth.staff).send({})).status, 404);
   });
 
   it("saves the low-stock line", async () => {

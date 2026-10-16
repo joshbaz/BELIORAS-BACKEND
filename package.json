@@ -17,6 +17,7 @@
     "seed:colors": "node scripts/seed-colors.js",
     "seed:navigation": "node scripts/seed-navigation.js",
     "seed:products": "node scripts/seed-products.js",
+    "seed:sales": "node scripts/seed-sales.js",
     "test": "node --test --test-concurrency=1 test/*.test.js",
     "lint": "eslint ."
   },
