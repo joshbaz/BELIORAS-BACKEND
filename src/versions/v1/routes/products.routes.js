@@ -1,6 +1,7 @@
 /* Product Routes */
 
 import { Router } from "express";
+import { validateWithReason } from "../../../middlewares/validate.js";
 import {
   createProduct,
   deleteProduct,
@@ -21,11 +22,7 @@ import { createProductSchema, updateProductSchema } from "../schemas/products.sc
 
 const router = Router();
 
-/** Synchronous validators, so a zod throw is caught by Express — see `sizes.routes.js`. */
-const validate = (schema) => (req, res, next) => {
-  req.body = schema.parse(req.body);
-  next();
-};
+const validate = (schema) => validateWithReason(schema);
 
 // The roles the dashboard grants "edit" on Products.
 const mayEdit = requireRole("content", "staff", "super-admin");

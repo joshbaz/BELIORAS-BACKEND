@@ -300,6 +300,11 @@ model Product {
   tags         String[]
   colorways    Json?
   attributes   Json
+  /// Goes up on every product-form save, and only then: stock moving does not
+  /// touch it. A form save names the version it opened, so two editors cannot
+  /// silently overwrite each other's names, prices or photos. Null on rows
+  /// written before it existed, which counts as 1.
+  editVersion  Int?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   deletedAt    DateTime?

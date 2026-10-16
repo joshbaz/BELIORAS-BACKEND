@@ -60,6 +60,45 @@ export function withOnHand(product, colorId, size, delta) {
 }
 
 /**
+ * The stock a form save should leave, given what the form loaded (`base`),
+ * what it is sending (`next`) and what is on the shelf now (`current`).
+ *
+ * Only cells the editor actually changed move, and they move by the editor's
+ * difference, applied to today's count: open the form at Ebony M = 3, type 5,
+ * and if an order shipped one in the meantime the save leaves 4 (2 + 2) rather
+ * than 5. Cells the editor left alone keep whatever is on the shelf now, so a
+ * delivery received while the form was open is not undone by saving it.
+ *
+ * `base`: `{ stock?: n, colorways?: { [colorId]: { [size]: n } } }`. A cell the
+ * form did not load (a colour or size just added) takes the form's number.
+ */
+export function mergeStock(current, next, base) {
+  const apply = (loaded, sent, now) => {
+    if (loaded === undefined) return sent; // a cell the form just added
+    if (sent === loaded) return now; // left alone: keep what is on the shelf now
+    return Math.max(0, now + (sent - loaded)); // edited: apply the editor's difference
+  };
+
+  if (!isTracked(next)) {
+    // Counted as one number on both sides: merge that number.
+    if (isTracked(current) || next.stock === undefined) return next;
+    return { ...next, stock: apply(base?.stock, Number(next.stock) || 0, Number(current.stock) || 0) };
+  }
+  // Switching from one number to a per-size grid is a recount: the grid stands.
+  if (!isTracked(current)) return next;
+
+  const colorways = next.colorways.map((w) => {
+    if (!w.stock) return w;
+    const loaded = base?.colorways?.[w.colorId] ?? {};
+    const stock = Object.fromEntries(
+      Object.entries(w.stock).map(([size, sent]) => [size, apply(loaded[size], Number(sent) || 0, onHandOf(current, w.colorId, size))]),
+    );
+    return { ...w, stock };
+  });
+  return withTotal({ ...next, colorways });
+}
+
+/**
  * History rows for what a product save changed, so the history is complete
  * whether stock moved through Inventory or the product form. `before` is null
  * for a new piece, whose stock is its opening count.

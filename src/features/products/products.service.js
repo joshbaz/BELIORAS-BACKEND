@@ -4,7 +4,7 @@ import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
-import { stockDiff, withTotal } from "./stock.js";
+import { mergeStock, stockDiff, withTotal } from "./stock.js";
 
 /**
  * The catalogue.
@@ -37,9 +37,10 @@ const COLUMNS = ["id", "slug", "name", "status", "collectionId", "price", "stock
 /** One flat object, as the client has always read a product. */
 export function present(record, { audience = "staff" } = {}) {
   if (!record) return null;
-  const { attributes, colorways, deletedAt, ...columns } = record;
+  const { attributes, colorways, deletedAt, editVersion, ...columns } = record;
   const flat = { ...(attributes ?? {}), ...columns, ...(colorways ? { colorways } : {}) };
   if (audience === "public") delete flat.costPrice;
+  else flat.editVersion = editVersion ?? 1;
   return flat;
 }
 
@@ -48,7 +49,7 @@ function toRecord(flat) {
   const attributes = {};
   const record = {};
   for (const [key, value] of Object.entries(flat)) {
-    if (key === "createdAt" || key === "updatedAt" || key === "deletedAt") continue;
+    if (["createdAt", "updatedAt", "deletedAt", "editVersion"].includes(key)) continue;
     if (COLUMNS.includes(key)) record[key] = value;
     else if (value !== undefined) attributes[key] = value;
   }
@@ -175,36 +176,74 @@ export async function createProduct(body, actor, meta = {}) {
   throw new ApiError("Could not number the new product. Try again.", 409);
 }
 
-export async function updateProduct(id, patch, actor, meta = {}) {
-  const current = await prisma.product.findFirst({ where: { AND: [{ id }, LIVE] } });
-  if (!current) throw new ApiError("Product not found.", 404);
-  const before = present(current);
+class StaleRead extends Error {}
 
-  const name = patch.name !== undefined ? patch.name.trim() : before.name;
-  const next = withTotal({ ...before, ...patch, id, name });
-  // A new address only when the name actually changed, so an unrelated edit
-  // never breaks a shared link.
-  next.slug = name !== before.name ? await uniqueSlug(slugify(name), id) : before.slug;
-  // Colourways replace the older per-name colour fields for good.
-  if (Array.isArray(patch.colorways)) {
-    delete next.colors;
-    delete next.colorImages;
+/**
+ * Saves a form edit.
+ *
+ * Two optional fields make it safe to have the form open for a while:
+ *
+ *   - `ifEditVersion`: the version the form opened. If someone else has saved
+ *     the piece since, the save is refused (409) rather than overwriting their
+ *     name, price or photos. Stock moving does not bump it, so a busy shop does
+ *     not make every save look stale.
+ *   - `stockBase`: the stock the form loaded. With it, only the cells the editor
+ *     changed move, by the editor's difference, applied to today's count — see
+ *     `mergeStock`. Without it, the stock sent is taken as-is (bulk edits that
+ *     do not touch stock never send any).
+ *
+ * The write is conditional on the row not having changed since it was read
+ * (stock moves included) and retried, so the merge is always against the
+ * count that is really there.
+ */
+export async function updateProduct(id, input, actor, meta = {}) {
+  const { ifEditVersion, stockBase, ...patch } = input;
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const current = await prisma.product.findFirst({ where: { AND: [{ id }, LIVE] } });
+    if (!current) throw new ApiError("Product not found.", 404);
+    if (ifEditVersion !== undefined && (current.editVersion ?? 1) !== ifEditVersion) {
+      throw new ApiError("Someone else saved this piece while you were editing. Reload it to see their changes, then make yours again.", 409);
+    }
+    const before = present(current);
+
+    const name = patch.name !== undefined ? patch.name.trim() : before.name;
+    let next = withTotal({ ...before, ...patch, id, name });
+    if (stockBase) next = mergeStock(before, next, stockBase);
+    // A new address only when the name actually changed, so an unrelated edit
+    // never breaks a shared link.
+    next.slug = name !== before.name ? await uniqueSlug(slugify(name), id) : before.slug;
+    // Colourways replace the older per-name colour fields for good.
+    if (Array.isArray(patch.colorways)) {
+      delete next.colors;
+      delete next.colorImages;
+    }
+    await assertFiling(next);
+
+    try {
+      const record = await prisma.$transaction(async (tx) => {
+        // The id is the key, never data: re-sending it would be a write to `_id`.
+        const { id: _key, ...data } = toRecord(next);
+        const { count } = await tx.product.updateMany({
+          where: { id, updatedAt: current.updatedAt },
+          data: { ...data, editVersion: (current.editVersion ?? 1) + 1 },
+        });
+        if (!count) throw new StaleRead();
+        const moves = movementRows(stockDiff(before, next), actor);
+        if (moves.length) await tx.stockMovement.createMany({ data: moves });
+        return tx.product.findUnique({ where: { id } });
+      });
+      await audit(actor.id, "staff", "PRODUCT_UPDATE", {
+        ...meta,
+        meta: { id, name: record.name, fields: Object.keys(patch) },
+      });
+      return present(record);
+    } catch (err) {
+      if (!(err instanceof StaleRead) && err?.code !== "P2034") throw err;
+      await new Promise((resolve) => setTimeout(resolve, Math.random() * 15 * 2 ** attempt));
+    }
   }
-  await assertFiling(next);
-
-  const record = await prisma.$transaction(async (tx) => {
-    // The id is the key, never data: re-sending it would be a write to `_id`.
-    const { id: _key, ...data } = toRecord(next);
-    const saved = await tx.product.update({ where: { id }, data });
-    const moves = movementRows(stockDiff(before, next), actor);
-    if (moves.length) await tx.stockMovement.createMany({ data: moves });
-    return saved;
-  });
-  await audit(actor.id, "staff", "PRODUCT_UPDATE", {
-    ...meta,
-    meta: { id, name: record.name, fields: Object.keys(patch) },
-  });
-  return present(record);
+  throw new ApiError("This piece was changing too fast to save. Try again.", 409);
 }
 
 /** Hides the piece everywhere. The row stays, so its id is never reissued and Undo can bring it back. */

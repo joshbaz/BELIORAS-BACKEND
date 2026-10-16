@@ -246,3 +246,57 @@ describe("guards on what products use", () => {
     assert.match(res.body.error.message, /Evening Dresses is tagged/);
   });
 });
+
+describe("products — saving from a form that was open a while", () => {
+  // Its own piece (S 4, M 3), so these tests leave p1's counts to the others.
+  let id;
+  before(async () => {
+    id = (await post(dress({ name: "Merge Gown", status: "draft", colorways: [{ colorId: "ebony", images: [], stock: { s: 4, m: 3 } }] }))).body.data.id;
+  });
+
+  it("merges stock: only edited cells move, by the editor's difference", async () => {
+    const opened = (await agent.get(`${ADMIN}/${id}`).set("Authorization", auth.content)).body.data;
+    const base = { colorways: { ebony: { ...opened.colorways[0].stock } } };
+    assert.deepEqual(base.colorways.ebony, { s: 4, m: 3 });
+
+    // Meanwhile: a delivery of 5 into S, and one M is written off as damaged.
+    await agent.post(`${INV}/receive`).set("Authorization", auth.staff).send({ variants: [{ productId: id, colorId: "ebony", size: "s" }], quantity: 5 });
+    await agent.post(`${INV}/adjust`).set("Authorization", auth.staff).send({ productId: id, colorId: "ebony", size: "m", mode: "remove", quantity: 1, reason: "damaged" });
+
+    // The editor left S alone and typed M: 3 → 5.
+    const res = await agent
+      .patch(`${ADMIN}/${id}`)
+      .set("Authorization", auth.content)
+      .send({
+        ifEditVersion: opened.editVersion,
+        stockBase: base,
+        colorways: [{ colorId: "ebony", images: [], stock: { s: 4, m: 5 } }],
+      });
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body.data.colorways[0].stock, { s: 9, m: 4 }, "S keeps the delivery; M is 2 (after the write-off) + 2");
+  });
+
+  it("refuses a save from a form opened before someone else's save", async () => {
+    const opened = (await agent.get(`${ADMIN}/${id}`).set("Authorization", auth.content)).body.data;
+    await agent.patch(`${ADMIN}/${id}`).set("Authorization", auth.content).send({ ifEditVersion: opened.editVersion, description: "First" });
+    const stale = await agent.patch(`${ADMIN}/${id}`).set("Authorization", auth.content).send({ ifEditVersion: opened.editVersion, description: "Second" });
+    assert.equal(stale.status, 409);
+    assert.match(stale.body.error.message, /Someone else saved this piece/);
+  });
+
+  it("does not count stock moves as an edit", async () => {
+    const opened = (await agent.get(`${ADMIN}/${id}`).set("Authorization", auth.content)).body.data;
+    await agent.post(`${INV}/receive`).set("Authorization", auth.staff).send({ variants: [{ productId: id, colorId: "ebony", size: "s" }], quantity: 1 });
+    const res = await agent.patch(`${ADMIN}/${id}`).set("Authorization", auth.content).send({ ifEditVersion: opened.editVersion, description: "After a delivery" });
+    assert.equal(res.status, 200);
+  });
+
+  it("refuses a photo that only exists in one browser, with a reason", async () => {
+    const res = await agent
+      .patch(`${ADMIN}/${id}`)
+      .set("Authorization", auth.content)
+      .send({ images: ["blob:http://localhost:5173/abc"] });
+    assert.equal(res.status, 400);
+    assert.match(res.body.error.message, /Upload the photo again/);
+  });
+});

@@ -75,5 +75,21 @@ const fields = {
 /** `POST /products`. */
 export const createProductSchema = z.object(fields).strict();
 
-/** `PATCH /products/:id`: any subset, same rules. */
-export const updateProductSchema = z.object(fields).partial().strict();
+/**
+ * `PATCH /products/:id`: any subset, same rules, plus two optional fields for
+ * the product form (see the service): the edit version it opened, and the
+ * stock it loaded, so a save merges stock instead of overwriting it.
+ */
+export const updateProductSchema = z
+  .object({
+    ...fields,
+    ifEditVersion: z.number().int().positive(),
+    stockBase: z
+      .object({
+        stock: count.optional(),
+        colorways: z.record(z.string().max(80), z.record(z.string().max(60), count)).optional(),
+      })
+      .strict(),
+  })
+  .partial()
+  .strict();
