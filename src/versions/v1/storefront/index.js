@@ -7,6 +7,7 @@ import sizeGuideRoutes from "../routes/sizeGuidesPublic.routes.js";
 import sizeRoutes from "../routes/sizesPublic.routes.js";
 import colorRoutes from "../routes/colorsPublic.routes.js";
 import navigationRoutes from "../routes/navigationPublic.routes.js";
+import { publicReviews } from "../routes/reviews.routes.js";
 import orderRoutes from "../routes/ordersPublic.routes.js";
 import { getSettings } from "../controllers/sales.controller.js";
 import productRoutes from "../routes/productsPublic.routes.js";
@@ -46,6 +47,7 @@ router.use("/products", productRoutes);
 
 // Checkout, a shopper's orders, coupon checks and best-seller rankings.
 router.use(orderRoutes);
+router.use(publicReviews);
 
 // The store settings the storefront shows: shipping zones, VAT, contact, copy.
 router.get("/settings", getSettings);

@@ -59,6 +59,9 @@ enum AuditAction {
   COUPON_UPDATE
   COUPON_DELETE
   SETTINGS_UPDATE
+  REVIEW_PUBLISH
+  REVIEW_HIDE
+  REVIEW_REPLY
 }
 
 enum AccountStatus {
@@ -489,6 +492,28 @@ model PasswordReset {
 
   @@index([userId])
   @@map("password_resets")
+}
+
+/// A shopper's review of a piece. Lands `pending` and shows nowhere until a
+/// moderator publishes it; `hidden` takes it down again. `verified` means the
+/// reviewer's account has ordered the piece — a badge, worked out here.
+model Review {
+  id        String   @id @map("_id")
+  productId String
+  userId    String?
+  name      String
+  rating    Int
+  title     String   @default("")
+  body      String
+  verified  Boolean  @default(false)
+  status    String   @default("pending")
+  reply     Json?
+  date      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId, status])
+  @@map("reviews")
 }
 
 /// An id that has been spent and must never be issued again.

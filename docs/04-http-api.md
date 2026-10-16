@@ -160,6 +160,8 @@ session and offers a retry. Only a 401 or 403 ends a session.
 | `PATCH` | `/{storefront,admin}/auth/me` | Bearer | own `name`, `phone`, and `email` (needs `currentPassword` in the same body) |
 | `POST` | `/{storefront,admin}/auth/password-reset` · `…/confirm` | — (rate limited) | request always `204`; the link (hashed at rest, one use, 60 min) is queued by email, and included in the outbox outside production. Confirm sets the password and ends every session |
 | `GET` | `/admin/customers` | support, staff, finance, super-admin | shoppers with an account |
+| `GET` · `POST` | `/storefront/reviews` | optional Bearer | published reviews (`?productId`, `?limit`); a new one is `pending`, and `verified` is decided from the reviewer's orders |
+| `GET` · `POST` · `PUT` | `/admin/reviews`, `…/:id/publish`, `…/:id/hide`, `…/:id/reply` | content, support, staff, super-admin | moderation. Products carry `rating` / `reviewCount` from published reviews |
 | `GET` | `/storefront/navigation` | — | `{ items, version }` — the mega menu tree. Public: every page's header and footer. Created from the shipped menu on first read |
 | `GET` | `/admin/navigation` | Bearer | same, to staff |
 | `PUT` | `/admin/navigation` | Bearer + role | `{ items, version }` — the whole tree, plus the version it was edited from. A stale version → `409` (someone else saved first). Checks names, non-empty columns, unique ids and addresses, and reserved addresses; a problem is a `400` whose message says which. Whether targets still exist is the dashboard's check (it needs the catalogue) |

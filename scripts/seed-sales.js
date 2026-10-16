@@ -18,6 +18,7 @@ import { SEED_COUPONS, seedCoupon } from "../src/features/coupons/coupons.servic
 import { SEED_ORDERS, seedOrder } from "../src/features/orders/orders.service.js";
 import { SEED_TRANSACTIONS } from "../src/features/payments/payments.service.js";
 import { getStoreSettings } from "../src/features/settings/settings.service.js";
+import { SEED_REVIEWS, seedReview } from "../src/features/reviews/reviews.service.js";
 
 const force = process.argv.includes("--force");
 
@@ -37,6 +38,7 @@ await getStoreSettings();
 console.log("settings: in place.");
 await upsertAll("coupon", SEED_COUPONS, seedCoupon);
 await upsertAll("order", SEED_ORDERS, seedOrder);
+await upsertAll("review", SEED_REVIEWS, seedReview);
 await upsertAll("transaction", SEED_TRANSACTIONS, (t) => ({
   ...t,
   method: t.method ?? undefined,

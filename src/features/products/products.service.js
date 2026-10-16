@@ -6,6 +6,7 @@ import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
 import { mergeStock, stockDiff, withTotal } from "./stock.js";
 import { reservedUnits, withAvailability } from "../orders/reserve.js";
+import { ratingSummaries } from "../reviews/reviews.service.js";
 
 /**
  * The catalogue.
@@ -77,7 +78,8 @@ const LIVE = { OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }] };
 export async function listProducts({ audience = "staff" } = {}) {
   const where = audience === "public" ? { AND: [LIVE, { status: "active" }] } : LIVE;
   const rows = await prisma.product.findMany({ where, orderBy: [{ createdAt: "desc" }, { id: "asc" }] });
-  const products = rows.map((r) => present(r, { audience }));
+  const ratings = await ratingSummaries();
+  const products = rows.map((r) => ({ ...present(r, { audience }), ...(ratings.get(r.id) ?? { rating: 0, reviewCount: 0 }) }));
   if (audience !== "public") return products;
   const reserved = await reservedUnits(prisma);
   return products.map((p) => withAvailability(p, reserved));
@@ -87,7 +89,7 @@ export async function listProducts({ audience = "staff" } = {}) {
 export async function getProduct(idOrSlug, { audience = "staff" } = {}) {
   const row = await prisma.product.findFirst({ where: { AND: [LIVE, { OR: [{ id: idOrSlug }, { slug: idOrSlug }] }] } });
   if (!row || (audience === "public" && row.status !== "active")) return null;
-  const product = present(row, { audience });
+  const product = { ...present(row, { audience }), ...((await ratingSummaries([row.id])).get(row.id) ?? { rating: 0, reviewCount: 0 }) };
   return audience === "public" ? withAvailability(product, await reservedUnits(prisma, [product.id])) : product;
 }
 
