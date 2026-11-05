@@ -5,6 +5,7 @@ import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
 import { SEED_COLORS } from "./seed.js";
+import { assertFamily } from "./families.service.js";
 import { describeUsers, productsUsing } from "../products/products.service.js";
 
 /**
@@ -65,6 +66,7 @@ export async function getColor(id) {
 
 export async function createColor({ name, hex, family }, actor, meta = {}) {
   await assertNameFree(name);
+  await assertFamily(family);
   const id = await resolveId(name);
   const record = await prisma.color.create({ data: { id, name: name.trim(), hex, family } });
   await audit(actor.id, "staff", "COLOR_CREATE", { ...meta, meta: { id, name: record.name } });
@@ -77,6 +79,7 @@ export async function updateColor(id, { name, hex, family }, actor, meta = {}) {
   if (!current) throw new ApiError("That colour no longer exists.", 404);
 
   await assertNameFree(name, id);
+  await assertFamily(family);
   const record = await prisma.color.update({ where: { id }, data: { name: name.trim(), hex, family } });
   await audit(actor.id, "staff", "COLOR_UPDATE", { ...meta, meta: { id, from: current.name, to: record.name } });
   return present(record);

@@ -72,6 +72,10 @@ enum AuditAction {
   ROLE_CREATE
   ROLE_UPDATE
   ROLE_DELETE
+  MODEL_CREATE
+  MODEL_UPDATE
+  MODEL_DELETE
+  TAXONOMY_UPDATE
 }
 
 enum AccountStatus {
@@ -598,6 +602,25 @@ model Role {
   updatedAt   DateTime @updatedAt
 
   @@map("roles")
+}
+
+/// A model who wears the pieces in the photographs, with the measurements a
+/// shopper compares against their own. A product names her and the size she
+/// wears (`modelFit: { modelId, size }`). The id is permanent and, once
+/// deleted, never reused (`FreedId` kind "model"): products and "shop this
+/// edit" links point at it.
+model FitModel {
+  id        String   @id @map("_id")
+  name      String
+  photo     String?
+  heightCm  Int?
+  bustCm    Int?
+  waistCm   Int?
+  hipCm     Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("fit_models")
 }
 
 /// An id that has been spent and must never be issued again.

@@ -139,6 +139,10 @@ async function assertFiling(product) {
     if (missing) throw new ApiError(`The size "${missing}" is no longer on the size list.`, 422);
   }
 
+  if (product.modelFit?.modelId && !(await prisma.fitModel.findUnique({ where: { id: product.modelFit.modelId } }))) {
+    throw new ApiError("That model is no longer on the list. Choose another, or none.", 422);
+  }
+
   for (const tag of product.tags ?? []) {
     const [prefix, subId, typeId] = String(tag).split(":");
     if (prefix !== "subcat") throw new ApiError("Only subcategory types can be saved as tags.", 422);

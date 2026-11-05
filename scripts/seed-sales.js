@@ -19,6 +19,7 @@ import { SEED_ORDERS, seedOrder } from "../src/features/orders/orders.service.js
 import { SEED_TRANSACTIONS } from "../src/features/payments/payments.service.js";
 import { getStoreSettings } from "../src/features/settings/settings.service.js";
 import { SEED_REVIEWS, seedReview } from "../src/features/reviews/reviews.service.js";
+import { SEED_MODELS, seedModel } from "../src/features/models/models.service.js";
 import { SEED_CAMPAIGNS, SEED_SUBSCRIBERS, getNewsletterSettings, seedCampaign, seedSubscriber } from "../src/features/marketing/marketing.service.js";
 
 const force = process.argv.includes("--force");
@@ -37,6 +38,7 @@ async function upsertAll(model, rows, toRow) {
 
 await getStoreSettings();
 console.log("settings: in place.");
+await upsertAll("fitModel", SEED_MODELS, seedModel);
 await upsertAll("coupon", SEED_COUPONS, seedCoupon);
 await upsertAll("order", SEED_ORDERS, seedOrder);
 await upsertAll("review", SEED_REVIEWS, seedReview);

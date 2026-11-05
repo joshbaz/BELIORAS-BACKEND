@@ -1,0 +1,68 @@
+{
+  "label": {
+    "en": "Colour",
+    "fr": "Couleur"
+  },
+  "values": [
+    {
+      "id": "black",
+      "name": "Black",
+      "hex": "#141414"
+    },
+    {
+      "id": "white",
+      "name": "White",
+      "hex": "#FDFDFB"
+    },
+    {
+      "id": "red",
+      "name": "Red",
+      "hex": "#A61C2E"
+    },
+    {
+      "id": "burgundy",
+      "name": "Burgundy",
+      "hex": "#6D1F2C"
+    },
+    {
+      "id": "blue",
+      "name": "Blue",
+      "hex": "#24407A"
+    },
+    {
+      "id": "green",
+      "name": "Green",
+      "hex": "#2F5D50"
+    },
+    {
+      "id": "pink",
+      "name": "Pink",
+      "hex": "#E5A9BE"
+    },
+    {
+      "id": "yellow",
+      "name": "Yellow",
+      "hex": "#E4C45A"
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "hex": "#C96F2E"
+    },
+    {
+      "id": "brown",
+      "name": "Brown",
+      "hex": "#7A5230"
+    },
+    {
+      "id": "purple",
+      "name": "Purple",
+      "hex": "#5B2A86"
+    },
+    {
+      "id": "metallic",
+      "name": "Metallic",
+      "hex": "#C9C4CE"
+    }
+  ]
+}

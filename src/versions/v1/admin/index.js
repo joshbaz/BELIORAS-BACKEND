@@ -14,6 +14,7 @@ import { requireAccess } from "../middlewares/requireAccess.js";
 import { adminReviews } from "../routes/reviews.routes.js";
 import { adminMarketing } from "../routes/marketing.routes.js";
 import activityRoutes from "../routes/activity.routes.js";
+import { adminModels } from "../routes/models.routes.js";
 import roleRoutes from "../routes/roles.routes.js";
 import orderRoutes from "../routes/orders.routes.js";
 import salesRoutes from "../routes/sales.routes.js";
@@ -67,6 +68,7 @@ router.use(adminMarketing);
 
 // Team → Roles: what each role may do, read by every request's access check.
 router.use(roleRoutes);
+router.use(adminModels);
 
 // The Activity page, from the server's audit log.
 router.use(activityRoutes);

@@ -9,6 +9,7 @@ import colorRoutes from "../routes/colorsPublic.routes.js";
 import navigationRoutes from "../routes/navigationPublic.routes.js";
 import { publicReviews } from "../routes/reviews.routes.js";
 import { publicMarketing } from "../routes/marketing.routes.js";
+import { publicModels } from "../routes/models.routes.js";
 import orderRoutes from "../routes/ordersPublic.routes.js";
 import { getSettings } from "../controllers/sales.controller.js";
 import productRoutes from "../routes/productsPublic.routes.js";
@@ -50,6 +51,7 @@ router.use("/products", productRoutes);
 router.use(orderRoutes);
 router.use(publicReviews);
 router.use(publicMarketing);
+router.use(publicModels);
 
 // The store settings the storefront shows: shipping zones, VAT, contact, copy.
 router.get("/settings", getSettings);
