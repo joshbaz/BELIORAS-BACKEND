@@ -15,6 +15,7 @@ enum Realm {
 enum AuditAction {
   REGISTER
   LOGIN
+  LOGIN_FAILED
   REFRESH
   LOGOUT
   LOGOUT_ALL
@@ -149,14 +150,16 @@ model Session {
 /// Append-only record of every auth event for compliance and security UX.
 model AuditLog {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String      @db.ObjectId
+  /// Who it happened to. Absent only for a failed sign-in with an email that
+  /// has no account (the email is then in `meta`).
+  userId    String?     @db.ObjectId
   realm     Realm
   action    AuditAction
   ip        String?
   userAgent String?
   meta      Json?
   createdAt DateTime    @default(now())
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([createdAt])

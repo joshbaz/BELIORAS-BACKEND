@@ -183,10 +183,17 @@ export async function listCustomers() {
 
 export async function login({ realm, email, password }, meta = {}) {
   const user = await prisma.user.findUnique({ where: { realm_email: { realm, email } } });
-  if (!user) throw new ApiError("Invalid email or password.", 401);
+  // Failed attempts are recorded for the Activity page's "Failed sign-ins" —
+  // with the account when there is one, the typed email either way. The answer
+  // to the caller stays the same, so it still reveals nothing.
+  const fail = async () => {
+    await audit(user?.id ?? null, realm, "LOGIN_FAILED", { ...meta, meta: { email } });
+    return new ApiError("Invalid email or password.", 401);
+  };
+  if (!user) throw await fail();
 
   const match = await bcrypt.compare(password, user.passwordHash);
-  if (!match) throw new ApiError("Invalid email or password.", 401);
+  if (!match) throw await fail();
 
   // Checked after the password so a suspended account cannot be used to probe
   // whether an address exists, and said plainly rather than as the uniform
@@ -319,7 +326,7 @@ export async function createStaff({ name, email, role, password }, meta = {}, ac
   // The account hash is never returned — but the admin does need to hand over
   // the temporary password, and it exists nowhere else, so say so explicitly
   // rather than leaving them to guess whether it was kept.
-  await audit(user.id, "staff", "STAFF_CREATE", { ...meta, meta: { role: roleId } });
+  await audit(user.id, "staff", "STAFF_CREATE", { ...meta, meta: { role: roleId, by: actor?.id ?? null } });
   return { user: publicUser(user), temporaryPassword: password };
 }
 

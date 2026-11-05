@@ -13,6 +13,7 @@ import { requireBoundary } from "../middlewares/boundary.js";
 import { requireAccess } from "../middlewares/requireAccess.js";
 import { adminReviews } from "../routes/reviews.routes.js";
 import { adminMarketing } from "../routes/marketing.routes.js";
+import activityRoutes from "../routes/activity.routes.js";
 import roleRoutes from "../routes/roles.routes.js";
 import orderRoutes from "../routes/orders.routes.js";
 import salesRoutes from "../routes/sales.routes.js";
@@ -66,6 +67,9 @@ router.use(adminMarketing);
 
 // Team → Roles: what each role may do, read by every request's access check.
 router.use(roleRoutes);
+
+// The Activity page, from the server's audit log.
+router.use(activityRoutes);
 
 // Shoppers with an account, for the Customers page (read-only).
 router.get("/customers", authenticate, requireBoundary, requireAccess("customers:view"), listCustomers);
