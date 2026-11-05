@@ -68,6 +68,9 @@ enum AuditAction {
   CAMPAIGN_DELETE
   SUBSCRIBER_UNSUBSCRIBE
   SUBSCRIBER_ERASE
+  ROLE_CREATE
+  ROLE_UPDATE
+  ROLE_DELETE
 }
 
 enum AccountStatus {
@@ -575,6 +578,23 @@ model ContactMessage {
   createdAt DateTime @default(now())
 
   @@map("contact_messages")
+}
+
+/// A dashboard role: a name, and a level per section — "none", "view" or
+/// "edit". Every staff route asks for a section and a level (`requireAccess`),
+/// and the answer is read from here, so a role edited under Team → Roles
+/// changes what the server allows, not only which buttons show. `locked` is the
+/// Administrator: always everything, never edited, never deleted.
+model Role {
+  id          String   @id @map("_id")
+  name        String
+  description String   @default("")
+  permissions Json
+  locked      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("roles")
 }
 
 /// An id that has been spent and must never be issued again.

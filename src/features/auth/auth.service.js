@@ -9,6 +9,7 @@ import { audit, requestMeta } from "../audit/audit.js";
 import { hashToken, signAccessToken, signRefreshToken, verifyRefreshToken } from "./tokens.js";
 import { ROLES, defaultRoleFor, assertAssignableRole } from "./roles.js";
 import { publicUser } from "./guards.js";
+import { assertWithinReach, getRole } from "../roles/roles.service.js";
 import * as sessionCache from "./sessionCache.js";
 import { randomBytes } from "node:crypto";
 import { queueEmail } from "../emails/emails.service.js";
@@ -291,12 +292,21 @@ export async function logoutAll({ realm, refreshToken }, meta = {}) {
  * temporary password is flagged instead, so the account is only usable after its
  * owner rotates it.
  *
- * The caller is expected to have been through `requireRole(SUPER_ADMIN)`; the
+ * The caller is expected to have been through `requireAccess("team:edit")`; the
  * role argument is validated here rather than trusted, because `super-admin` is
  * the role that grants roles.
  */
-export async function createStaff({ name, email, role, password }, meta = {}) {
+/** A role id that exists and that `actor` may hand out (no further than their own reach). */
+async function assignable(role, actor) {
   const roleId = assertAssignableRole(role);
+  const record = await getRole(roleId);
+  if (!record) throw new ApiError("Choose a role that exists.", 400);
+  if (actor) await assertWithinReach(record, actor);
+  return roleId;
+}
+
+export async function createStaff({ name, email, role, password }, meta = {}, actor = null) {
+  const roleId = await assignable(role, actor);
 
   const existing = await prisma.user.findUnique({ where: { realm_email: { realm: "staff", email } } });
   if (existing) throw new ApiError("A staff account with this email already exists.", 409);
@@ -347,7 +357,7 @@ export async function listStaff() {
  * otherwise go on answering with the old one.
  */
 export async function updateStaffRole(targetId, role, actor, meta = {}) {
-  const roleId = assertAssignableRole(role);
+  const roleId = await assignable(role, actor);
   const target = await requireStaffTarget(targetId, actor);
 
   if (target.role === ROLES.SUPER_ADMIN) {

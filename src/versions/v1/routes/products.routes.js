@@ -12,7 +12,7 @@ import {
 } from "../controllers/products.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { createProductSchema, updateProductSchema } from "../schemas/products.schema.js";
 
 /**
@@ -25,7 +25,7 @@ const router = Router();
 const validate = (schema) => validateWithReason(schema);
 
 // The roles the dashboard grants "edit" on Products.
-const mayEdit = requireRole("content", "staff", "super-admin");
+const mayEdit = requireAccess("products:edit");
 
 router.get("/", authenticate, requireBoundary, listProducts);
 router.get("/:id", authenticate, requireBoundary, getProduct);

@@ -89,7 +89,7 @@ export async function listStaff(req, res) {
  * used until its owner rotates it.
  */
 export async function createStaff(req, res) {
-  res.status(201).json({ data: await auth.createStaff(req.body, auth.requestMeta(req)) });
+  res.status(201).json({ data: await auth.createStaff(req.body, auth.requestMeta(req), req.user) });
 }
 
 /**

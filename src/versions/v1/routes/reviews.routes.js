@@ -7,7 +7,7 @@ import * as reviews from "../../../features/reviews/reviews.service.js";
 import { requestMeta } from "../../../features/audit/audit.js";
 import { authenticate, optionalAuthenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 
 /**
  * Reviews: shoppers read published ones and submit their own (pending until
@@ -39,7 +39,7 @@ publicReviews.post("/reviews", optionalAuthenticate, validate(createSchema), asy
 });
 
 export const adminReviews = Router();
-const mayModerate = requireRole("content", "support", "staff", "super-admin");
+const mayModerate = requireAccess("reviews:edit");
 
 adminReviews.get("/reviews", authenticate, requireBoundary, mayModerate, async (req, res) => {
   res.json({ data: await reviews.listAll() });

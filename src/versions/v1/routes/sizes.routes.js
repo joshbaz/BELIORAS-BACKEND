@@ -11,7 +11,7 @@ import {
 } from "../controllers/sizes.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { createSizeSchema, renameSizeSchema } from "../schemas/sizes.schema.js";
 
 /**
@@ -61,10 +61,8 @@ function validateRename(req, res, next) {
 router.get("/", authenticate, requireBoundary, listSizes);
 router.get("/:id", authenticate, requireBoundary, getSize);
 
-// Writing is the same section gate as the size guides: the roles the dashboard
-// grants "edit" on Sizes & Guides. `requireRole` takes roles as separate
-// arguments — an array here would match nothing and lock everyone out.
-const mayEditSizes = requireRole("content", "staff", "super-admin");
+// Writing takes "edit" on Sizes & Guides, the same gate as the size guides.
+const mayEditSizes = requireAccess("sizes:edit");
 
 // Declared before `/:id` so a reset cannot be read as a size whose id is
 // literally "reset".

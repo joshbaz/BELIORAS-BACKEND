@@ -9,7 +9,7 @@ import {
 } from "../controllers/sizeGuides.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { GUIDE_BODY_SCHEMAS, GUIDE_TYPES } from "../schemas/sizeGuides.schema.js";
 import { ApiError } from "../../../core/ApiError.js";
 
@@ -41,13 +41,8 @@ function validateGuideFor(req, res, next) {
 router.get("/", authenticate, requireBoundary, listGuides);
 router.get("/:type", authenticate, requireBoundary, requireKnownType, getGuide);
 
-// Writing is the first section gate on this server. The capability matrix itself
-// still lives in the client, so this is a coarse list of the roles the dashboard
-// grants "edit" on Sizes & Guides — enough that a role without it cannot write
-// even if the screen offers the button. Note the spread: `requireRole` takes
-// roles as separate arguments, and an array here would match nothing and lock
-// everyone out, administrators included.
-const mayEditGuides = requireRole("content", "staff", "super-admin");
+// Writing takes "edit" on Sizes & Guides, read from the caller's role.
+const mayEditGuides = requireAccess("sizes:edit");
 
 router.put("/:type", authenticate, requireBoundary, mayEditGuides, requireKnownType, validateGuideFor, saveGuide);
 router.post("/reset", authenticate, requireBoundary, mayEditGuides, resetGuides);

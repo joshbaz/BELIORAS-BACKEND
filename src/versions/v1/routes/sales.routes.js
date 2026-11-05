@@ -15,29 +15,35 @@ import {
 } from "../controllers/sales.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { couponPatchSchema, couponSchema, settingsPatchSchema } from "../schemas/orders.schema.js";
 
 /**
- * Gates follow the dashboard's sections: Discounts (staff edit, finance view),
- * Transactions (finance, plus whoever handles orders, since an order's page
- * shows its payments), the email outbox (any staff — an order's page shows
- * what was sent), and Settings (administrators only).
+ * Gates follow the dashboard's sections: Discounts, Transactions (or Orders,
+ * since an order's page shows its payments), the email outbox (any staff — an
+ * order's page shows what was sent), and Settings or Shipping.
  */
 
 const router = Router();
+
+/** Saving only the shipping section is Shipping's to do; anything else is Settings'. */
+const maySaveSettings = (req, res, next) => {
+  const keys = Object.keys(req.body ?? {});
+  const section = keys.length && keys.every((k) => k === "shipping") ? "shipping" : "settings";
+  return requireAccess(`${section}:edit`)(req, res, next);
+};
 const staffIn = [authenticate, requireBoundary];
 
-router.get("/coupons", ...staffIn, requireRole("staff", "finance", "super-admin"), listCoupons);
-router.get("/coupons/stats", ...staffIn, requireRole("staff", "finance", "super-admin"), couponStats);
-router.post("/coupons", ...staffIn, requireRole("staff", "super-admin"), validate(couponSchema), createCoupon);
-router.patch("/coupons/:id", ...staffIn, requireRole("staff", "super-admin"), validate(couponPatchSchema), updateCoupon);
-router.delete("/coupons/:id", ...staffIn, requireRole("staff", "super-admin"), deleteCoupon);
+router.get("/coupons", ...staffIn, requireAccess("discounts:view"), listCoupons);
+router.get("/coupons/stats", ...staffIn, requireAccess("discounts:view"), couponStats);
+router.post("/coupons", ...staffIn, requireAccess("discounts:edit"), validate(couponSchema), createCoupon);
+router.patch("/coupons/:id", ...staffIn, requireAccess("discounts:edit"), validate(couponPatchSchema), updateCoupon);
+router.delete("/coupons/:id", ...staffIn, requireAccess("discounts:edit"), deleteCoupon);
 
-router.get("/transactions", ...staffIn, requireRole("finance", "support", "staff", "super-admin"), listTransactionsHandler);
+router.get("/transactions", ...staffIn, requireAccess("transactions:view", "orders:view"), listTransactionsHandler);
 router.get("/emails", ...staffIn, listEmailsHandler);
 
 router.get("/settings", ...staffIn, getSettings);
-router.patch("/settings", ...staffIn, requireRole("super-admin"), validate(settingsPatchSchema), updateSettings);
+router.patch("/settings", ...staffIn, maySaveSettings, validate(settingsPatchSchema), updateSettings);
 
 export default router;

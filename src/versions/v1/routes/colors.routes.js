@@ -11,7 +11,7 @@ import {
 } from "../controllers/colors.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { createColorSchema, updateColorSchema } from "../schemas/colors.schema.js";
 
 /** The colour list, as the dashboard edits it. Same shape as `categories.routes.js`. */
@@ -26,7 +26,7 @@ const validate = (schema) => (req, res, next) => {
 
 router.get("/", authenticate, requireBoundary, listColors);
 
-const mayEdit = requireRole("content", "staff", "super-admin");
+const mayEdit = requireAccess("categories:edit");
 
 // Declared before `/:id` so it cannot be read as a colour called "reset".
 router.post("/reset", authenticate, requireBoundary, mayEdit, resetColors);

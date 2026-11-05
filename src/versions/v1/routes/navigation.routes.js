@@ -5,7 +5,7 @@ import { ApiError } from "../../../core/ApiError.js";
 import { getNavigation, resetNavigation, updateNavigation } from "../controllers/navigation.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { updateNavigationSchema } from "../schemas/navigation.schema.js";
 
 /**
@@ -35,7 +35,7 @@ function validateUpdate(req, res, next) {
   next();
 }
 
-const mayEdit = requireRole("content", "staff", "super-admin");
+const mayEdit = requireAccess("mega-menu:edit");
 
 router.get("/", authenticate, requireBoundary, getNavigation);
 router.put("/", authenticate, requireBoundary, mayEdit, validateUpdate, updateNavigation);

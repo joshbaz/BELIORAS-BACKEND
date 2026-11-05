@@ -11,7 +11,7 @@ import {
 } from "../controllers/inventory.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import {
   adjustStockSchema,
   inventorySettingsSchema,
@@ -29,7 +29,7 @@ const router = Router();
 
 const validate = (schema) => validateWithReason(schema);
 
-const mayEditStock = requireRole("staff", "super-admin");
+const mayEditStock = requireAccess("inventory:edit");
 
 router.get("/movements", authenticate, requireBoundary, stockHistory);
 router.get("/settings", authenticate, requireBoundary, getInventorySettings);

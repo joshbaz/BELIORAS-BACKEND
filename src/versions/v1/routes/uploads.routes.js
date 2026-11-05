@@ -6,7 +6,7 @@ import { ApiError } from "../../../core/ApiError.js";
 import { LIMITS, storeUpload } from "../../../features/uploads/uploads.service.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 
 /**
  * `POST /uploads` — one photo or video, as multipart field `file`, plus an
@@ -38,7 +38,7 @@ async function upload(req, res) {
 }
 
 // Whoever may edit something that carries a photo: products, the menu, fit models.
-const mayUpload = requireRole("content", "staff", "super-admin");
+const mayUpload = requireAccess("products:edit", "mega-menu:edit", "sizes:edit");
 
 router.post("/", authenticate, requireBoundary, mayUpload, receive, upload);
 

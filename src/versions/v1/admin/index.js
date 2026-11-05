@@ -10,9 +10,10 @@ import navigationRoutes from "../routes/navigation.routes.js";
 import { listCustomers } from "../controllers/auth.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { adminReviews } from "../routes/reviews.routes.js";
 import { adminMarketing } from "../routes/marketing.routes.js";
+import roleRoutes from "../routes/roles.routes.js";
 import orderRoutes from "../routes/orders.routes.js";
 import salesRoutes from "../routes/sales.routes.js";
 import uploadRoutes from "../routes/uploads.routes.js";
@@ -30,8 +31,7 @@ router.use("/auth", authRoutes);
 
 // Staff read and write. The guides are content, so `authenticate` and
 // `requireBoundary` are redundant here — but they are what make the write
-// safe, since `requireRole` alone would read a customer token's role and let it
-// through.
+// safe, since `requireAccess` alone would read a customer token's role.
 router.use("/size-guides", sizeGuideRoutes);
 
 // The size list, same reasoning. Both resources sit behind the same section
@@ -64,8 +64,11 @@ router.use(salesRoutes);
 router.use(adminReviews);
 router.use(adminMarketing);
 
+// Team → Roles: what each role may do, read by every request's access check.
+router.use(roleRoutes);
+
 // Shoppers with an account, for the Customers page (read-only).
-router.get("/customers", authenticate, requireBoundary, requireRole("support", "staff", "finance", "super-admin"), listCustomers);
+router.get("/customers", authenticate, requireBoundary, requireAccess("customers:view"), listCustomers);
 
 // TODO: Mount sales report routes here
 

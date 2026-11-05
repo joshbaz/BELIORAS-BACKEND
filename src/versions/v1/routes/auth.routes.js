@@ -22,10 +22,9 @@ import {
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { createAuthLimiter, createPasswordLimiter, createRefreshLimiter } from "../../../middlewares/rateLimit.js";
 import { validate } from "../../../middlewares/validate.js";
-import { ROLES } from "../../../features/auth/roles.js";
 import {
   changePasswordSchema,
   loginSchema,
@@ -83,12 +82,12 @@ router.delete("/sessions/:sessionId", authenticate, requireBoundary, revokeSessi
 
 // Staff management — super-admin only. This is the first route whose access the
 // server actually decides; everything above it only asks who you are.
-router.get("/staff", authenticate, requireBoundary, requireRole(ROLES.SUPER_ADMIN), listStaff);
+router.get("/staff", authenticate, requireBoundary, requireAccess("team:edit"), listStaff);
 router.post(
   "/staff",
   authenticate,
   requireBoundary,
-  requireRole(ROLES.SUPER_ADMIN),
+  requireAccess("team:edit"),
   validate(staffCreateSchema),
   createStaff,
 );
@@ -101,7 +100,7 @@ router.patch(
   "/staff/:id/role",
   authenticate,
   requireBoundary,
-  requireRole(ROLES.SUPER_ADMIN),
+  requireAccess("team:edit"),
   validate(staffRoleSchema),
   updateStaffRole,
 );
@@ -109,7 +108,7 @@ router.patch(
   "/staff/:id/status",
   authenticate,
   requireBoundary,
-  requireRole(ROLES.SUPER_ADMIN),
+  requireAccess("team:edit"),
   validate(staffStatusSchema),
   setStaffStatus,
 );

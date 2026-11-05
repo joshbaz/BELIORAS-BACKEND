@@ -13,7 +13,7 @@ import {
 } from "../controllers/orders.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import { cancelSchema, refundSchema, statusSchema } from "../schemas/orders.schema.js";
 
 /**
@@ -25,8 +25,8 @@ import { cancelSchema, refundSchema, statusSchema } from "../schemas/orders.sche
 
 const router = Router();
 
-const mayRead = requireRole("support", "staff", "finance", "super-admin");
-const mayHandle = requireRole("support", "staff", "super-admin");
+const mayRead = requireAccess("orders:view");
+const mayHandle = requireAccess("orders:edit");
 
 router.get("/", authenticate, requireBoundary, mayRead, listOrders);
 router.get("/:id", authenticate, requireBoundary, mayRead, getOrder);

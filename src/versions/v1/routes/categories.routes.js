@@ -12,7 +12,7 @@ import {
 } from "../controllers/categories.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 import {
   createCategorySchema,
   reorderCategoriesSchema,
@@ -37,9 +37,8 @@ const validate = (schema) => (req, res, next) => {
 
 router.get("/", authenticate, requireBoundary, listCategories);
 
-// Same roles as the size list: the ones the dashboard grants edit on catalogue
-// content. `requireRole` takes roles as separate arguments.
-const mayEdit = requireRole("content", "staff", "super-admin");
+// Editing takes "edit" on Categories & Colours, read from the caller's role.
+const mayEdit = requireAccess("categories:edit");
 
 // Declared before `/:id` so neither can be read as a category with that id.
 router.post("/reset", authenticate, requireBoundary, mayEdit, resetCategories);

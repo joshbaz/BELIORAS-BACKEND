@@ -8,7 +8,7 @@ import * as m from "../../../features/marketing/marketing.service.js";
 import { requestMeta } from "../../../features/audit/audit.js";
 import { authenticate, optionalAuthenticate } from "../middlewares/authenticate.js";
 import { requireBoundary } from "../middlewares/boundary.js";
-import { requireRole } from "../middlewares/requireRole.js";
+import { requireAccess } from "../middlewares/requireAccess.js";
 
 /**
  * Shoppers join and leave the Letter and write through the contact form —
@@ -59,7 +59,7 @@ publicMarketing.post("/contact", limiter, validate(contactSchema), async (req, r
 
 export const adminMarketing = Router();
 const staffIn = [authenticate, requireBoundary];
-const mayEdit = requireRole("content", "staff", "super-admin");
+const mayEdit = requireAccess("newsletter:edit");
 
 adminMarketing.get("/newsletter/subscribers", ...staffIn, mayEdit, wrap(() => m.listSubscribers()));
 adminMarketing.post("/newsletter/subscribers/:id/unsubscribe", ...staffIn, mayEdit, wrap((req) => m.unsubscribeSubscriber(req.params.id, req.user, requestMeta(req))));
@@ -73,4 +73,4 @@ adminMarketing.post("/newsletter/campaigns/:id/schedule", ...staffIn, mayEdit, w
 adminMarketing.post("/newsletter/campaigns/:id/unschedule", ...staffIn, mayEdit, wrap((req) => m.unscheduleCampaign(req.params.id)));
 adminMarketing.post("/newsletter/campaigns/:id/send", ...staffIn, mayEdit, wrap((req) => m.sendCampaign(req.params.id, req.user, requestMeta(req))));
 adminMarketing.delete("/newsletter/campaigns/:id", ...staffIn, mayEdit, wrap((req) => m.deleteCampaign(req.params.id, req.user, requestMeta(req))));
-adminMarketing.get("/contact/messages", ...staffIn, requireRole("support", "staff", "super-admin"), wrap(() => m.listContactMessages()));
+adminMarketing.get("/contact/messages", ...staffIn, requireAccess("orders:view", "customers:view"), wrap(() => m.listContactMessages()));
