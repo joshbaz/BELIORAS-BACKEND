@@ -1,6 +1,6 @@
 /* Colour Families Service */
 
-import { readFileSync } from "node:fs";
+import familiesSeed from "./families.seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
@@ -14,7 +14,7 @@ import { audit } from "../audit/audit.js";
  */
 
 const ID = "taxonomy:color";
-const SEED = JSON.parse(readFileSync(new URL("./families.seed.json", import.meta.url), "utf8"));
+const SEED = familiesSeed;
 
 export async function getFamilies() {
   const row = await prisma.setting.findUnique({ where: { id: ID } });

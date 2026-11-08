@@ -1,7 +1,9 @@
 /* Newsletter And Contact Service */
 
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
+import newsletterSeed from "./newsletter.seed.json" with { type: "json" };
+import subscribersSeed from "./subscribers.seed.json" with { type: "json" };
+import campaignsSeed from "./campaigns.seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { env } from "../../config/index.js";
@@ -24,10 +26,9 @@ import { getStoreSettings } from "../settings/settings.service.js";
  * mail provider is connected.
  */
 
-const read = (file) => JSON.parse(readFileSync(new URL(`./${file}`, import.meta.url), "utf8"));
-const { rev: _rev, ...NEWSLETTER_SEED } = read("newsletter.seed.json");
-export const SEED_SUBSCRIBERS = read("subscribers.seed.json");
-export const SEED_CAMPAIGNS = read("campaigns.seed.json");
+const { rev: _rev, ...NEWSLETTER_SEED } = newsletterSeed;
+export const SEED_SUBSCRIBERS = subscribersSeed;
+export const SEED_CAMPAIGNS = campaignsSeed;
 
 /** A confirmation link opened twice in quick succession still reads as fresh. */
 const FRESH_MS = 10 * 60 * 1000;

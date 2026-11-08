@@ -1,6 +1,6 @@
 /* Fit Model Service */
 
-import { readFileSync } from "node:fs";
+import modelsSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
@@ -15,7 +15,7 @@ import { slugify } from "../sizes/slug.js";
  * cannot be deleted.
  */
 
-export const SEED_MODELS = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_MODELS = modelsSeed;
 const KIND = "model";
 
 function present(m) {

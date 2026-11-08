@@ -1,6 +1,6 @@
 /* Coupon Service */
 
-import { readFileSync } from "node:fs";
+import couponsSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
@@ -15,7 +15,7 @@ import { audit } from "../audit/audit.js";
  * unless it was cancelled or refunded, which hands the use back.
  */
 
-export const SEED_COUPONS = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_COUPONS = couponsSeed;
 const RELEASED = ["cancelled", "refunded"];
 
 function present(c) {

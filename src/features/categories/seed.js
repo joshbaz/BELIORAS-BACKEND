@@ -1,6 +1,6 @@
 /* Category Seed */
 
-import { readFileSync } from "node:fs";
+import categoriesSeed from "./seed.json" with { type: "json" };
 
 /**
  * The three categories the shop shipped with — Dresses, Hair, Accessories —
@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
  * URL and a filter token, so they are not ours to choose. Keep the two files
  * the same; the dashboard's reset and `yarn seed:categories` both read this one.
  */
-const raw = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+const raw = categoriesSeed;
 
 export const SEED_CATEGORIES = raw.map((c, position) => ({
   id: c.id,

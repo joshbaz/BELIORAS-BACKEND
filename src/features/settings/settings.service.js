@@ -1,6 +1,6 @@
 /* Store Settings Service */
 
-import { readFileSync } from "node:fs";
+import settingsSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { audit } from "../audit/audit.js";
 
@@ -15,7 +15,7 @@ import { audit } from "../audit/audit.js";
  */
 
 const ID = "store";
-const { rev: _rev, ...SEED } = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+const { rev: _rev, ...SEED } = settingsSeed;
 
 export async function getStoreSettings(db = prisma) {
   const row = await db.setting.findUnique({ where: { id: ID } });

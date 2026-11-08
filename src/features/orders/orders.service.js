@@ -1,6 +1,6 @@
 /* Order Service */
 
-import { readFileSync } from "node:fs";
+import ordersSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { env } from "../../config/index.js";
@@ -43,7 +43,7 @@ import { HOLDING, colorIdsByName, paymentCutoff, reservedUnits, variantKey, vari
  * inventory service, which writes the stock history in the same step.
  */
 
-export const SEED_ORDERS = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_ORDERS = ordersSeed;
 const ENDED = ["cancelled", "refunded"];
 
 const ALIASES = {

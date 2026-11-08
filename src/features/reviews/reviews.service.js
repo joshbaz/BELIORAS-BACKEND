@@ -1,6 +1,6 @@
 /* Review Service */
 
-import { readFileSync } from "node:fs";
+import reviewsSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
@@ -13,7 +13,7 @@ import { nextValue } from "../orders/counters.js";
  * the browser.
  */
 
-export const SEED_REVIEWS = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_REVIEWS = reviewsSeed;
 
 function present(r) {
   const { createdAt, updatedAt, userId, ...rest } = r;

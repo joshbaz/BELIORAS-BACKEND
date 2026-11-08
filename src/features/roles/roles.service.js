@@ -1,6 +1,6 @@
 /* Role Service */
 
-import { readFileSync } from "node:fs";
+import rolesSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
@@ -20,7 +20,7 @@ import { LEVELS, SECTIONS, levelIn, rank } from "./sections.js";
  * change within `TTL_MS`.
  */
 
-export const SEED_ROLES = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_ROLES = rolesSeed;
 export const ADMIN = "super-admin";
 const TTL_MS = 30_000;
 

@@ -1,6 +1,6 @@
 /* Payments Service */
 
-import { readFileSync } from "node:fs";
+import transactionsSeed from "./seed.json" with { type: "json" };
 import { prisma } from "../../db/prisma.js";
 import { nextValue } from "../orders/counters.js";
 import { round2 } from "../orders/pricing.js";
@@ -17,7 +17,7 @@ import { round2 } from "../orders/pricing.js";
  * `refund` with its refund call; everything downstream stays.
  */
 
-export const SEED_TRANSACTIONS = JSON.parse(readFileSync(new URL("./seed.json", import.meta.url), "utf8"));
+export const SEED_TRANSACTIONS = transactionsSeed;
 
 export const METHODS = {
   card: { provider: "stripe", method: { type: "card", brand: "visa", last4: "4242" } },

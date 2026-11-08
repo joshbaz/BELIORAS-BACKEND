@@ -7,7 +7,8 @@ export default [
   {
     files: ["**/*.js"],
     languageOptions: {
-      ecmaVersion: 2024,
+      // 2025 for import attributes: seed JSON is imported `with { type: "json" }`.
+      ecmaVersion: 2025,
       sourceType: "module",
       globals: { ...globals.node },
     },
