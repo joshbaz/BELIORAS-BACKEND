@@ -17,7 +17,7 @@ import { LOCAL_PATH, storageMode } from "./features/uploads/uploads.service.js";
 export function createApp() {
   const app = express();
 
-  app.set("trust proxy", 1);
+  app.set("trust proxy", env.TRUST_PROXY);
   app.use(helmet());
   app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
   app.use(express.json({ limit: "1mb" }));

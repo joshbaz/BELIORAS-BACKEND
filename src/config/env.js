@@ -10,6 +10,12 @@ const envSchema = z.object({
   // the network. Set HOST=0.0.0.0 only where a proxy or container network in
   // front of it needs to reach it from outside the machine.
   HOST: z.string().min(1).default("127.0.0.1"),
+  // How many proxies sit in front of the API, so req.ip (rate limiting, logs)
+  // is the shopper's address and not a proxy's. 1 = nginx alone; 2 = Netlify's
+  // /api proxy and then nginx, as in production. Too low and every shopper
+  // shares the proxy's IP, so one rate-limit bucket locks them all out; too
+  // high and a client can pick its own IP with a forged X-Forwarded-For.
+  TRUST_PROXY: z.coerce.number().int().min(0).max(10).default(1),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   REDIS_URL: z.string().default("redis://localhost:6379"),
   JWT_ACCESS_SECRET: z.string().min(32, "JWT_ACCESS_SECRET must be at least 32 characters"),
