@@ -7,6 +7,7 @@ import path from "node:path";
 import helmet from "helmet";
 import { config, env } from "./config/index.js";
 import { httpLogger } from "./core/logger.js";
+import { statusPage } from "./core/statusPage.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFound } from "./middlewares/notFound.js";
 import { createGlobalLimiter } from "./middlewares/rateLimit.js";
@@ -30,9 +31,19 @@ export function createApp() {
   // Health probes stay outside the global cap so monitoring can poll freely.
   app.use(createGlobalLimiter({ skip: (req) => req.method === "GET" && req.path === "/api/v1/health" }));
 
-  app.get("/", (req, res) => {
-    res.json({ data: { name: "Belioras API", version: "v1" } });
-  });
+  // The logo and favicon the status page uses.
+  app.use(express.static(path.resolve("public"), { index: false, maxAge: "1d" }));
+
+  // "Server is Live": a page for browsers, JSON for everything else (json is
+  // first, so a request without an Accept header, like curl's, gets JSON).
+  const status = (req, res) =>
+    res.format({
+      json: () => res.json({ data: { name: "Belioras API", version: "v1" } }),
+      html: () => res.type("html").send(statusPage),
+      default: () => res.json({ data: { name: "Belioras API", version: "v1" } }),
+    });
+  app.get("/", status);
+  app.get("/status", status);
 
   // Development uploads, when ImageKit is not configured. File names are random
   // and never reused, so they can be cached for good.

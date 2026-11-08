@@ -23,4 +23,16 @@ describe("health", () => {
     assert.equal(res.status, 200);
     assert.equal(res.body.data.name, "Belioras API");
   });
+
+  it("GET / and /status show the live page to a browser", async () => {
+    const browser = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+    for (const path of ["/", "/status"]) {
+      const res = await api().then((request) => request.get(path).set("Accept", browser));
+      assert.equal(res.status, 200);
+      assert.match(res.headers["content-type"], /text\/html/);
+      assert.match(res.text, /Belioras Server is Live/);
+    }
+    const logo = await api().then((request) => request.get("/logo.svg"));
+    assert.equal(logo.status, 200);
+  });
 });
