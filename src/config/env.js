@@ -5,6 +5,11 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(5002),
+  // The interface the API listens on. Loopback only by default, so the API
+  // (and anything it logs or exposes) is unreachable from other machines on
+  // the network. Set HOST=0.0.0.0 only where a proxy or container network in
+  // front of it needs to reach it from outside the machine.
+  HOST: z.string().min(1).default("127.0.0.1"),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   REDIS_URL: z.string().default("redis://localhost:6379"),
   JWT_ACCESS_SECRET: z.string().min(32, "JWT_ACCESS_SECRET must be at least 32 characters"),

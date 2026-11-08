@@ -6,7 +6,7 @@ export { env } from "./env.js";
 export const config = {
   env,
   http: {
-    host: "0.0.0.0",
+    host: env.HOST,
   },
   api: {
     root: "/api",
