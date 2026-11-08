@@ -25,3 +25,6 @@ yarn-error.log*
 # Development uploads (see UPLOAD_DIR)
 /uploads/
 /uploads-test/
+
+# Build output (yarn build)
+/dist/
