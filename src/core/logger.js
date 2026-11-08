@@ -47,3 +47,13 @@ export function httpLogger() {
     },
   });
 }
+
+/**
+ * A connection string safe to log: the password is replaced with `****`, the
+ * user, host(s) and database are kept so the line still says where it went.
+ * Works for multi-host (`mongodb://u:p@a:1,b:2/db`) and `mongodb+srv://` URLs,
+ * which `new URL` cannot parse.
+ */
+export function redactUrl(url) {
+  return String(url ?? "").replace(/^([a-z][a-z0-9+.-]*:\/\/[^:/@]*:)[^/]*@/i, "$1****@");
+}

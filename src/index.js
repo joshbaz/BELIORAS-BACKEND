@@ -6,7 +6,7 @@ import { createApp } from "./app.js";
 import { config, env } from "./config/index.js";
 import { prisma } from "./db/prisma.js";
 import { redis } from "./db/redis.js";
-import { logger } from "./core/logger.js";
+import { logger, redactUrl } from "./core/logger.js";
 import { initSocket } from "./sockets/index.js";
 import { expireUnpaidOrders } from "./features/orders/orders.service.js";
 import { sendDueCampaigns } from "./features/marketing/marketing.service.js";
@@ -19,7 +19,7 @@ async function main() {
   // MongoDB
   try {
     await prisma.$connect();
-    logger.info({ url: env.DATABASE_URL }, "MongoDB connected");
+    logger.info({ url: redactUrl(env.DATABASE_URL) }, "MongoDB connected");
   } catch (err) {
     logger.error({ err }, "Could not connect to MongoDB. Is the container running? (docker compose up -d mongodb)");
     process.exit(1);
@@ -28,7 +28,7 @@ async function main() {
   // Redis
   try {
     await redis.connect();
-    logger.info({ url: env.REDIS_URL }, "Redis connected");
+    logger.info({ url: redactUrl(env.REDIS_URL) }, "Redis connected");
   } catch (err) {
     logger.warn({ err }, "Redis unavailable — session cache degraded to DB reads");
     // Non-fatal: the app works without Redis, just slower.
