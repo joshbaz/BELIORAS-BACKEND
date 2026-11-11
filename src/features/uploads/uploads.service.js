@@ -84,7 +84,7 @@ async function toDisk(buffer, type) {
 
 /**
  * Stores one file and returns `{ url, kind, mime, size, width, height }`.
- * `folder` groups files on ImageKit: products, menu, models.
+ * `folder` groups files on ImageKit: products, menu, models, home.
  */
 export async function storeUpload(file, { folder = "products" } = {}) {
   if (!file?.buffer?.length) throw new ApiError("Choose a file to upload.", 400);

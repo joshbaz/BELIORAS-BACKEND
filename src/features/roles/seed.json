@@ -21,7 +21,8 @@
       "team": "edit",
       "activity": "view",
       "shipping": "edit",
-      "settings": "edit"
+      "settings": "edit",
+      "home": "edit"
     }
   },
   {
@@ -39,7 +40,8 @@
       "orders": "edit",
       "customers": "view",
       "discounts": "edit",
-      "newsletter": "edit"
+      "newsletter": "edit",
+      "home": "edit"
     }
   },
   {
@@ -78,7 +80,8 @@
       "sizes": "edit",
       "mega-menu": "edit",
       "reviews": "edit",
-      "newsletter": "edit"
+      "newsletter": "edit",
+      "home": "edit"
     }
   },
   {

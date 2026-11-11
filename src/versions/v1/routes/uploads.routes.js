@@ -10,7 +10,7 @@ import { requireAccess } from "../middlewares/requireAccess.js";
 
 /**
  * `POST /uploads` — one photo or video, as multipart field `file`, plus an
- * optional `folder` (products · menu · models). Answers `{ url, kind, … }`;
+ * optional `folder` (products · menu · models · home). Answers `{ url, kind, … }`;
  * the caller saves that URL on the product, tile or model.
  *
  * Held in memory (at most the 100 MB video limit) and checked by its bytes in
@@ -30,15 +30,15 @@ function receive(req, res, next) {
   });
 }
 
-const FOLDERS = new Set(["products", "menu", "models"]);
+const FOLDERS = new Set(["products", "menu", "models", "home"]);
 
 async function upload(req, res) {
   const folder = FOLDERS.has(req.body?.folder) ? req.body.folder : "products";
   res.status(201).json({ data: await storeUpload(req.file, { folder }) });
 }
 
-// Whoever may edit something that carries a photo: products, the menu, fit models.
-const mayUpload = requireAccess("products:edit", "mega-menu:edit", "sizes:edit");
+// Whoever may edit something that carries a photo: products, the menu, fit models, home tiles.
+const mayUpload = requireAccess("products:edit", "mega-menu:edit", "sizes:edit", "home:edit");
 
 router.post("/", authenticate, requireBoundary, mayUpload, receive, upload);
 

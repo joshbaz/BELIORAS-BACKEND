@@ -1,0 +1,23 @@
+[
+  {
+    "id": "dresses",
+    "name": "Dresses",
+    "tagline": "Draped, tailored, made in Europe",
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop",
+    "url": "/dresses"
+  },
+  {
+    "id": "hair",
+    "name": "Hair",
+    "tagline": "Ethically sourced, 100% Remy",
+    "image": "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg",
+    "url": "/hair"
+  },
+  {
+    "id": "accessories",
+    "name": "Accessories",
+    "tagline": "Leather goods made to age well",
+    "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop",
+    "url": "/accessories"
+  }
+]

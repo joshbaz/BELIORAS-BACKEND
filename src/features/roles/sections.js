@@ -19,6 +19,7 @@ export const SECTIONS = [
   { id: "customers", readOnly: true },
   { id: "reports", readOnly: true },
   { id: "discounts" },
+  { id: "home" },
   { id: "newsletter" },
   { id: "team" },
   { id: "activity", readOnly: true },

@@ -21,7 +21,7 @@ const SECTION = {
   SIZE_GUIDE_UPDATE: "sizes", SIZE_GUIDE_RESET: "sizes", SIZE_CREATE: "sizes", SIZE_RENAME: "sizes", SIZE_DELETE: "sizes", SIZE_RESET: "sizes",
   CATEGORY_CREATE: "categories", CATEGORY_UPDATE: "categories", CATEGORY_DELETE: "categories", CATEGORY_REORDER: "categories", CATEGORY_RESET: "categories",
   COLOR_CREATE: "categories", COLOR_UPDATE: "categories", COLOR_DELETE: "categories", COLOR_RESET: "categories",
-  NAVIGATION_UPDATE: "mega-menu", NAVIGATION_RESET: "mega-menu",
+  NAVIGATION_UPDATE: "mega-menu", NAVIGATION_RESET: "mega-menu", HOME_TILES_UPDATE: "home",
   PRODUCT_CREATE: "products", PRODUCT_UPDATE: "products", PRODUCT_DELETE: "products", PRODUCT_RESTORE: "products",
   STOCK_ADJUST: "inventory", STOCK_RECEIVE: "inventory", STOCK_ORDER: "orders", INVENTORY_SETTINGS: "inventory",
   ORDER_STATUS: "orders", ORDER_CANCEL: "orders", ORDER_REFUND: "orders", ORDER_RESEND: "orders",
@@ -73,6 +73,7 @@ export function describe(action, m = {}, subject = null) {
     case "COLOR_RESET": return "Reset colours";
     case "NAVIGATION_UPDATE": return "Saved the mega menu";
     case "NAVIGATION_RESET": return "Restored the original mega menu";
+    case "HOME_TILES_UPDATE": return "Saved the home page tiles";
     case "PRODUCT_CREATE": return `Created “${m.name}”`;
     case "PRODUCT_UPDATE": return `Updated “${m.name}”${m.fields?.length === 1 && m.fields[0] === "status" ? " (status)" : ""}`;
     case "PRODUCT_DELETE": return `Deleted “${m.name}”`;
