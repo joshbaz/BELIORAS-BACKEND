@@ -33,7 +33,7 @@
     "button": "I understand"
   },
   "gpsr": {
-    "manufacturer": "Belioras \u2013 Online Boutique (Belindah Ongessa)",
+    "manufacturer": "Belioras \u2013 Online Boutique",
     "address": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76, 67663 Kaiserslautern, Germany",
     "email": "support@belioras.com",
     "note": "For product safety or conformity enquiries, contact our GPSR responsible person.",
@@ -140,6 +140,7 @@
     "prefix": "BEL",
     "vatId": "",
     "taxNumber": "",
-    "note": "Thank you for shopping with Belioras. Keep this invoice for your records; it is also your receipt."
+    "note": "Thank you for shopping with Belioras. Keep this invoice for your records; it is also your receipt.",
+    "sellerName": "Belioras \u2013 Online Boutique (Belindah Ongessa)"
   }
 }

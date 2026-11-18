@@ -23,6 +23,9 @@ const modelSchema = z
     bustCm: cm("Bust", 60, 140),
     waistCm: cm("Waist", 45, 130),
     hipCm: cm("Hip", 60, 150),
+    // Her usual size, as a size id from the store's size list. Checked against
+    // that list in the service.
+    size: z.string().trim().toLowerCase().regex(/^[a-z0-9-]{1,16}$/, "Choose her usual size from the list.").nullable().optional(),
   })
   .strict();
 

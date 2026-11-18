@@ -3,7 +3,7 @@
 import * as coupons from "../../../features/coupons/coupons.service.js";
 import { listEmails } from "../../../features/emails/emails.service.js";
 import { listTransactions } from "../../../features/payments/payments.service.js";
-import { getStoreSettings, updateStoreSettings } from "../../../features/settings/settings.service.js";
+import { getStoreSettings, publicSettings, updateStoreSettings } from "../../../features/settings/settings.service.js";
 import { requestMeta } from "../../../features/audit/audit.js";
 import { prisma } from "../../../db/prisma.js";
 
@@ -42,8 +42,10 @@ export async function listEmailsHandler(req, res) {
 }
 
 export async function getSettings(req, res) {
-  if (req.realm !== "staff") res.set("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
-  res.json({ data: await getStoreSettings() });
+  const settings = await getStoreSettings();
+  if (req.realm === "staff") return res.json({ data: settings });
+  res.set("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
+  res.json({ data: publicSettings(settings) });
 }
 
 export async function updateSettings(req, res) {

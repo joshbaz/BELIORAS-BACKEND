@@ -74,9 +74,21 @@ export async function createColor({ name, hex, family }, actor, meta = {}) {
 }
 
 /** Name, swatch and family. The id is not reachable from here. */
+/**
+ * The hidden colour a product without a colour is saved with (client:
+ * utils/productColors.js). The storefront knows it by this id and this name,
+ * and ids are never reused, so it cannot be deleted, renamed or reset away:
+ * a new one would get "as-shown-2" and start showing as a real colour.
+ */
+export const AS_SHOWN_ID = "as-shown";
+const AS_SHOWN_NAME = "As shown";
+
 export async function updateColor(id, { name, hex, family }, actor, meta = {}) {
   const current = await prisma.color.findUnique({ where: { id } });
   if (!current) throw new ApiError("That colour no longer exists.", 404);
+  if (id === AS_SHOWN_ID && name.trim() !== AS_SHOWN_NAME) {
+    throw new ApiError("“As shown” is the hidden colour for pieces sold without one, and keeps its name.", 409);
+  }
 
   await assertNameFree(name, id);
   await assertFamily(family);
@@ -89,6 +101,9 @@ export async function updateColor(id, { name, hex, family }, actor, meta = {}) {
 export async function deleteColor(id, actor, meta = {}) {
   const current = await prisma.color.findUnique({ where: { id } });
   if (!current) throw new ApiError("That colour no longer exists.", 404);
+  if (id === AS_SHOWN_ID) {
+    throw new ApiError("“As shown” is the hidden colour for pieces sold without one, so it can't be deleted.", 409);
+  }
 
   const using = await productsUsing({ colorId: id });
   if (using.length) throw new ApiError(`${current.name} is on ${describeUsers(using)}. Remove it from them first.`, 409);
@@ -111,7 +126,8 @@ export async function resetColors(actor, meta = {}) {
     await prisma.color.upsert({ where: { id }, create: row, update: data });
   }
 
-  const added = existing.filter((e) => !seeded.has(e.id));
+  // "As shown" stays: products without a colour are filed under it.
+  const added = existing.filter((e) => !seeded.has(e.id) && e.id !== AS_SHOWN_ID);
   for (const row of added) {
     await prisma.$transaction([
       prisma.color.delete({ where: { id: row.id } }),

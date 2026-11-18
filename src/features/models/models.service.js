@@ -5,6 +5,7 @@ import { prisma } from "../../db/prisma.js";
 import { ApiError } from "../../core/ApiError.js";
 import { audit } from "../audit/audit.js";
 import { slugify } from "../sizes/slug.js";
+import { getSize } from "../sizes/sizes.service.js";
 
 /**
  * The models who wear the pieces, with their measurements. Public: the product
@@ -56,7 +57,13 @@ async function resolveId(name) {
   return id;
 }
 
+/** A usual size must be one the shop sells, so the card never names a size that does not exist. */
+async function checkSize(size) {
+  if (size && !(await getSize(size))) throw new ApiError("That size is not in the shop's size list. Choose her usual size again.", 422);
+}
+
 export async function createModel(fields, actor, meta = {}) {
+  await checkSize(fields.size);
   const model = await prisma.fitModel.create({ data: { id: await resolveId(fields.name), ...fields } });
   await audit(actor.id, "staff", "MODEL_CREATE", { ...meta, meta: { id: model.id, name: model.name } });
   return present(model);
@@ -64,6 +71,7 @@ export async function createModel(fields, actor, meta = {}) {
 
 export async function updateModel(id, fields, actor, meta = {}) {
   if (!(await prisma.fitModel.findUnique({ where: { id } }))) throw new ApiError("That model no longer exists.", 404);
+  await checkSize(fields.size);
   const model = await prisma.fitModel.update({ where: { id }, data: fields });
   await audit(actor.id, "staff", "MODEL_UPDATE", { ...meta, meta: { id, name: model.name } });
   return present(model);
@@ -81,6 +89,6 @@ export async function deleteModel(id, actor, meta = {}) {
   return present(model);
 }
 
-export const seedModel = ({ id, name, photo = null, heightCm = null, bustCm = null, waistCm = null, hipCm = null }) => ({
-  id, name, photo, heightCm, bustCm, waistCm, hipCm,
+export const seedModel = ({ id, name, photo = null, heightCm = null, bustCm = null, waistCm = null, hipCm = null, size = null }) => ({
+  id, name, photo, heightCm, bustCm, waistCm, hipCm, size,
 });

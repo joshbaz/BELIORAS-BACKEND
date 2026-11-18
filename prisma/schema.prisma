@@ -618,6 +618,8 @@ model FitModel {
   bustCm    Int?
   waistCm   Int?
   hipCm     Int?
+  /// Her usual size: a size id ("s", "m"…), or null.
+  size      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

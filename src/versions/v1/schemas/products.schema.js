@@ -70,6 +70,18 @@ const fields = {
   hairType: text(80).optional(),
   lengthInInches: z.number().finite().nonnegative().max(200).optional(),
   weight: z.number().finite().nonnegative().max(100000).optional(),
+  // EU product safety (GPSR): who made the piece and how to reach them, when
+  // that is not Belioras itself. `null` clears it. Shown on the product page.
+  manufacturer: z
+    .object({
+      name: z.string().trim().max(160, "Keep the manufacturer's name to 160 characters."),
+      address: z.string().trim().max(300, "Keep the manufacturer's address to 300 characters."),
+      contact: z.string().trim().max(200, "Keep the manufacturer's contact to 200 characters."),
+    })
+    .strict()
+    .nullable()
+    .optional(),
+  safetyWarnings: z.array(z.string().trim().min(1).max(300, "Keep each safety warning to 300 characters.")).max(20, "Up to 20 safety warnings.").optional(),
 };
 
 /** `POST /products`. */

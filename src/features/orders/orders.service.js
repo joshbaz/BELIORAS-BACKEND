@@ -557,7 +557,9 @@ export async function getInvoice(id, who, creditNumber = null) {
   const rate = settings.tax?.rate ?? 0;
   const net = (gross) => Math.round((gross / (1 + rate)) * 100) / 100;
   const seller = {
-    name: settings.gpsr?.manufacturer ?? "Belioras",
+    // The invoice's own seller name: it must carry the owner's full name (§14
+    // UStG), which the product pages' seller name (gpsr.manufacturer) does not.
+    name: settings.invoice?.sellerName || settings.gpsr?.manufacturer || "Belioras",
     address: settings.gpsr?.address ?? settings.contact?.boutique ?? "",
     email: settings.contact?.support ?? "",
     vatId: settings.invoice?.vatId ?? "",

@@ -186,7 +186,7 @@ export const SEED_SIZE_GUIDES =
           "text": "From the top of the inner thigh straight down to the ankle bone."
         }
       ],
-      "garmentImage": "https://ik.imagekit.io/sbgenu6wj/Belioras/image.png"
+      "garmentImage": ""
     },
     "footwear": {
       "note": "Our shoes are made on European lasts and run true to size. Between sizes, we suggest the larger.",
