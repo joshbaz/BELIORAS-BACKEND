@@ -41,6 +41,11 @@ export function present(record, { audience = "staff" } = {}) {
   if (!record) return null;
   const { attributes, colorways, deletedAt, editVersion, ...columns } = record;
   const flat = { ...(attributes ?? {}), ...columns, ...(colorways ? { colorways } : {}) };
+  // Always present, so the dashboard can tell this server stores it (client
+  // api/serverFields.js sends a new field only once a response carries it).
+  // isNonReturnable is left absent when unset: the shop then treats all hair
+  // as non-returnable.
+  flat.isPreOrder = flat.isPreOrder ?? false;
   if (audience === "public") delete flat.costPrice;
   else flat.editVersion = editVersion ?? 1;
   return flat;

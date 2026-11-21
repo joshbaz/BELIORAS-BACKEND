@@ -35,16 +35,29 @@ export async function getStoreSettings(db = prisma) {
  *
  * Settings saved before that get it once, from what the invoice printed until
  * now, and the product-page name loses the owner's name if it is still the
- * one shipped. Runs on read, so live data needs no separate migration step.
+ * one shipped. Sections added to the shipped settings later are filled in
+ * from their defaults the same way. Runs on read, so live data needs no
+ * separate migration step.
  */
 async function upgrade(value, db) {
-  if (value.invoice?.sellerName !== undefined) return value;
-  const shown = value.gpsr?.manufacturer;
-  const next = {
-    ...value,
-    invoice: { ...(value.invoice ?? {}), sellerName: shown || SEED.invoice.sellerName },
-    ...(shown === OLD_GPSR_NAME && { gpsr: { ...value.gpsr, manufacturer: SEED.gpsr.manufacturer } }),
-  };
+  let next = value;
+
+  // A section added to the shipped settings since these were saved (such as
+  // productPage) starts from its default. The dashboard only sends a section
+  // once the server has returned it, so a missing one could never be saved.
+  const missing = Object.keys(SEED).filter((key) => next[key] === undefined);
+  if (missing.length) next = { ...next, ...Object.fromEntries(missing.map((key) => [key, SEED[key]])) };
+
+  if (next.invoice?.sellerName === undefined) {
+    const shown = next.gpsr?.manufacturer;
+    next = {
+      ...next,
+      invoice: { ...(next.invoice ?? {}), sellerName: shown || SEED.invoice.sellerName },
+      ...(shown === OLD_GPSR_NAME && { gpsr: { ...next.gpsr, manufacturer: SEED.gpsr.manufacturer } }),
+    };
+  }
+
+  if (next === value) return value;
   await db.setting.update({ where: { id: ID }, data: { value: next } });
   return next;
 }

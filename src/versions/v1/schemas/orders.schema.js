@@ -80,5 +80,37 @@ export const validateCouponSchema = z
   .object({ code: z.string().trim().min(1).max(60), subtotal: z.number().nonnegative().default(0), email: email.optional() })
   .strict();
 
+/**
+ * Settings › Product page: the trust lines under Add to bag and the policy
+ * rows (plain text with **bold** and "- " bullets; never rendered as HTML).
+ * Loose on purpose: a key added by a newer dashboard is kept, not refused,
+ * so it cannot block every settings save until the server catches up.
+ */
+const policyText = (label) => z.string().max(4000, `Keep the ${label} text to 4000 characters.`).optional();
+const productPageSchema = z
+  .object({
+    trust: z
+      .array(
+        z.object({
+          icon: z.enum(["globe", "return", "shield", "truck", "star"], { message: "Choose one of the trust icons." }),
+          text: z.string().trim().max(60, "Keep each trust line to 60 characters."),
+        }),
+      )
+      .max(4, "Up to 4 trust lines.")
+      .optional(),
+    shipping: policyText("Shipping"),
+    preOrder: policyText("Pre-Order"),
+    returns: policyText("Return & Refund"),
+    responsible: policyText("Responsible Production"),
+    show: z.record(z.string().max(40), z.boolean()).optional(),
+  })
+  .loose();
+
 /** `PATCH /settings`: whole sections, merged key by key. */
-export const settingsPatchSchema = z.record(z.string().max(60), z.unknown());
+export const settingsPatchSchema = z
+  .record(z.string().max(60), z.unknown())
+  .superRefine((patch, ctx) => {
+    if (patch.productPage === undefined) return;
+    const result = productPageSchema.safeParse(patch.productPage);
+    for (const issue of result.error?.issues ?? []) ctx.addIssue({ ...issue, path: ["productPage", ...issue.path] });
+  });

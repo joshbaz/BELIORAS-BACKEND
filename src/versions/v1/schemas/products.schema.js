@@ -67,6 +67,8 @@ const fields = {
   materials: lines.optional(),
   care: lines.optional(),
   isNonReturnable: z.boolean().optional(),
+  // Made to order: the product page shows the Pre-Order Policy row.
+  isPreOrder: z.boolean().optional(),
   hairType: text(80).optional(),
   lengthInInches: z.number().finite().nonnegative().max(200).optional(),
   weight: z.number().finite().nonnegative().max(100000).optional(),

@@ -142,5 +142,30 @@
     "taxNumber": "",
     "note": "Thank you for shopping with Belioras. Keep this invoice for your records; it is also your receipt.",
     "sellerName": "Belioras \u2013 Online Boutique (Belindah Ongessa)"
-  }
+  },
+  "productPage": {
+    "trust": [
+      {
+        "icon": "globe",
+        "text": "Reliable worldwide delivery"
+      },
+      {
+        "icon": "return",
+        "text": "Easy returns"
+      },
+      {
+        "icon": "shield",
+        "text": "Secure checkout"
+      },
+      {
+        "icon": "truck",
+        "text": "Free shipping within Germany"
+      }
+    ],
+    "shipping": "**Free shipping:** on all orders within Germany, and on EU orders over \u20ac250.\n\n**Total delivery time:** processing time plus shipping time.\n\n**Processing time:** 1\u20134 business days.\n\n**Estimated shipping times:**\n- Germany & EU: 5\u201314 business days\n- International: 7\u201321 business days\n- Pre-orders: 15\u201328 business days\n\n**Shipping costs:** final charges are calculated at checkout, based on your delivery address and order.\n\n**Shipping partners:** orders are shipped with DHL. In some cases we may use another trusted courier for the fastest, most reliable delivery.\n\n**Order tracking:** once your order has shipped, you will receive an email with your tracking details.",
+    "preOrder": "Some Belioras pieces are available to pre-order while they are out of stock or being prepared for restock.\n\n- Pre-order pieces are reserved and prepared for you after purchase\n- Estimated delivery: 15\u201328 business days\n- Full payment is taken at checkout\n- Tracking is sent by email once your order ships\n- Availability is limited and depends on restock\n\nQuestions? Email support@belioras.com.",
+    "returns": "At Belioras we want you to feel elegant, confident and completely happy with your piece.\n\n**Please note:**\n- **Return window:** tell us within 14 days of delivery.\n- **Condition:** pieces must be unworn, unused and unwashed, and returned in their original condition with all packaging, dust bags, tags, seals and accessories.\n- **Hair:** for hygiene reasons, hair (and other hygiene-sealed pieces) cannot be returned once its seal is opened.\n- **Inspection:** pieces showing signs of wear, stains, damage, odour or misuse cannot be accepted for return or refund.\n- **Process:** email support@belioras.com before sending anything back. Once your return has arrived and been checked, we refund you promptly.\n- **Return shipping:** paid by you, unless the piece arrived damaged, faulty or wrong.",
+    "responsible": "At Belioras we believe luxury should be made with intention, responsibility and real attention to detail.\n\nWe work with carefully chosen production partners and suppliers who share our commitment to quality craftsmanship, responsible manufacturing and thoughtful production.\n\n**Our approach focuses on:**\n- Quality over excess\n- Thoughtful sourcing and responsible production\n- Reducing unnecessary waste\n- Timeless pieces made to last beyond a season\n- Respect for craftsmanship, people and nature\n\nAs Belioras grows, we stay committed to choices that reflect both elegance and integrity."
+  },
+  "home": {}
 }

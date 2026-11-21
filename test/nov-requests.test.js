@@ -194,3 +194,75 @@ describe("the hidden As shown colour", () => {
     assert.ok(list.some((c) => c.id === "as-shown"));
   });
 });
+
+describe("21 Nov: pre-order pieces and colour order", () => {
+  it("stores isPreOrder, and returns false for a piece saved without it", async () => {
+    const on = await agent.post("/api/v1/admin/products").set("Authorization", admin).send(dress({ name: "Made To Order Gown", isPreOrder: true }));
+    assert.equal(on.status, 201, JSON.stringify(on.body));
+    const off = await agent.post("/api/v1/admin/products").set("Authorization", admin).send(dress({ name: "In Stock Gown" }));
+    const shop = (await agent.get("/api/v1/storefront/products")).body.data;
+    assert.equal(shop.find((p) => p.id === on.body.data.id).isPreOrder, true);
+    const plain = shop.find((p) => p.id === off.body.data.id);
+    assert.equal(plain.isPreOrder, false);
+    // Left absent, so the shop's "all hair is non-returnable" default still applies.
+    assert.equal("isNonReturnable" in plain, false);
+  });
+
+  it("keeps colourways in the order sent", async () => {
+    const colorways = [
+      { colorId: "burgundy", images: [], stock: { s: 1, m: 1 } },
+      { colorId: "ebony", images: [], stock: { s: 1, m: 1 } },
+    ];
+    const res = await agent.post("/api/v1/admin/products").set("Authorization", admin).send(dress({ name: "Two Tone Gown", colorways }));
+    assert.equal(res.status, 201, JSON.stringify(res.body));
+    const shop = (await agent.get("/api/v1/storefront/products")).body.data.find((p) => p.id === res.body.data.id);
+    assert.deepEqual(shop.colorways.map((w) => w.colorId), ["burgundy", "ebony"]);
+  });
+});
+
+describe("21 Nov: Settings › Product page", () => {
+  it("returns productPage and home from both settings routes before anyone has saved them", async () => {
+    const shop = (await agent.get("/api/v1/storefront/settings")).body.data;
+    assert.equal(shop.productPage.trust.length, 4);
+    assert.match(shop.productPage.shipping, /Free shipping/);
+    assert.deepEqual(shop.home, {});
+    const staff = (await agent.get("/api/v1/admin/settings").set("Authorization", admin)).body.data;
+    assert.ok(staff.productPage && staff.home);
+  });
+
+  it("fills productPage into settings saved before it existed", async () => {
+    const { prisma } = await import("../src/db/prisma.js");
+    const { getStoreSettings } = await import("../src/features/settings/settings.service.js");
+    const { productPage: _p, home: _h, ...older } = await getStoreSettings();
+    await prisma.setting.update({ where: { id: "store" }, data: { value: older } });
+    const upgraded = await getStoreSettings();
+    assert.equal(upgraded.productPage.trust.length, 4);
+    assert.deepEqual(upgraded.home, {});
+  });
+
+  it("saves the texts and switches, and shoppers see them", async () => {
+    const productPage = {
+      trust: [{ icon: "truck", text: "Free shipping in Germany" }],
+      shipping: "**Free shipping** in Germany.",
+      preOrder: "Made for you in 3 weeks.",
+      returns: "",
+      responsible: "Made in small batches.",
+      show: { trust: true, shipping: true, preOrder: true, returns: false, responsible: true },
+    };
+    const res = await agent.patch("/api/v1/admin/settings").set("Authorization", admin).send({ productPage });
+    assert.equal(res.status, 200, JSON.stringify(res.body));
+    const shop = (await agent.get("/api/v1/storefront/settings")).body.data;
+    assert.deepEqual(shop.productPage, productPage);
+  });
+
+  it("refuses an unknown trust icon or a fifth trust line, and keeps keys it does not know", async () => {
+    const line = { icon: "globe", text: "Worldwide" };
+    const badIcon = await agent.patch("/api/v1/admin/settings").set("Authorization", admin).send({ productPage: { trust: [{ icon: "rocket", text: "Fast" }] } });
+    assert.equal(badIcon.status, 400);
+    const tooMany = await agent.patch("/api/v1/admin/settings").set("Authorization", admin).send({ productPage: { trust: [line, line, line, line, line] } });
+    assert.equal(tooMany.status, 400);
+    const newer = await agent.patch("/api/v1/admin/settings").set("Authorization", admin).send({ productPage: { sizeNote: "Runs small" } });
+    assert.equal(newer.status, 200);
+    assert.equal(newer.body.data.productPage.sizeNote, "Runs small");
+  });
+});
